@@ -1,0 +1,18 @@
+{
+  "extends": ["next/core-web-vitals", "eslint:recommended", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "react/no-unescaped-entities": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "react/jsx-key": 0,
+    "quotes": ["error", "double"],
+    "no-unused-vars": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false,
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}
