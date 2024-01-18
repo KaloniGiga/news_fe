@@ -6,14 +6,14 @@ export default function Home() {
   return (
     <div className="w-screen h-full bg-[#F5F5F5]">
       <Navbar />
-      <div className="w-full flex px-4 py-4 gap-x-4">
+      <div className="w-full flex justify-around px-4 py-4 gap-x-4">
         <div className="w-[25%]">
           <LeftSide />
         </div>
-        <div className="w-[50%]">
+        <div className="w-[70%]">
           <MainSide />
         </div>
-        <div className="w-[25%]"></div>
+        {/* <div className="w-[25%]"></div> */}
       </div>
     </div>
   );
