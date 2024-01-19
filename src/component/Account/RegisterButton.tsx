@@ -8,10 +8,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import AccountForm from "./AccountForm";
+import AccountForm from "./RegisterForm";
 import { Divider } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import Image from "next/image";
+import RegisterForm from "./RegisterForm";
 
 const RegisterButton = () => {
   const [open, setOpen] = useState(false);
@@ -25,8 +26,8 @@ const RegisterButton = () => {
   };
 
   return (
-    <>
-      <MuiButton label="Register" variant="outlined" onClick={handleClickOpen} />
+    <div>
+      <MuiButton label="Register" variant="outlined" onClick={handleClickOpen} size="medium" />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -44,7 +45,7 @@ const RegisterButton = () => {
       >
         {/* <DialogTitle>Register an Account.</DialogTitle> */}
         <DialogContent>
-          <div className="w-[100px] h-[100px] rounded-full overflow-hidden mx-auto">
+          <div className="w-[100px] h-[70px] 2xl:h-[100px] rounded-full mx-auto">
             <Image
               src={"/Portal-logo.jpg"}
               alt=""
@@ -53,10 +54,10 @@ const RegisterButton = () => {
               className="w-full h-full object-contain object-center"
             />
           </div>
-          <AccountForm isLogin={false} />
+          <RegisterForm />
         </DialogContent>
         <DialogActions>
-          <div className="w-full flex flex-col gap-y-4 px-4 pb-4">
+          <div className="w-full flex flex-col gap-y-2 px-4 pb-4">
             <Button size="large" fullWidth={true} variant="contained" type="submit">
               Register
             </Button>
@@ -70,7 +71,7 @@ const RegisterButton = () => {
           </div>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 

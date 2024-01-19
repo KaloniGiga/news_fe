@@ -8,10 +8,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import AccountForm from "./AccountForm";
+import AccountForm from "./RegisterForm";
 import Image from "next/image";
 import { Divider } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import LoginForm from "./LoginForm";
 
 const LoginButton = () => {
   const [open, setOpen] = useState(false);
@@ -25,8 +26,8 @@ const LoginButton = () => {
   };
 
   return (
-    <>
-      <MuiButton label="Login" variant="text" onClick={handleClickOpen} />
+    <div>
+      <MuiButton label="Login" variant="text" onClick={handleClickOpen} size="medium" />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -53,7 +54,7 @@ const LoginButton = () => {
               className="w-full h-full object-contain object-center"
             />
           </div>
-          <AccountForm />
+          <LoginForm />
         </DialogContent>
         <DialogActions>
           <div className="w-full flex flex-col gap-y-4 px-4 pb-8">
@@ -70,7 +71,7 @@ const LoginButton = () => {
           </div>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 

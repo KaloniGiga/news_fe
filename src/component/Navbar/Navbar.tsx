@@ -16,7 +16,7 @@ const Navbar = () => {
             className="w-full h-full object-contain object-center"
           />
         </div>
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-4 items-center">
           {/* <MuiButton label="Login" variant="text" /> */}
           {/* <MuiButton label="Create Account" variant="outlined" /> */}
           <LoginButton />
