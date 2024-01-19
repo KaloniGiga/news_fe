@@ -5,6 +5,8 @@ import React from "react";
 import "./globals.css";
 import ThemeRegistry from "@/utils/ThemeRegistry";
 import theme from "@/utils/theme";
+import { Providers } from "@/redux/provider";
+import { PersistGates } from "@/redux/persistGate";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +33,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeRegistry options={{ key: "mui" }}>{children}</ThemeRegistry>
+        <Providers>
+          <PersistGates>
+            <ThemeRegistry options={{ key: "mui" }}>{children}</ThemeRegistry>
+          </PersistGates>
+        </Providers>
       </body>
     </html>
   );
