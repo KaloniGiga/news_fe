@@ -1,5 +1,7 @@
 import Image from "next/image";
 import MuiButton from "../ui/MuiButton/MuiButton";
+import LoginButton from "../Account/LoginButton";
+import RegisterButton from "../Account/RegisterButton";
 
 const Navbar = () => {
   return (
@@ -14,9 +16,11 @@ const Navbar = () => {
             className="w-full h-full object-contain object-center"
           />
         </div>
-        <div className="w-[40%] flex gap-x-4">
-          <MuiButton label="Login" variant="text" />
-          <MuiButton label="Create Account" variant="outlined" />
+        <div className="flex gap-x-4">
+          {/* <MuiButton label="Login" variant="text" /> */}
+          {/* <MuiButton label="Create Account" variant="outlined" /> */}
+          <LoginButton />
+          <RegisterButton />
         </div>
       </div>
     </div>

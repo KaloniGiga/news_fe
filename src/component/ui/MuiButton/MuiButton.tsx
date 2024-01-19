@@ -7,10 +7,11 @@ interface IButton {
   sx?: SxProps;
   size?: "small" | "medium" | "large";
   fullWidth?: boolean;
+  onClick?: () => void;
 }
-const MuiButton: FunctionComponent<IButton> = ({ label, variant, sx, size, fullWidth }) => {
+const MuiButton: FunctionComponent<IButton> = ({ label, variant, sx, size, fullWidth, onClick }) => {
   return (
-    <Button fullWidth={fullWidth ? fullWidth : false} sx={sx} variant={variant} size={size}>
+    <Button fullWidth={fullWidth ? fullWidth : false} sx={sx} variant={variant} onClick={onClick} size={size}>
       {label}
     </Button>
   );

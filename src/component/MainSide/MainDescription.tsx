@@ -1,17 +1,11 @@
 import { Avatar } from "@mui/material";
+import MuiAvatar from "../Avatar/MuiAvatar";
 
 const MainDescription = () => {
   return (
     <div className="w-full flex gap-x-4 pt-8 items-center">
       <div className="rounded-full">
-        <Avatar
-          sx={{ bgcolor: "#ff5722" }}
-          alt="Remy Sharp"
-          sizes="large"
-          //   src="/broken-image.jpg"
-        >
-          D
-        </Avatar>
+        <MuiAvatar />
       </div>
       <div className="w-[80%] flex flex-col">
         <h3 className="text-[30px] font-bold">Your feed is ready.</h3>
