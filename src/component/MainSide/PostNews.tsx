@@ -10,6 +10,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import MyEditor from "../MyEditor/MyEditor";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -56,7 +57,7 @@ const PostNews = () => {
             Share your favorite news with the community. Consider sharing more articles to help people find interesting
             news.
           </DialogContentText>
-          <TextField
+          {/* <TextField
             autoFocus
             required
             margin="dense"
@@ -66,17 +67,8 @@ const PostNews = () => {
             type="text"
             fullWidth
             variant="outlined"
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            name="link"
-            label="Share the link"
-            type="text"
-            fullWidth
-            variant="outlined"
-            multiline
-          />
+          /> */}
+          <MyEditor />
         </DialogContent>
         <DialogActions>
           <Button variant="text" onClick={handleClose}>
