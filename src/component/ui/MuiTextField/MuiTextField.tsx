@@ -53,7 +53,6 @@ const MuiTextField: FunctionComponent<IMuiTextField> = ({
                 placeholder={placeholder}
                 autoFocus={autoFocus}
                 required={required}
-                //    variant={"outlined"}
                 id={id}
                 {...field}
               />

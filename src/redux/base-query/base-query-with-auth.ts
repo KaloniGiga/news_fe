@@ -1,3 +1,4 @@
+"use client";
 import { BaseQueryApi, BaseQueryFn, FetchArgs, FetchBaseQueryError, fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { isFetchBaseQueryError } from "./type";
 
@@ -11,6 +12,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   api: BaseQueryApi,
   extraOptions: {}
 ) => {
+  console.log(process.env.NEXT_PUBLIC_SERVER_URL);
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && isFetchBaseQueryError(result.error)) {
     if (result.error.status === 401) {
