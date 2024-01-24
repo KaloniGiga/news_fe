@@ -10,33 +10,40 @@ interface ILinkPreview {
 const LinkPreview: FunctionComponent<ILinkPreview> = ({ url }) => {
   const [linkPreviewData, setLinkPreviewData] = useState<LinkPreviewData | null>(null);
   const { data, isLoading } = useLinkPreviewQuery(url);
-
   useEffect(() => {
     if (data) {
-      setLinkPreviewData({ title: data.title, description: data.description, image: data.image });
+      setLinkPreviewData({
+        title: data.title ? data.title : "",
+        description: data.description ? data.description : "",
+        image: data.image ? data.image : "",
+      });
     }
   }, [data]);
 
   const handleClick = () => {
     window.open(url, "_blank");
   };
-  return (
-    <div onClick={handleClick} style={{ cursor: "pointer" }}>
-      <h3>{linkPreviewData?.title}</h3>
-      <p>{linkPreviewData?.description}</p>
-      <div className="w-[300px]">
-        {linkPreviewData?.image && (
-          <Image
-            width={1000}
-            height={1000}
-            src={linkPreviewData?.image}
-            alt="Link Preview"
-            className="w-full h-full object-cover object-center"
-          />
-        )}
+  if (isLoading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <div onClick={handleClick} style={{ cursor: "pointer" }}>
+        <h3>{linkPreviewData?.title}</h3>
+        <p>{linkPreviewData?.description}</p>
+        <div className="w-[300px]">
+          {linkPreviewData?.image && (
+            <Image
+              width={1000}
+              height={1000}
+              src={linkPreviewData?.image}
+              alt="Link Preview"
+              className="w-full h-full object-cover object-center"
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default LinkPreview;

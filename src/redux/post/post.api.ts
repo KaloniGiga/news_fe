@@ -6,7 +6,7 @@ export const postApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getPost: builder.query<PostResponse, void>({
       query: () => ({
-        url: `v1/news`,
+        url: `v1/post`,
         method: "GET",
       }),
       providesTags: ["Post"],
@@ -21,7 +21,7 @@ export const postApi = baseApi.injectEndpoints({
     }),
     linkPreview: builder.query<any, string>({
       query: url => ({
-        url: `/v1/link-preview?url=${url}`,
+        url: `v1/link-preview?url=${url}`,
         method: "GET",
       }),
     }),
