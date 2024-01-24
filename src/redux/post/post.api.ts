@@ -1,5 +1,6 @@
+import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import { baseApi } from "../base-query/base-query.config";
-import { EditPostData, PostData, PostResponse } from "./type";
+import { EditPostData, LinkPreviewResponse, PostData, PostResponse } from "./type";
 
 export const postApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -18,6 +19,12 @@ export const postApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
+    linkPreview: builder.query<any, string>({
+      query: url => ({
+        url: `/v1/link-preview?url=${url}`,
+        method: "GET",
+      }),
+    }),
     putPost: builder.mutation<PostResponse, EditPostData>({
       query: ({ postDetails, id }) => ({
         url: `v1/post/${id}`,
@@ -35,4 +42,5 @@ export const postApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetPostQuery, useAddPostMutation, usePutPostMutation, useDeletePostMutation } = postApi;
+export const { useGetPostQuery, useAddPostMutation, usePutPostMutation, useDeletePostMutation, useLinkPreviewQuery } =
+  postApi;

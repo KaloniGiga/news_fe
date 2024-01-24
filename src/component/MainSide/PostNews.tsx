@@ -11,6 +11,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import MyEditor from "../MyEditor/MyEditor";
+import PostForm from "../PostForm/PostForm";
+import PostFormTitle from "../PostForm/PostFormTitle";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -51,32 +53,22 @@ const PostNews = () => {
           },
         }}
       >
-        <DialogTitle>Create News Post</DialogTitle>
+        <DialogTitle>
+          <PostFormTitle handleClose={handleClose} />
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             Share your favorite news with the community. Consider sharing more articles to help people find interesting
             news.
-          </DialogContentText>
-          {/* <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="title"
-            label="Title"
-            type="text"
-            fullWidth
-            variant="outlined"
-          /> */}
-          <MyEditor />
+          </DialogContentText> */}
+          <PostForm />
         </DialogContent>
         <DialogActions>
-          <Button variant="text" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="outlined" type="submit">
-            Save
-          </Button>
+          <div className="w-[90%] mx-auto mb-4">
+            <Button fullWidth variant="contained" type="submit">
+              Save
+            </Button>
+          </div>
         </DialogActions>
       </Dialog>
     </div>
