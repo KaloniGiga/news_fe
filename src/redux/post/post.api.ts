@@ -1,32 +1,24 @@
-import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import { baseApi } from "../base-query/base-query.config";
-import { EditPostData, LinkPreviewResponse, PostData, PostResponse } from "./type";
+import { EditPostData, GetPostResponse, LinkPreviewResponse, PostData, PostResponse } from "./type";
 
 export const postApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getPost: builder.query<PostResponse, void>({
+    getPost: builder.query<GetPostResponse, void>({
       query: () => ({
         url: `v1/post`,
         method: "GET",
       }),
       providesTags: ["Post"],
     }),
-    addPost: builder.mutation<PostResponse, PostData>({
+    addPost: builder.mutation<PostResponse, any>({
       query: postDetails => ({
-        url: "v1/post",
+        url: "v1/post/add",
         method: "POST",
         body: postDetails,
       }),
-      invalidatesTags: ["Post"],
     }),
-    linkPreview: builder.query<any, string>({
-      query: url => ({
-        url: `v1/link-preview?url=${url}`,
-        method: "GET",
-      }),
-    }),
-    putPost: builder.mutation<PostResponse, EditPostData>({
-      query: ({ postDetails, id }) => ({
+    putPost: builder.mutation<PostResponse, any>({
+      query: ({ id, ...postDetails }) => ({
         url: `v1/post/${id}`,
         method: "PUT",
         body: postDetails,
@@ -42,5 +34,4 @@ export const postApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetPostQuery, useAddPostMutation, usePutPostMutation, useDeletePostMutation, useLinkPreviewQuery } =
-  postApi;
+export const { useGetPostQuery, useAddPostMutation, usePutPostMutation, useDeletePostMutation } = postApi;

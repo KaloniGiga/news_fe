@@ -6,11 +6,21 @@ interface INewsContainer {
 }
 const NewsContainer: FunctionComponent<INewsContainer> = ({ news }) => {
   return (
-    <div className="w-full flex flex-wrap gap-x-4 gap-y-4 mt-8">
+    <div className="w-full flex flex-col gap-x-4 gap-y-4 mt-8">
       {news && news.length > 0 ? (
         <>
           {news.map((item: any, index: number) => {
-            return <NewsCard key={index} title={item.title} image={item.image} />;
+            return (
+              <NewsCard
+                key={index}
+                id={item.id}
+                title={item.title}
+                coverImage={item.coverImage}
+                description={item.description}
+                tags={item.tags}
+                links={item.links}
+              />
+            );
           })}
         </>
       ) : (

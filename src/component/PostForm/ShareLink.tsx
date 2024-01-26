@@ -1,46 +1,60 @@
 "use client";
-// import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { RichTextEditorProvider, RichTextField } from "mui-tiptap";
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
 import LinkPreview from "./LinkPreview";
 
-const ShareLink = () => {
+export interface IShareLink {
+  onChange: (val: string) => void;
+  value: string;
+}
+const ShareLink: FunctionComponent<IShareLink> = ({ onChange, value }) => {
   const [linkToPreview, setLinkToPreview] = useState("");
-
+  console.log(value);
   const editor = useEditor({
     extensions: [StarterKit, Placeholder.configure({ placeholder: "Share the link" })],
+    content: `<p>${value}</p>`,
+    editorProps: {
+      attributes: {
+        class: "sharelink",
+      },
+    },
     onUpdate: ({ editor }) => {
       const htmlString = editor.getHTML();
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, "text/html");
       const pContent = doc.querySelector("p")?.textContent;
-      const pContentArray = pContent?.split(",");
-      console.log(pContentArray);
-      //    console.log(pContentArray[pContentArray.length - 1]);
+      let pContentArray;
       if (pContent) {
+        pContentArray = pContent?.split(",");
+        onChange(pContentArray[pContentArray.length - 1]);
+      }
+      if (pContentArray && pContentArray.length > 0) {
         const isUrlValid =
           /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
-            pContent
+            pContentArray[pContentArray.length - 1]
           );
 
         if (isUrlValid) {
-          setLinkToPreview(pContent);
+          setLinkToPreview(pContentArray[pContentArray?.length - 1]);
+        } else {
+          setLinkToPreview("");
         }
       }
     },
   });
   return (
-    <div>
+    <div className="shareLinkContainer">
       <RichTextEditorProvider editor={editor}>
-        <RichTextField className="border-none outline-none"></RichTextField>
+        <RichTextField></RichTextField>
       </RichTextEditorProvider>
-      <div>
-        {/* <LinkPreview fallback={<div>No Data</div>} url="https://www.roastworks.co.uk/" width="400px" /> */}
-        <LinkPreview url={"https://www.roastworks.co.uk/"} />
-      </div>
+      {
+        <div>
+          <LinkPreview url={linkToPreview} />
+        </div>
+      }
     </div>
   );
 };

@@ -7,6 +7,8 @@ import ThemeRegistry from "@/utils/ThemeRegistry";
 import theme from "@/utils/theme";
 import { Providers } from "@/redux/provider";
 import { PersistGates } from "@/redux/persistGate";
+import "@mantine/core/styles.css";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,10 +34,15 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={inter.className}>
         <Providers>
           <PersistGates>
-            <ThemeRegistry options={{ key: "mui" }}>{children}</ThemeRegistry>
+            <ThemeRegistry options={{ key: "mui" }}>
+              <MantineProvider>{children}</MantineProvider>
+            </ThemeRegistry>
           </PersistGates>
         </Providers>
       </body>

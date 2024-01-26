@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -73,4 +75,66 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.openSans {
+  /* font-family: 'Open Sans', sans-serif; */
+  font-family: "Ubuntu", sans-serif;
+}
+
+.editDescription {
+  height: 100px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.editDescription > p {
+  font-size: 18px;
+  /* font-family: 'Open Sans', sans-serif; */
+  font-family: "Ubuntu", sans-serif;
+}
+
+.sharelink > p {
+  font-size: 24px;
+  /* font-family: 'Open Sans', sans-serif; */
+  font-family: "Ubuntu", sans-serif;
+}
+
+.mui-anumxs-FieldContainer-notchedOutline {
+  border-width: 0px !important;
+}
+
+.mui-572fi9-MuiCollapse-root-MenuBar-root-RichTextField-menuBar-MenuBar-sticky {
+  border-width: 0px !important;
+  background-color: #f5f5f5 !important;
+}
+
+.mui-17njc8e-FieldContainer-root-FieldContainer-outlined-RichTextField-root-RichTextField-outlined
+  .mui-E2Alw3-RichTextField-content-ref {
+  padding: 12px 0px !important;
+}
+
+/* .is-empty {
+  font-size: 22px !important;
+} */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #929191;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

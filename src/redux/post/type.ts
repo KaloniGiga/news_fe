@@ -1,14 +1,22 @@
 import { PreviewData } from "next";
 
+export type TagType = {
+  title: string;
+  year: number;
+};
+
 export interface PostData {
   id?: number;
   title: string;
-  link: string;
+  links: string;
+  description?: string;
+  tags?: TagType[];
+  coverImage?: string;
 }
 
 export interface EditPostData {
   postDetails: PostData;
-  id: number | null;
+  id: number;
 }
 
 export interface LinkPreviewData {
@@ -16,19 +24,19 @@ export interface LinkPreviewData {
   description: string;
   image: string;
 }
-export interface IPost {
-  id: number;
-  title: string;
-  link: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface PostResponse {
   success: boolean;
   code: number;
   message: string;
-  data: IPost[];
+  data: PostData;
+}
+
+export interface GetPostResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: PostData[];
 }
 
 export interface LinkPreviewResponse {

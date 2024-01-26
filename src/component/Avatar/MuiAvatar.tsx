@@ -1,8 +1,12 @@
 import { Avatar } from "@mui/material";
+import { FunctionComponent } from "react";
 
-const MuiAvatar = () => {
+interface IAvatar {
+  src?: string;
+}
+const MuiAvatar: FunctionComponent<IAvatar> = ({ src }) => {
   return (
-    <Avatar sx={{ bgcolor: "#ff5722" }} alt="Remy Sharp" sizes="large" src="/broken-image.jpg">
+    <Avatar sx={{ bgcolor: "#ff5722" }} alt="Remy Sharp" sizes="large" src={src}>
       D
     </Avatar>
   );

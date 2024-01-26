@@ -1,11 +1,22 @@
 import { Avatar } from "@mui/material";
 import MuiAvatar from "../Avatar/MuiAvatar";
+import Image from "next/image";
 
 const MainDescription = () => {
   return (
-    <div className="w-full flex gap-x-4 pt-8 items-center">
+    <div className="w-[80%] flex flex-col items-center mt-8 mb-4">
+      <div className="h-[400px] w-full">
+        <Image
+          src={"/dailv.webp"}
+          alt=""
+          width={2000}
+          height={2000}
+          className="w-full h-full object-cover object-center"
+        />
+      </div>
+      {/* <div className="flex gap-x-4 pt-8 items-start">
       <div className="rounded-full">
-        <MuiAvatar />
+        <MuiAvatar src="/profileuser1.jpg" />
       </div>
       <div className="w-[80%] flex flex-col">
         <h3 className="text-[30px] font-bold">Your feed is ready.</h3>
@@ -14,6 +25,7 @@ const MainDescription = () => {
           help the feed improve.
         </h6>
       </div>
+      </div> */}
     </div>
   );
 };
