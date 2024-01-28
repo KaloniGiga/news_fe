@@ -10,7 +10,7 @@ import authReducer from "./auth/auth.slice";
 const persistConfig = {
   key: "root",
   storage,
-  blackList: [baseApi.reducerPath, linkPreviewApi.reducerPath, "post", "auth"],
+  blackList: [baseApi.reducerPath, linkPreviewApi.reducerPath, "post"],
 };
 
 const rootReducer = combineReducers({

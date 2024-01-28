@@ -6,7 +6,7 @@ interface IAvatar {
 }
 const MuiAvatar: FunctionComponent<IAvatar> = ({ src }) => {
   return (
-    <Avatar sx={{ bgcolor: "#ff5722" }} alt="Remy Sharp" sizes="large" src={src}>
+    <Avatar sx={{ bgcolor: "#ff5722", cursor: "pointer" }} alt="Remy Sharp" sizes="large" src={src}>
       D
     </Avatar>
   );

@@ -1,10 +1,12 @@
 "use client";
+import { useDisclosure } from "@mantine/hooks";
 import { Button, Code, Group } from "@mantine/core";
 import { useState } from "react";
 import NewsLogo from "../Navbar/NewsLogo";
 import { ContactSupportOutlined, Home, PersonOffOutlined, Settings, TagOutlined } from "@mui/icons-material";
 import MuiAvatar from "../Avatar/MuiAvatar";
 import PostEditNewsDialog from "../MainSide/PostNews/PostEditNewsDialog";
+import PostNewsModel from "../MainSide/PostNews/PostNewsModel";
 
 const data = [
   { link: "", label: "Home", icon: Home },
@@ -16,16 +18,16 @@ const data = [
 
 const Sidebar = () => {
   const [active, setActive] = useState<string>("Home");
+  const [opened, { open, close }] = useDisclosure(false);
+  // const [open, setOpen] = useState(false);
 
-  const [open, setOpen] = useState(false);
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const links = data.map(item => (
     <a
@@ -51,10 +53,11 @@ const Sidebar = () => {
               <MuiAvatar src="/profileuser.jpg" />
             </div>
             <div className="w-full">
-              <Button onClick={handleClickOpen} fullWidth variant="light" radius={"xl"} px={"xl"} size="md">
+              <Button onClick={open} fullWidth variant="light" radius={"xl"} px={"xl"} size="md">
                 Want to share news?
               </Button>
-              <PostEditNewsDialog isEdit={false} handleClose={handleClose} open={open} />
+              <PostNewsModel isEdit={false} open={open} close={close} opened={opened} />
+              {/* <PostEditNewsDialog isEdit={false} handleClose={handleClose} open={open} /> */}
             </div>
           </div>
         </Group>

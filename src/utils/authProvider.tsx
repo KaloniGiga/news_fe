@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-  const router = useRouter();
-  const dispath = useAppDispatch();
+  //   const router = useRouter();
+  //   const dispath = useAppDispatch();
   // const { data, error } = useGetUserQuery();
-  const isAuthenticated = useAppSelector(selectAuthenticated);
+  //   const isAuthenticated = useAppSelector(selectAuthenticated);
 
   return <div>{children}</div>;
 }

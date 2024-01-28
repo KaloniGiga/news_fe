@@ -48,7 +48,7 @@ const MainSide = () => {
   ];
 
   return isLoading ? (
-    <div className="w-full h-screen justify-center items-center">
+    <div className="w-full h-screen flex justify-center items-center">
       <CircularProgress />
     </div>
   ) : data && data.data ? (

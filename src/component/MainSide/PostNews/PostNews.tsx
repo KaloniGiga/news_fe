@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import MuiButton from "../../ui/MuiButton/MuiButton";
 import PostEditNewsDialog from "./PostEditNewsDialog";
+import PostNewsModel from "./PostNewsModel";
 
 const PostNews = () => {
   const [open, setOpen] = useState(false);

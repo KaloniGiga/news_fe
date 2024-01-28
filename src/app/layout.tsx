@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
@@ -9,6 +9,9 @@ import { Providers } from "@/redux/provider";
 import { PersistGates } from "@/redux/persistGate";
 import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import "@mantine/notifications/styles.css";
+import "@mantine/dropzone/styles.css";
+import { Notifications } from "@mantine/notifications";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +44,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <PersistGates>
             <ThemeRegistry options={{ key: "mui" }}>
-              <MantineProvider>{children}</MantineProvider>
+              <MantineProvider>
+                <Notifications />
+                {children}
+              </MantineProvider>
             </ThemeRegistry>
           </PersistGates>
         </Providers>

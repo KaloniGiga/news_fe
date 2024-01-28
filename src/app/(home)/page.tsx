@@ -1,10 +1,11 @@
+"use client";
 import LeftSide from "@/component/LeftSide/LeftSide";
 import MainSide from "@/component/MainSide/MainSide";
 import Header from "@/component/Navbar/Header";
 import Navbar from "@/component/Navbar/Navbar";
 import Sidebar from "@/component/Sidebar/Sidebar";
 
-export default function Home() {
+const HomePage = () => {
   return (
     <div className="w-screen h-full bg-[#F5F5F5]">
       {/* <Navbar /> */}
@@ -21,4 +22,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default HomePage;

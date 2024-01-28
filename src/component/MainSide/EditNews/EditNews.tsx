@@ -20,12 +20,9 @@ const EditNews: FunctionComponent<IEditNews> = ({ editData }) => {
   };
 
   return (
-    <div className="w-full">
-      <div className="w-full flex" onClick={handleClickOpen}>
-        <ListItemIcon>
-          <DriveFileRenameOutlineIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>Edit</ListItemText>
+    <div className="">
+      <div className="flex" onClick={handleClickOpen}>
+        Edit
       </div>
       <PostEditNewsDialog editData={editData} isEdit={true} handleClose={handleClose} open={open} />
     </div>

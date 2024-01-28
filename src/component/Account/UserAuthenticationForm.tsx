@@ -28,7 +28,6 @@ import { UserData } from "@/redux/auth/type";
 import { useCreateUserMutation, useReadLoginMutation } from "@/redux/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { setAuthUser } from "@/redux/auth/auth.slice";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 
 const UserLoginForm = () => {
@@ -55,11 +54,11 @@ const UserLoginForm = () => {
   useEffect(() => {
     if (createUserData) {
       dispatch(setAuthUser(createUserData.data));
+      router.replace("/");
     } else if (readLoginData) {
       dispatch(setAuthUser(readLoginData.data));
+      router.replace("/");
     }
-
-    router.replace("/");
   }, [createUserData, readLoginData, dispatch, router]);
 
   const handleFormSubmit: SubmitHandler<UserData> = values => {

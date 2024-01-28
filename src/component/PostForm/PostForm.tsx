@@ -12,6 +12,7 @@ import PostFormTitle from "./PostFormTitle";
 import { FunctionComponent, useEffect } from "react";
 import DropzoneComponent from "../ui/FileUpload/MyDropzone";
 import { useAddPostMutation, usePutPostMutation } from "@/redux/post/post.api";
+import DropzoneComp from "../ui/FileUpload/DropzoneComp";
 
 interface IPostForm {
   handleClose: () => void;
@@ -77,97 +78,99 @@ const PostForm: FunctionComponent<IPostForm> = ({ isEdit, handleClose, editData 
   }, []);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <>
       <DialogTitle sx={{ padding: "0px" }}>
         <PostFormTitle isEdit={isEdit} handleClose={handleClose} />
       </DialogTitle>
-
-      <DialogContent sx={{ padding: "0px" }}>
-        <div className="w-full overflow-y-auto overflow-x-hidden">
-          {/* profile */}
-          <div className="mt-3 flex gap-x-2 px-4">
-            <div className="">
-              <MuiAvatar src="/profileuser.jpg" />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent sx={{ padding: "0px" }}>
+          <div className="w-full overflow-y-auto overflow-x-hidden">
+            {/* profile */}
+            <div className="mt-3 flex gap-x-2 px-4">
+              <div className="">
+                <MuiAvatar src="/profileuser.jpg" />
+              </div>
+              <div>
+                <h3 className="font-semibold">Dipak kalauni</h3>
+                <h5 className="text-[16px]">It&apos;s bio.</h5>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold">Dipak kalauni</h3>
-              <h5 className="text-[16px]">It&apos;s bio.</h5>
-            </div>
-          </div>
 
-          <div className="w-full flex flex-col mt-4 px-4">
-            <Controller
-              name="links"
+            <div className="w-full flex flex-col mt-4 px-4">
+              <Controller
+                name="links"
+                control={control}
+                render={({ field: { onChange, value }, fieldState: { error } }) => {
+                  return (
+                    <>
+                      <ShareLink onChange={onChange} value={value} />
+                      {error && <FormHelperText error>{error.message}</FormHelperText>}
+                    </>
+                  );
+                }}
+              />
+            </div>
+
+            <InputField
+              name={"title"}
+              id={"title"}
               control={control}
-              render={({ field: { onChange, value }, fieldState: { error } }) => {
+              placeholder="New post title here..."
+              inputClass="w-full text-[40px] font-bold border-none outline-none mb-4 placeholder:text-[#503c3c] openSans px-4"
+            />
+
+            <div className="mb-8 openSans px-4">
+              <TagsInput control={control} name="tags" />
+            </div>
+
+            <div className="my-4">
+              <Controller
+                name="description"
+                control={control}
+                render={({ field: { onChange, value }, fieldState: { error } }) => {
+                  return (
+                    <>
+                      <MyEditor onChange={onChange} value={value} placeholder="Write description here..." />
+                      {error && <FormHelperText error>{error.message}</FormHelperText>}
+                    </>
+                  );
+                }}
+              />
+            </div>
+
+            <Controller
+              name="coverImage"
+              control={control}
+              rules={{
+                required: "Image is required",
+              }}
+              render={({ field: { onChange, value } }) => {
                 return (
                   <>
-                    <ShareLink onChange={onChange} value={value} />
-                    {error && <FormHelperText error>{error.message}</FormHelperText>}
+                    <DropzoneComp isEdit={isEdit} onChange={onChange} value={value} />
+                    {/* <DropzoneComponent isEdit={isEdit} onChange={onChange} value={value} /> */}
+                    <FormHelperText error={!!errors["coverImage"]}>{errors["coverImage"]?.message}</FormHelperText>
                   </>
                 );
               }}
             />
           </div>
-
-          <InputField
-            name={"title"}
-            id={"title"}
-            control={control}
-            placeholder="New post title here..."
-            inputClass="w-full text-[40px] font-bold border-none outline-none mb-4 placeholder:text-[#503c3c] openSans px-4"
-          />
-
-          <div className="mb-8 openSans px-4">
-            <TagsInput control={control} name="tags" />
+        </DialogContent>
+        <DialogActions sx={{ padding: "0px" }}>
+          <div className="w-[90%] mx-auto mb-4">
+            <Button
+              fullWidth
+              sx={{ backgroundColor: "#0f0f0f", textTransform: "capitalize", borderRadius: "none" }}
+              variant="contained"
+              type="submit"
+            >
+              {(postLoading || editLoading) && <CircularProgress size={18} />}
+              {isEdit ? "Save" : "Publish"}
+            </Button>
           </div>
-
-          <div className="my-4">
-            <Controller
-              name="description"
-              control={control}
-              render={({ field: { onChange, value }, fieldState: { error } }) => {
-                return (
-                  <>
-                    <MyEditor onChange={onChange} value={value} placeholder="Write description here..." />
-                    {error && <FormHelperText error>{error.message}</FormHelperText>}
-                  </>
-                );
-              }}
-            />
-          </div>
-
-          <Controller
-            name="coverImage"
-            control={control}
-            rules={{
-              required: "Image is required",
-            }}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <>
-                  <DropzoneComponent isEdit={isEdit} onChange={onChange} value={value} />
-                  <FormHelperText error={!!errors["coverImage"]}>{errors["coverImage"]?.message}</FormHelperText>
-                </>
-              );
-            }}
-          />
-        </div>
-      </DialogContent>
-      <DialogActions sx={{ padding: "0px" }}>
-        <div className="w-[90%] mx-auto mb-4">
-          <Button
-            fullWidth
-            sx={{ backgroundColor: "#0f0f0f", textTransform: "capitalize", borderRadius: "none" }}
-            variant="contained"
-            type="submit"
-          >
-            {(postLoading || editLoading) && <CircularProgress size={18} />}
-            {isEdit ? "Save" : "Publish"}
-          </Button>
-        </div>
-      </DialogActions>
-    </form>
+        </DialogActions>
+      </form>
+    </>
   );
 };
 
