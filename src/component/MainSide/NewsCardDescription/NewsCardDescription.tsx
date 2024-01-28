@@ -10,7 +10,7 @@ interface INewsCardDesc {
 }
 const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => {
   return (
-    <div className="w-full flex justify-between">
+    <div className="w-full flex justify-between px-2">
       <div className="w-full flex gap-x-2 items-center">
         <div className="">
           <MuiAvatar src="/profileuser.jpg" />

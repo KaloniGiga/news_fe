@@ -24,7 +24,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 
-const UserLoginForm = () => {
+const AuthForm = () => {
   const [type, toggle] = useToggle(["Login", "Sign up"]);
   const form = useForm({
     initialValues: {
@@ -39,11 +39,10 @@ const UserLoginForm = () => {
     },
   });
   return (
-    <div className="w-screen h-screen flex items-center">
-      <div className="w-[60%] h-full bg-[url('/loginnews1.jpg')] bg-cover bg-center"></div>
+    <div className="w-full flex justify-center items-center">
       <div className="w-[40%]">
         <Paper h="100%" w="100%" p="xl">
-          <Title order={2} ta="center" mt="md" mb="md">
+          <Title order={2} ta="center" mt="md" mb="xl">
             Welcome back to News Portal!
           </Title>
           <form onSubmit={form.onSubmit(() => {})}>
@@ -122,4 +121,4 @@ const UserLoginForm = () => {
   );
 };
 
-export default UserLoginForm;
+export default AuthForm;

@@ -10,28 +10,40 @@ const MainSide = () => {
   const { data, isLoading } = useGetPostQuery();
   const newsData = [
     {
-      title: "Don't be left out.Sign up to waitlist for daily.dev Search (Beta).It's fire.",
-      image: "/dailv.webp",
+      title: "State of Gaming Industry",
+      description:
+        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
+      tags: ["#gamedev", "#webdev", "#beginners", "#homeworld"],
+      coverImage: "/profileuser.jpg",
+      upvote: 200,
+      comments: 12,
     },
     {
-      title: "Don't be left out.Sign up to waitlist for daily.dev Search (Beta).It's fire.",
-      image: "/dailv.webp",
+      title: "How to do Open Source Contribution?",
+      description:
+        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
+      tags: ["#opensource", "#software development", "#engineering"],
+      coverImage: "/profileuser1.jpg",
+      upvote: 120,
+      comments: 20,
     },
     {
-      title: "Don't be left out.Sign up to waitlist for daily.dev Search (Beta).It's fire.",
-      image: "/dailv.webp",
+      title: "What is a Vector Database?",
+      description:
+        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
+      tags: ["#ai", "#opensource", "#database", "#tutorial"],
+      coverImage: "/loginnews1.jpg",
+      upvote: 12,
+      comments: 50,
     },
     {
-      title: "Don't be left out.Sign up to waitlist for daily.dev Search (Beta).It's fire.",
-      image: "/dailv.webp",
-    },
-    {
-      title: "Don't be left out.Sign up to waitlist for daily.dev Search (Beta).It's fire.",
-      image: "/dailv.webp",
-    },
-    {
-      title: "Don't be left out.Sign up to waitlist for daily.dev Search (Beta).It's fire.",
-      image: "/dailv.webp",
+      title: "JWT vs Session Authentication",
+      description:
+        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
+      tags: ["#jwt", "#authjs", "#javascript", "#security"],
+      coverImage: "/loginnewspaper.jpg",
+      upvote: 198,
+      comments: 4,
     },
   ];
 
@@ -40,10 +52,10 @@ const MainSide = () => {
       <CircularProgress />
     </div>
   ) : data && data.data ? (
-    <div className="w-full flex flex-col">
-      <MainTabs />
+    <div className="w-full flex flex-col py-4">
+      {/* <MainTabs /> */}
       <MainDescription />
-      <NewsContainer news={data.data} />
+      <NewsContainer news={newsData} />
     </div>
   ) : (
     <div className="w-full h-screen flex justify-center items-center">
