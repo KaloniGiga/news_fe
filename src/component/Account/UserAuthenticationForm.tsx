@@ -18,26 +18,59 @@ import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { GoogleButton } from "./GoogleButton";
 import { FacebookButton } from "./FacebookButton";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { SubmitHandler } from "react-hook-form";
+import { UserData } from "@/redux/auth/type";
+import { useCreateUserMutation, useReadLoginMutation } from "@/redux/auth/auth.api";
+import { useAppDispatch } from "@/redux/hooks";
+import { setAuthUser } from "@/redux/auth/auth.slice";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 const UserLoginForm = () => {
   const [type, toggle] = useToggle(["Login", "Sign up"]);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [readLogin, { isLoading: loginLoading, data: readLoginData }] = useReadLoginMutation();
+  const [createUser, { isLoading: createUserLoading, data: createUserData }] = useCreateUserMutation();
+
   const form = useForm({
     initialValues: {
       email: "",
       username: "",
       password: "",
       terms: true,
+      keepLoggedIn: false,
     },
     validate: {
       email: val => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: val => (val.length <= 6 ? "Password should include at least 6 characters" : null),
     },
   });
+
+  useEffect(() => {
+    if (createUserData) {
+      dispatch(setAuthUser(createUserData.data));
+    } else if (readLoginData) {
+      dispatch(setAuthUser(readLoginData.data));
+    }
+
+    router.replace("/");
+  }, [createUserData, readLoginData, dispatch, router]);
+
+  const handleFormSubmit: SubmitHandler<UserData> = values => {
+    console.log(values);
+    if (type == "Login") {
+      readLogin(values);
+    } else {
+      createUser(values);
+    }
+  };
+
   return (
     <div className="w-screen h-screen flex items-center">
       <div className="w-[60%] h-full bg-[url('/loginnews1.jpg')] bg-cover bg-center"></div>
@@ -46,7 +79,7 @@ const UserLoginForm = () => {
           <Title order={2} ta="center" mt="md" mb="md">
             Welcome back to News Portal!
           </Title>
-          <form onSubmit={form.onSubmit(() => {})}>
+          <form onSubmit={form.onSubmit(handleFormSubmit)}>
             <Stack>
               {type === "Sign up" && (
                 <TextInput
@@ -94,7 +127,11 @@ const UserLoginForm = () => {
 
             {type == "Login" && (
               <Group justify="space-between" mt="lg">
-                <Checkbox label="Keep me logged in" />
+                <Checkbox
+                  onChange={event => form.setFieldValue("keepLoggedIn", event.currentTarget.checked)}
+                  checked={form.values.keepLoggedIn}
+                  label="Keep me logged in"
+                />
                 <Anchor component="button" size="sm">
                   Forgot password?
                 </Anchor>
@@ -105,7 +142,7 @@ const UserLoginForm = () => {
               <Anchor fs={"xl"} component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
                 {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
               </Anchor>
-              <Button fullWidth type="submit" radius="sm">
+              <Button loading={loginLoading || createUserLoading} fullWidth type="submit" radius="sm">
                 {upperFirst(type)}
               </Button>
             </Stack>

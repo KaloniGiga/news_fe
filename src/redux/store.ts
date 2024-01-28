@@ -6,15 +6,17 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "./base-query/base-query.config";
 import { linkPreviewApi } from "./link-preview/link-preview.api";
 import postReducer from "./post/postSlice";
+import authReducer from "./auth/auth.slice";
 const persistConfig = {
   key: "root",
   storage,
-  blackList: [baseApi.reducerPath, linkPreviewApi.reducerPath, "post"],
+  blackList: [baseApi.reducerPath, linkPreviewApi.reducerPath, "post", "auth"],
 };
 
 const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
   post: postReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
