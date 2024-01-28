@@ -12,6 +12,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "@mantine/notifications/styles.css";
 import "@mantine/dropzone/styles.css";
 import { Notifications } from "@mantine/notifications";
+import "@mantine/tiptap/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

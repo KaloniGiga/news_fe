@@ -35,20 +35,17 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   }, [isEdit, value]);
 
   return (
-    <div className="px-4 pb-4">
+    <div className="pb-2">
       <Dropzone onDrop={onDrop} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE}>
         <Group justify="center" gap={"xl"} mih={200} style={{ pointerEvents: "none" }}>
           <Dropzone.Accept>
-            <IconUpload
-              style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-blue-6)" }}
-              stroke={1.5}
-            />
+            <IconUpload style={{ width: rem(52), height: rem(52), color: "#1C7ED6" }} stroke={1.5} />
           </Dropzone.Accept>
           <Dropzone.Reject>
-            <IconX style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-red-6)" }} stroke={1.5} />
+            <IconX style={{ width: rem(52), height: rem(52), color: "#1C7ED6" }} stroke={1.5} />
           </Dropzone.Reject>
           <Dropzone.Idle>
-            <IconPhoto style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-dimmed)" }} stroke={1.5} />
+            <IconPhoto style={{ width: rem(52), height: rem(52), color: "#1C7ED6" }} stroke={1.5} />
           </Dropzone.Idle>
 
           <div>

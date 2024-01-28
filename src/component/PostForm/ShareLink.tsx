@@ -12,7 +12,6 @@ export interface IShareLink {
 }
 const ShareLink: FunctionComponent<IShareLink> = ({ onChange, value }) => {
   const [linkToPreview, setLinkToPreview] = useState("");
-  console.log(value);
   const editor = useEditor({
     extensions: [StarterKit, Placeholder.configure({ placeholder: "Share the link" })],
     content: `<p>${value}</p>`,

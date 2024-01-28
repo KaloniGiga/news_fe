@@ -9,9 +9,9 @@ export interface PostData {
   id?: number;
   title: string;
   links: string;
-  description?: string;
-  tags?: TagType[];
-  coverImage?: string;
+  description: string;
+  tags: TagType[];
+  coverImage: string;
 }
 
 export interface EditPostData {

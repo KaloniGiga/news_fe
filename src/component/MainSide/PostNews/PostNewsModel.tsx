@@ -19,7 +19,6 @@ const PostNewsModel: FunctionComponent<IPostNewsModel> = ({ opened, open, close,
       title="Create post"
       overlayProps={{
         backgroundOpacity: 0.55,
-        //   backgroundColor: "#ffffff"
       }}
       centered
     >
