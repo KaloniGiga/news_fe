@@ -12,11 +12,15 @@ interface IDropzone {
 }
 const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value }) => {
   const [file, setFile] = useState<FileWithPath | null>(null);
+  const [image, setImage] = useState("");
+  const [isSelected, setIsSelected] = useState(false);
 
   const onDrop = (files: FileWithPath[]) => {
-    console.log(files);
     onChange(files[0]);
     setFile(files[0]);
+    if (isEdit) {
+      setIsSelected(true);
+    }
   };
 
   const previews = () => {
@@ -28,9 +32,19 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
     }
   };
 
+  const getImages = () => {
+    if (image) {
+      return (
+        <Image alt="" width={200} height={200} src={`${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${image}`} />
+      );
+    } else {
+      return <div></div>;
+    }
+  };
+
   useEffect(() => {
-    if (isEdit) {
-      //   setFile(value);
+    if (isEdit && value) {
+      setImage(value);
     }
   }, [isEdit, value]);
 
@@ -59,7 +73,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
         </Group>
       </Dropzone>
       <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? "xl" : 0}>
-        {previews()}
+        {isEdit && !isSelected ? getImages() : previews()}
       </SimpleGrid>
     </div>
   );

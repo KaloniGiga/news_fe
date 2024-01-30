@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import {
   Anchor,
@@ -29,6 +30,7 @@ import { useCreateUserMutation, useReadLoginMutation } from "@/redux/auth/auth.a
 import { useAppDispatch } from "@/redux/hooks";
 import { setAuthUser } from "@/redux/auth/auth.slice";
 import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 const UserLoginForm = () => {
   const [type, toggle] = useToggle(["Login", "Sign up"]);
@@ -56,8 +58,14 @@ const UserLoginForm = () => {
       dispatch(setAuthUser(createUserData.data));
       router.replace("/");
     } else if (readLoginData) {
-      dispatch(setAuthUser(readLoginData.data));
-      router.replace("/");
+      form.reset();
+      if (readLoginData.data) {
+        dispatch(setAuthUser(readLoginData.data));
+        notifications.show({
+          message: "Login success! 🤥",
+        });
+        router.replace("/");
+      }
     }
   }, [createUserData, readLoginData, dispatch, router]);
 
@@ -138,7 +146,14 @@ const UserLoginForm = () => {
             )}
 
             <Stack mt="xl" align="flex-start">
-              <Anchor fs={"xl"} component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
+              <Anchor
+                fs={"xl"}
+                component="button"
+                type="button"
+                c="dimmed"
+                onClick={() => router.push("/auth")}
+                size="xs"
+              >
                 {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
               </Anchor>
               <Button loading={loginLoading || createUserLoading} fullWidth type="submit" radius="sm">

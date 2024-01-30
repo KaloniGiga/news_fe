@@ -10,7 +10,7 @@ import authReducer from "./auth/auth.slice";
 const persistConfig = {
   key: "root",
   storage,
-  blackList: [baseApi.reducerPath, linkPreviewApi.reducerPath, "post"],
+  blackList: [baseApi.reducerPath, "auth", "post"],
 };
 
 const rootReducer = combineReducers({
@@ -28,7 +28,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([baseApi.middleware, linkPreviewApi.middleware]),
+    }).concat([baseApi.middleware]),
   devTools: process.env.NODE_ENV !== "production",
 });
 

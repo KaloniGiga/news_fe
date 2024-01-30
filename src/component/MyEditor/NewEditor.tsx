@@ -4,7 +4,7 @@ import Highlight from "@tiptap/extension-highlight";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
 // import Superscript from '@tiptap/extension-superscript';
 // import SubScript from '@tiptap/extension-subscript'
@@ -29,7 +29,16 @@ const NewEditor: FunctionComponent<INewEditor> = ({ placeholder, onChange, value
       }),
     ],
     content: value,
+    onUpdate: ({ editor }) => {
+      onChange(editor?.getHTML());
+    },
   });
+
+  useEffect(() => {
+    if (value) {
+      editor?.commands.setContent(value);
+    }
+  }, []);
 
   return (
     <RichTextEditor editor={editor}>

@@ -18,26 +18,58 @@ import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { GoogleButton } from "./GoogleButton";
 import { FacebookButton } from "./FacebookButton";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
+import { setAuthUser } from "@/redux/auth/auth.slice";
+import { notifications } from "@mantine/notifications";
+import { SubmitHandler } from "react-hook-form";
+import { UserData } from "@/redux/auth/type";
+import { useCreateUserMutation } from "@/redux/auth/auth.api";
 
 const AuthForm = () => {
-  const [type, toggle] = useToggle(["Login", "Sign up"]);
+  const [type, toggle] = useToggle(["Sign up", "Login"]);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [createUser, { isLoading: createUserLoading, data: createUserData }] = useCreateUserMutation();
   const form = useForm({
     initialValues: {
       email: "",
       username: "",
       password: "",
       terms: true,
+      keepLoggedIn: false,
     },
     validate: {
       email: val => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: val => (val.length <= 6 ? "Password should include at least 6 characters" : null),
     },
   });
+
+  useEffect(() => {
+    if (createUserData) {
+      form.reset();
+      if (createUserData.data) {
+        dispatch(setAuthUser(createUserData.data));
+        notifications.show({
+          message: "Login success! 🤥",
+        });
+        router.replace("/");
+      }
+    }
+  }, [createUserData]);
+
+  const handleFormSubmit: SubmitHandler<UserData> = values => {
+    console.log(values);
+    if (type == "Sign up") {
+      createUser(values);
+    }
+  };
+
   return (
     <div className="w-full flex justify-center items-center">
       <div className="w-[40%]">
@@ -45,7 +77,7 @@ const AuthForm = () => {
           <Title order={2} ta="center" mt="md" mb="xl">
             Welcome back to News Portal!
           </Title>
-          <form onSubmit={form.onSubmit(() => {})}>
+          <form onSubmit={form.onSubmit(handleFormSubmit)}>
             <Stack>
               {type === "Sign up" && (
                 <TextInput
@@ -93,7 +125,11 @@ const AuthForm = () => {
 
             {type == "Login" && (
               <Group justify="space-between" mt="lg">
-                <Checkbox label="Keep me logged in" />
+                <Checkbox
+                  label="Keep me logged in"
+                  checked={form.values.keepLoggedIn}
+                  onChange={event => form.setFieldValue("keepLoggedIn", event.currentTarget.checked)}
+                />
                 <Anchor component="button" size="sm">
                   Forgot password?
                 </Anchor>
@@ -101,10 +137,10 @@ const AuthForm = () => {
             )}
 
             <Stack mt="xl" align="flex-start">
-              <Anchor fs={"xl"} component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
+              {/* <Anchor fs={"xl"} component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
                 {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
-              </Anchor>
-              <Button fullWidth type="submit" radius="sm">
+              </Anchor> */}
+              <Button loading={createUserLoading} fullWidth type="submit" radius="sm">
                 {upperFirst(type)}
               </Button>
             </Stack>

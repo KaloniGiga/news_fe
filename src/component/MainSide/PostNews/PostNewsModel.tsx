@@ -10,7 +10,6 @@ interface IPostNewsModel {
   editData?: any;
 }
 const PostNewsModel: FunctionComponent<IPostNewsModel> = ({ opened, open, close, isEdit, editData }) => {
-  // const [opened, { open, close }] = useDisclosure(false);
   return (
     <Modal
       opened={opened}
@@ -20,6 +19,7 @@ const PostNewsModel: FunctionComponent<IPostNewsModel> = ({ opened, open, close,
       overlayProps={{
         backgroundOpacity: 0.55,
       }}
+      zIndex={9999}
       centered
     >
       <PostNewsForm isEdit={isEdit} editData={editData} />

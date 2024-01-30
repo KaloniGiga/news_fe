@@ -8,7 +8,8 @@ export const postApi = baseApi.injectEndpoints({
         url: `v1/post`,
         method: "GET",
       }),
-      providesTags: ["Post"],
+      providesTags: (result, error, arg) =>
+        result && result.data ? [...result.data.map(({ id }) => ({ type: "Post" as const, id })), "Post"] : ["Post"],
     }),
     addPost: builder.mutation<PostResponse, any>({
       query: postDetails => ({
@@ -16,20 +17,22 @@ export const postApi = baseApi.injectEndpoints({
         method: "POST",
         body: postDetails,
       }),
+      invalidatesTags: ["Post"],
     }),
     putPost: builder.mutation<PostResponse, any>({
-      query: ({ id, ...postDetails }) => ({
-        url: `v1/post/${id}`,
+      query: postDetails => ({
+        url: `v1/post/edit`,
         method: "PUT",
         body: postDetails,
       }),
       invalidatesTags: ["Post"],
     }),
-    deletePost: builder.mutation<PostResponse, number[]>({
-      query: ids => ({
-        url: `v1/post?ids=${ids}`,
+    deletePost: builder.mutation<PostResponse, number>({
+      query: id => ({
+        url: `v1/post/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Post"],
     }),
   }),
 });

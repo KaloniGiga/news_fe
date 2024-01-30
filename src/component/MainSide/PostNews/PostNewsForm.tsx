@@ -2,7 +2,7 @@ import MuiAvatar from "@/component/Avatar/MuiAvatar";
 import { selectUser } from "@/redux/auth/auth.selector";
 import { useAppSelector } from "@/redux/hooks";
 import { Button, Group, TagsInput, Text, TextInput, Textarea } from "@mantine/core";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import PostNewsUserInfo from "./PostNewsUserInfo";
 import { Controller, SubmitHandler } from "react-hook-form";
 import { useForm } from "@mantine/form";
@@ -16,31 +16,39 @@ interface IPostNewsForm {
   isEdit: boolean;
   editData: any;
 }
+
+const tagsData = ["React", "Svelte", "Angular", "Vue", "java"];
 const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) => {
   const [addPost, { isLoading: postLoading, data: postData }] = useAddPostMutation();
   const [putPost, { isLoading: editLoading, data: editPostData }] = usePutPostMutation();
 
-  const form = useForm({
+  const [showEditor, setShowEditor] = useState(false);
+  const form = useForm<PostData>({
     initialValues: {
       links: "",
       title: "",
-      tags: null,
+      tags: [],
       description: "",
       coverImage: "",
     },
   });
 
-  const onSubmit: SubmitHandler<PostData> = value => {
-    console.log(value);
+  const handleFormSubmit: SubmitHandler<PostData> = value => {
     const formData = new FormData();
-    formData.append("file", value.coverImage);
+    if (value.coverImage instanceof File) {
+      formData.append("file", value.coverImage);
+    }
+
+    if (isEdit) {
+      formData.append("id", editData.id);
+    }
     formData.append("title", value.title);
     formData.append("description", value.description);
     formData.append("links", value.links);
     formData.append("tags", JSON.stringify(value.tags));
 
     if (isEdit) {
-      putPost({ postDetails: formData, id: editData.id });
+      putPost(formData);
     } else {
       addPost(formData);
     }
@@ -52,18 +60,23 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) =>
       form.setFieldValue("title", editData.title);
       form.setFieldValue("description", editData.description);
       form.setFieldValue("links", editData.links);
-      form.setFieldValue(
-        "tags",
-        editData.tags.map((tag: any) => JSON.parse(tag))
-      );
+      if (editData.tags && editData?.tags?.length > 0) {
+        form.setFieldValue("tags", editData.tags);
+      }
       form.setFieldValue("coverImage", editData.coverImage);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!showEditor) {
+      setShowEditor(true);
     }
   }, []);
 
   return (
     <div className="w-full h-full">
       <PostNewsUserInfo />
-      <form>
+      <form onSubmit={form.onSubmit(handleFormSubmit)}>
         <div className="w-full flex flex-col gap-y-4 mt-4 px-2">
           <TextInput
             styles={{ input: { border: "none" } }}
@@ -91,12 +104,14 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) =>
 
           <TagsInput
             styles={{ input: { border: "none" } }}
+            required
+            data={tagsData}
             size="md"
             placeholder="Add up to 4 tags"
             maxTags={4}
-            limit={25}
-            data={["React", "Angular", "Vue", "Svelte"]}
-            maxDropdownHeight={200}
+            maxDropdownHeight={300}
+            onChange={value => form.setFieldValue("tags", value)}
+            value={form.values.tags}
           />
 
           {/* <Textarea
@@ -110,19 +125,24 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) =>
             error={form.errors.description && "Invalid description"}
           /> */}
 
-          <NewEditor
-            placeholder="Write description"
-            onChange={val => form.setFieldValue("description", val)}
-            value={form.values.description}
-          />
+          {showEditor ? (
+            <NewEditor
+              placeholder="Write description"
+              onChange={val => form.setFieldValue("description", val)}
+              value={form.values.description}
+            />
+          ) : (
+            <div></div>
+          )}
+
           <DropzoneComp
             isEdit={isEdit}
             onChange={value => form.setFieldValue("coverImage", value)}
             value={form.values.coverImage}
           />
 
-          <Button loading={false} fullWidth type="submit" radius={"sm"}>
-            Publish
+          <Button loading={editLoading || postLoading} fullWidth type="submit" radius={"sm"}>
+            {!isEdit ? "Publish" : "Save"}
           </Button>
         </div>
       </form>

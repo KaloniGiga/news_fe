@@ -3,10 +3,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IconButton } from "@mui/material";
 import NewsCardOption from "./NewsCardOption";
 import { FunctionComponent } from "react";
-import { EditPostData, PostData } from "@/redux/post/type";
+import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
 
 interface INewsCardDesc {
-  editData: PostData;
+  editData: GetPostData;
 }
 const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => {
   return (
@@ -16,7 +16,7 @@ const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => 
           <MuiAvatar src="/profileuser.jpg" />
         </div>
         <div>
-          <h3 className="font-medium">Dipak kalauni</h3>
+          <h3 className="font-medium">{editData.user.username}</h3>
           <h6 className="text-[13px] font-regular">Jan 24( 1 day ago)</h6>
         </div>
       </div>

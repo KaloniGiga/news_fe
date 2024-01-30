@@ -55,7 +55,7 @@ const MainSide = () => {
     <div className="w-full flex flex-col py-4">
       {/* <MainTabs /> */}
       <MainDescription />
-      <NewsContainer news={newsData} />
+      <NewsContainer news={data.data} />
     </div>
   ) : (
     <div className="w-full h-screen flex justify-center items-center">

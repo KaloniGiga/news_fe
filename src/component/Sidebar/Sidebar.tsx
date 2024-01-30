@@ -7,6 +7,8 @@ import { ContactSupportOutlined, Home, PersonOffOutlined, Settings, TagOutlined 
 import MuiAvatar from "../Avatar/MuiAvatar";
 import PostEditNewsDialog from "../MainSide/PostNews/PostEditNewsDialog";
 import PostNewsModel from "../MainSide/PostNews/PostNewsModel";
+import { useAppSelector } from "@/redux/hooks";
+import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 
 const data = [
   { link: "", label: "Home", icon: Home },
@@ -17,6 +19,7 @@ const data = [
 ];
 
 const Sidebar = () => {
+  const isAuthenticated = useAppSelector(selectAuthenticated);
   const [active, setActive] = useState<string>("Home");
   const [opened, { open, close }] = useDisclosure(false);
   // const [open, setOpen] = useState(false);
@@ -45,22 +48,24 @@ const Sidebar = () => {
     </a>
   ));
   return (
-    <nav className="h-screen w-full p-4 flex flex-col border-b-[1px] border-r-[1px] border-[rgba(0,0,0,0.1)]">
+    <nav className="h-screen w-full p-4 flex flex-col">
       <div className="flex-1">
-        <Group className={"pb-2"} justify="space-between">
-          <div className="w-full flex gap-x-4 items-center px-4 py-4 mt-2">
-            <div className="">
-              <MuiAvatar src="/profileuser.jpg" />
+        {isAuthenticated && (
+          <Group className={"pb-2"} justify="space-between">
+            <div className="w-full flex gap-x-4 items-center px-4 py-4 mt-2">
+              <div className="">
+                <MuiAvatar src="/profileuser.jpg" />
+              </div>
+              <div className="w-full">
+                <Button onClick={open} fullWidth variant="light" radius={"xl"} px={"xl"} size="md">
+                  Want to share news?
+                </Button>
+                <PostNewsModel isEdit={false} open={open} close={close} opened={opened} />
+                {/* <PostEditNewsDialog isEdit={false} handleClose={handleClose} open={open} /> */}
+              </div>
             </div>
-            <div className="w-full">
-              <Button onClick={open} fullWidth variant="light" radius={"xl"} px={"xl"} size="md">
-                Want to share news?
-              </Button>
-              <PostNewsModel isEdit={false} open={open} close={close} opened={opened} />
-              {/* <PostEditNewsDialog isEdit={false} handleClose={handleClose} open={open} /> */}
-            </div>
-          </div>
-        </Group>
+          </Group>
+        )}
         {links}
       </div>
     </nav>
