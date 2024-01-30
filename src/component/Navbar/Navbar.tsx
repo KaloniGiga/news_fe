@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import MuiButton from "../ui/MuiButton/MuiButton";
 import LoginButton from "../Account/LoginButton";
 import RegisterButton from "../Account/RegisterButton";
+import MuiAvatar from "../Avatar/MuiAvatar";
 
 const Navbar = () => {
   return (
@@ -16,7 +18,7 @@ const Navbar = () => {
             className="w-full h-full object-contain object-center"
           />
         </div>
-        <div className="flex gap-x-4 items-center">
+        <div className="w-[80%] justify-end flex gap-x-4 items-center">
           {/* <MuiButton label="Login" variant="text" /> */}
           {/* <MuiButton label="Create Account" variant="outlined" /> */}
           <LoginButton />

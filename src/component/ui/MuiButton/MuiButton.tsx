@@ -8,10 +8,18 @@ interface IButton {
   size?: "small" | "medium" | "large";
   fullWidth?: boolean;
   onClick?: () => void;
+  type?: "submit" | "reset" | "button";
 }
-const MuiButton: FunctionComponent<IButton> = ({ label, variant, sx, size, fullWidth, onClick }) => {
+const MuiButton: FunctionComponent<IButton> = ({ type, label, variant, sx, size, fullWidth, onClick }) => {
   return (
-    <Button fullWidth={fullWidth ? fullWidth : false} sx={sx} variant={variant} onClick={onClick} size={size}>
+    <Button
+      type={type}
+      fullWidth={fullWidth ? fullWidth : false}
+      sx={sx}
+      variant={variant}
+      onClick={onClick}
+      size={size}
+    >
       {label}
     </Button>
   );

@@ -1,13 +1,16 @@
 export interface UserData {
   id?: number;
-  username: string;
+  email: string;
+  username?: string;
   password: string;
-  confirmPassword?: string;
+  terms?: boolean;
+  keepLoggedIn?: boolean;
 }
 
 export interface IUser {
   id: number;
   username: string;
+  email: string;
 }
 
 export interface LoginResponse {

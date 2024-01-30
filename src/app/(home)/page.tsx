@@ -1,14 +1,19 @@
+"use client";
 import LeftSide from "@/component/LeftSide/LeftSide";
 import MainSide from "@/component/MainSide/MainSide";
+import Header from "@/component/Navbar/Header";
 import Navbar from "@/component/Navbar/Navbar";
+import Sidebar from "@/component/Sidebar/Sidebar";
 
-export default function Home() {
+const HomePage = () => {
   return (
     <div className="w-screen h-full bg-[#F5F5F5]">
-      <Navbar />
-      <div className="w-full flex justify-around px-4 py-4 gap-x-4">
+      {/* <Navbar /> */}
+      <Header />
+      <div className="w-full flex justify-around px-4 gap-x-4">
         <div className="w-[25%]">
-          <LeftSide />
+          {/* <LeftSide /> */}
+          <Sidebar />
         </div>
         <div className="w-[70%]">
           <MainSide />
@@ -17,4 +22,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default HomePage;

@@ -12,9 +12,15 @@ export const authApi = baseApi.injectEndpoints({
     }),
     createUser: builder.mutation<LoginResponse, UserData>({
       query: userDetails => ({
-        url: "v1/auth/user",
+        url: "v1/auth/signup",
         method: "POST",
         body: userDetails,
+      }),
+    }),
+    logout: builder.mutation<LoginResponse, void>({
+      query: () => ({
+        url: "v1/auth/logout",
+        method: "POST",
       }),
     }),
     getUser: builder.query<LoginResponse, void>({
@@ -26,4 +32,4 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useReadLoginMutation, useCreateUserMutation, useGetUserQuery } = authApi;
+export const { useReadLoginMutation, useCreateUserMutation, useLogoutMutation, useGetUserQuery } = authApi;

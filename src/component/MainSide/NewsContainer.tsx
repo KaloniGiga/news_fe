@@ -1,21 +1,22 @@
 import { FunctionComponent } from "react";
 import NewsCard from "./NewsCard";
+import { GetPostData } from "@/redux/post/type";
 
 interface INewsContainer {
-  news: any[];
+  news: GetPostData[];
 }
 const NewsContainer: FunctionComponent<INewsContainer> = ({ news }) => {
   return (
-    <div className="w-full flex flex-wrap gap-x-4 gap-y-4 mt-8">
+    <div className="w-[70%] flex flex-col gap-x-4 gap-y-4 mt-8">
       {news && news.length > 0 ? (
         <>
-          {news.map((item: any, index: number) => {
-            return <NewsCard key={index} title={item.title} image={item.image} />;
+          {news.map((item, index: number) => {
+            return <NewsCard key={index} editData={item} />;
           })}
         </>
       ) : (
-        <div className="w-full py-4 px-4">
-          <h3 className="w-full mx-auto text-[22px]">No news found.</h3>
+        <div className="w-full h-full flex justify-center items-center py-4 px-4">
+          <h3 className="text-center text-[22px]">No news found.</h3>
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
 import MuiButton from "../ui/MuiButton/MuiButton";
-import PostNews from "./PostNews";
+import PostNews from "./PostNews/PostNews";
 
 const MainTabs = () => {
   return (

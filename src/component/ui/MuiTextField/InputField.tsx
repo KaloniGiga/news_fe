@@ -46,6 +46,7 @@ const InputField: FunctionComponent<IInputField> = ({
         return (
           <>
             <input
+              {...field}
               className={inputClass}
               type={type}
               placeholder={placeholder}

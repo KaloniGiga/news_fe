@@ -4,13 +4,20 @@ import storage from "./storage";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistStore, persistReducer } from "redux-persist";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "./base-query/base-query.config";
+import { linkPreviewApi } from "./link-preview/link-preview.api";
+import postReducer from "./post/postSlice";
+import authReducer from "./auth/auth.slice";
 const persistConfig = {
   key: "root",
   storage,
-  blackList: [baseApi.reducerPath],
+  blackList: [baseApi.reducerPath, "auth", "post"],
 };
 
-const rootReducer = combineReducers({ [baseApi.reducerPath]: baseApi.reducer });
+const rootReducer = combineReducers({
+  [baseApi.reducerPath]: baseApi.reducer,
+  post: postReducer,
+  auth: authReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
