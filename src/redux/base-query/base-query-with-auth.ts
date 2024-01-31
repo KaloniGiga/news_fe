@@ -17,6 +17,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && isFetchBaseQueryError(result.error)) {
     if (result.error.status == 401 || result.error.status == 403) {
+      console.log("auth user");
       api.dispatch(resetAuthUser());
       //  notifications.show({
       //    message: (result.error.data as any)?.message,

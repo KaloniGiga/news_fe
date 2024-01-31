@@ -1,13 +1,14 @@
 import { FunctionComponent } from "react";
 import NewsCard from "./NewsCard";
 import { GetPostData } from "@/redux/post/type";
+import { Box, Flex, Text } from "@mantine/core";
 
 interface INewsContainer {
   news: GetPostData[];
 }
 const NewsContainer: FunctionComponent<INewsContainer> = ({ news }) => {
   return (
-    <div className="w-[70%] flex flex-col gap-x-4 gap-y-4 mt-8">
+    <Flex w={"70%"} py={"xl"} mx={"auto"} rowGap={"xl"} direction={"column"}>
       {news && news.length > 0 ? (
         <>
           {news.map((item, index: number) => {
@@ -15,11 +16,11 @@ const NewsContainer: FunctionComponent<INewsContainer> = ({ news }) => {
           })}
         </>
       ) : (
-        <div className="w-full h-full flex justify-center items-center py-4 px-4">
-          <h3 className="text-center text-[22px]">No news found.</h3>
-        </div>
+        <Box>
+          <Text>No news found.</Text>
+        </Box>
       )}
-    </div>
+    </Flex>
   );
 };
 

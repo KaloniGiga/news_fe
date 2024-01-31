@@ -1,10 +1,10 @@
-import { TextInput } from "@mantine/core";
+import { Box, TextInput } from "@mantine/core";
 import SearchIcon from "@mui/icons-material/Search";
 const SearchInput = () => {
   return (
-    <div className="w-full">
+    <Box>
       <TextInput size="md" placeholder="Search" rightSection={<SearchIcon />} />
-    </div>
+    </Box>
   );
 };
 

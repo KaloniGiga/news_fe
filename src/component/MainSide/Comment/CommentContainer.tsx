@@ -7,7 +7,7 @@ const CommentContainer = () => {
         <div>
           <MuiAvatar src="/profileuser.jpg" />
         </div>
-        <div className="flex flex-col gap-y-2 px-4 py-4 rounded-md bg-[#F1F1F1]">
+        <div className="flex flex-col gap-y-2 px-4 py-4 rounded-md bg-mantineBody">
           <h2 className="flex gap-x-2 items-center">
             <span className="font-semibold">Brain G.</span>
             <span className="font-regular text-sm">4 hours ago</span>

@@ -4,12 +4,13 @@ import { FunctionComponent } from "react";
 import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import NewsCardDescription from "./NewsCardDescription/NewsCardDescription";
-import { Button } from "@mui/material";
 import { ThumbUpAltOutlined } from "@mui/icons-material";
 import MuiAvatar from "../Avatar/MuiAvatar";
 import CommentContainer from "./Comment/CommentContainer";
 import { IUser } from "@/redux/auth/type";
 import { GetPostData } from "@/redux/post/type";
+import Link from "next/link";
+import { Box, Button, Group, Stack, Text } from "@mantine/core";
 
 interface INewsCard {
   editData: GetPostData;
@@ -17,45 +18,52 @@ interface INewsCard {
 
 const NewsCard: FunctionComponent<INewsCard> = ({ editData }) => {
   return (
-    <div className="w-full flex flex-col gap-y-4 py-4 bg-[#ffffff] rounded-lg border-[1px]">
+    <Stack className="bg-[var(--mantine-color-body)] rounded-xl py-2">
       {/* post user */}
       <NewsCardDescription editData={editData} />
       {/* post description */}
-      <div className="w-full flex flex-col px-2">
-        <h3 className="text-[30px] font-bold line-clamp-2 hover:text-blue-500 cursor-pointer">{editData.title}</h3>
-        {/* <h4 className="text-[16px] font-regular line-clamp-2">{description}</h4> */}
-      </div>
-      <div className="w-full px-2 flex gap-x-2">
+      <Link className="px-4 pt-2" target="blank" href={editData.links}>
+        <Box>
+          <Text fw={700} size="xl" component="h1">
+            {editData.title}
+          </Text>
+          {/* <h4 className="text-[16px] font-regular line-clamp-2">{description}</h4> */}
+        </Box>
+      </Link>
+      <Group px={"lg"}>
         {editData.tags &&
           editData.tags.length > 0 &&
           editData.tags.map((item, index) => {
-            return <p key={index} className="text-[rgba(0,0,0,0.5)] hover:text-blue-400 cursor-pointer">{`${item}`}</p>;
+            return <Text key={index}>{`${item}`}</Text>;
           })}
-      </div>
+      </Group>
       {/* post image */}
-      <div className="h-[300px] overflow-hidden">
+      <Box h={300}>
         <Image
-          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${editData.coverImage}`}
+          src={
+            editData.coverImage && editData.coverImage.includes("https")
+              ? editData.coverImage
+              : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${editData.coverImage}`
+          }
           alt=""
           width={1000}
           height={1000}
           className="w-full h-full object-cover object-center"
         />
-      </div>
-      <div className="px-2 flex justify-around">
-        <Button variant="text" fullWidth startIcon={<ThumbUpAltOutlined sx={{ color: "rgba(0,0,0,0.6)" }} />}>
+      </Box>
+      <Group justify="space-between" p={"sm"}>
+        <Button variant="default" leftSection={<ThumbUpAltOutlined sx={{ color: "var(--mantine-color-text)" }} />}>
           2 upvote
         </Button>
         <Button
-          variant="text"
-          fullWidth
-          startIcon={<ChatBubbleOutlineOutlinedIcon sx={{ color: "rgba(0,0,0,0.6)" }} />}
+          variant="default"
+          leftSection={<ChatBubbleOutlineOutlinedIcon sx={{ color: "var(--mantine-color-text)" }} />}
         >
           4 Comment
         </Button>
-      </div>
+      </Group>
       <CommentContainer />
-    </div>
+    </Stack>
   );
 };
 

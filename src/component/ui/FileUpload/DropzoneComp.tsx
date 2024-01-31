@@ -35,7 +35,12 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   const getImages = () => {
     if (image) {
       return (
-        <Image alt="" width={200} height={200} src={`${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${image}`} />
+        <Image
+          alt=""
+          width={200}
+          height={200}
+          src={image && image.includes("https") ? image : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${image}`}
+        />
       );
     } else {
       return <div></div>;

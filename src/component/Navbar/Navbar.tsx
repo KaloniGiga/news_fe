@@ -7,7 +7,7 @@ import MuiAvatar from "../Avatar/MuiAvatar";
 
 const Navbar = () => {
   return (
-    <div className="w-full h-[10vh] overflow-hidden bg-white border-b-[1px] border-[rgba(0,0,0,0.2)]">
+    <div className="w-full fixed top-0 left-0 h-[10vh] overflow-hidden bg-white border-b-[1px] border-[rgba(0,0,0,0.2)]">
       <div className="w-[80%] mx-auto h-full flex justify-between py-2">
         <div className="w-[20%] h-[10vh]">
           <Image
