@@ -1,13 +1,14 @@
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
+import { Avatar, Stack } from "@mantine/core";
 
 const CommentContainer = () => {
   return (
-    <div className="w-full px-2 py-2 flex flex-col">
+    <Stack gap={"xs"} px={"md"} my={"sm"}>
       <div className="w-full flex gap-x-2">
         <div>
-          <MuiAvatar src="/profileuser.jpg" />
+          <Avatar size={28} src="/profileuser.jpg" />
         </div>
-        <div className="flex flex-col gap-y-2 px-4 py-4 rounded-md bg-mantineBody">
+        <div className="flex flex-col gap-y-2 px-4 py-4 rounded-lg bg-mantineBody">
           <h2 className="flex gap-x-2 items-center">
             <span className="font-semibold">Brain G.</span>
             <span className="font-regular text-sm">4 hours ago</span>
@@ -20,10 +21,10 @@ const CommentContainer = () => {
           <h6 className="text-md font-semibold cursor-pointer text-sm">See more</h6>
         </div>
       </div>
-      <div className="w-full my-2 ml-[10%]">
+      <div className="w-full my-2 ml-[6%]">
         <h3 className="font-semibold text-sm cursor-pointer">See All Comment</h3>
       </div>
-    </div>
+    </Stack>
   );
 };
 

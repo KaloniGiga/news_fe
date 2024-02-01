@@ -15,6 +15,7 @@ import { useLogoutMutation } from "@/redux/auth/auth.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { resetAuthUser } from "@/redux/auth/auth.slice";
 import { selectUser } from "@/redux/auth/auth.selector";
+import { FaRegSave } from "react-icons/fa";
 
 interface INewsCardOption {
   editData: GetPostData;
@@ -28,7 +29,7 @@ const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
     <>
       <Menu withinPortal={false}>
         <Menu.Target>
-          <ActionIcon size={"lg"} variant="light">
+          <ActionIcon size={"lg"} variant="subtle" color="gray">
             <MoreVertIcon />
           </ActionIcon>
         </Menu.Target>
@@ -42,7 +43,7 @@ const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
               <Menu.Item leftSection={<DeleteIcon fontSize="small" />}>Delete</Menu.Item>
             </>
           )}
-          <Menu.Item leftSection={<HideSourceIcon fontSize="small" />}>Hide</Menu.Item>
+          <Menu.Item leftSection={<FaRegSave size={20} />}>Save</Menu.Item>
         </Menu.Dropdown>
       </Menu>
       <PostNewsModel editData={editData} isEdit={true} open={open} close={close} opened={opened} />

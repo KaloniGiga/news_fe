@@ -23,35 +23,42 @@ import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import Link from "next/link";
+import { IoCreateOutline } from "react-icons/io5";
+import { RiShareBoxLine } from "react-icons/ri";
 
 const data = [
+  // {
+  //   label: "Discover",
+  //   items: [
+  //     { title: "My Feed", link: "/", icon: DynamicFeedIcon },
+  //     { title: "Post", link: "/post", icon: PostAddRounded },
+  //     { title: "Best discussions", link: "", icon: TagOutlined },
+  //     { title: "Most upvoted", link: "", icon: ArrowUpwardSharp },
+  //   ],
+  // },
   {
-    label: "Home",
+    label: "",
     items: [
-      { title: "My Feed", link: "/", icon: DynamicFeedIcon },
-      { title: "Post", link: "/post", icon: PostAddRounded },
+      { title: "Submit news", link: "", icon: RiShareBoxLine },
+      { title: "Create post", link: "", icon: IoCreateOutline },
     ],
   },
   {
-    label: "Discover",
+    label: "Category",
     items: [
-      { title: "Popular", link: "", icon: PersonOffOutlined },
-      { title: "Most upvoted", link: "", icon: ArrowUpwardSharp },
-      { title: "Best discussions", link: "", icon: TagOutlined },
-    ],
-  },
-  {
-    label: "Contribute",
-    items: [
-      { title: "Submit news", link: "", icon: PostAddOutlined },
-      { title: "Create post", link: "", icon: PostAddSharp },
-    ],
-  },
-  {
-    label: "Manage",
-    items: [
-      { title: "Bookmarks", link: "", icon: Bookmark },
-      { title: "Reading History", link: "", icon: History },
+      { title: "Politics", link: "", icon: "" },
+      { title: "Business", link: "", icon: "" },
+      { title: "Entertainment", link: "", icon: "" },
+      { title: "Finance", link: "", icon: "" },
+      { title: "Opinion", link: "", icon: "" },
+      { title: "Geopolitics", link: "", icon: "" },
+      { title: "Conflict", link: "", icon: "" },
+      { title: "Sports", link: "", icon: "" },
+      { title: "International", link: "", icon: "" },
+      { title: "Science & Tech", link: "", icon: "" },
+      { title: "Weather", link: "", icon: "" },
+      { title: "Health", link: "", icon: "" },
+      { title: "Share Market", link: "", icon: "" },
     ],
   },
 ];
@@ -62,14 +69,14 @@ const Sidebar = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const links = data.map((val, index) => (
-    <Stack key={index}>
-      <Text>{val.label}</Text>
+    <Stack pb={"sm"} key={index}>
+      <Text size="sm">{val.label ? val.label : ""}</Text>
       {val.items.map((item, index) => {
         return (
           <Link key={index} href={item.link}>
-            <Group>
-              <item.icon fontSize="small" />
-              <Text>{item.title}</Text>
+            <Group className={`${item.icon ? "" : "pl-8"} hover:bg-[var(--mantine-color-body)]`}>
+              {item.icon && <item.icon size={22} />}
+              <Text className={`${item.icon ? "" : "pl-8"} inline-block`}>{item.title}</Text>
             </Group>
           </Link>
         );
@@ -77,7 +84,7 @@ const Sidebar = () => {
     </Stack>
   ));
 
-  return <div className="px-4 flex flex-col text-mantineText">{links}</div>;
+  return <div className="px-4 py-4 flex flex-col text-mantineText">{links}</div>;
 };
 
 export default Sidebar;

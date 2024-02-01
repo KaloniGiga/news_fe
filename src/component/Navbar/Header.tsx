@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import AuthButtonContainer from "./AuthButtonContainer";
 import NotificationIcon from "./NotificationIcon";
 import DarkLightMode from "../DarkLightMode/DarkLightMode";
+import Bookmark from "./Bookmark/Bookmark";
 
 const Header = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const Header = () => {
         <NotificationIcon />
         <AuthButtonContainer />
         <DarkLightMode />
+        <Bookmark />
       </Group>
     </Box>
   );

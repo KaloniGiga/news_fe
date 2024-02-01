@@ -10,35 +10,50 @@ import CommentContainer from "./Comment/CommentContainer";
 import { IUser } from "@/redux/auth/type";
 import { GetPostData } from "@/redux/post/type";
 import Link from "next/link";
-import { Box, Button, Group, Stack, Text } from "@mantine/core";
+import { ActionIcon, Avatar, Box, Button, Card, Flex, Group, Stack, Text, useMantineTheme } from "@mantine/core";
+import { IoChatboxOutline } from "react-icons/io5";
 
 interface INewsCard {
   editData: GetPostData;
 }
 
 const NewsCard: FunctionComponent<INewsCard> = ({ editData }) => {
+  const theme = useMantineTheme();
+
   return (
-    <Stack className="bg-[var(--mantine-color-body)] rounded-xl py-2">
+    <Card withBorder radius="md">
       {/* post user */}
-      <NewsCardDescription editData={editData} />
+      <Card.Section>
+        <NewsCardDescription editData={editData} />
+      </Card.Section>
+
       {/* post description */}
-      <Link className="px-4 pt-2" target="blank" href={editData.links}>
-        <Box>
-          <Text fw={700} size="xl" component="h1">
-            {editData.title}
-          </Text>
-          {/* <h4 className="text-[16px] font-regular line-clamp-2">{description}</h4> */}
-        </Box>
-      </Link>
-      <Group px={"lg"}>
-        {editData.tags &&
-          editData.tags.length > 0 &&
-          editData.tags.map((item, index) => {
-            return <Text key={index}>{`${item}`}</Text>;
-          })}
-      </Group>
+      <Stack px={"md"} gap={"sm"} my={"md"}>
+        <Link target="blank" href={editData.links}>
+          <Box>
+            <Text fw={700} size="xl" component="h1">
+              {editData.title}
+            </Text>
+            {/* <form className="mt-2">
+              <div
+                className="text-[16px] font-regular line-clamp-2"
+                dangerouslySetInnerHTML={{ __html: editData.description }}
+              />
+            </form> */}
+          </Box>
+        </Link>
+
+        <Group>
+          {editData.tags &&
+            editData.tags.length > 0 &&
+            editData.tags.map((item, index) => {
+              return <Text key={index}>{`${item}`}</Text>;
+            })}
+        </Group>
+      </Stack>
+
       {/* post image */}
-      <Box h={300}>
+      {/* <Box h={300}>
         <Image
           src={
             editData.coverImage && editData.coverImage.includes("https")
@@ -50,20 +65,34 @@ const NewsCard: FunctionComponent<INewsCard> = ({ editData }) => {
           height={1000}
           className="w-full h-full object-cover object-center"
         />
-      </Box>
-      <Group justify="space-between" p={"sm"}>
-        <Button variant="default" leftSection={<ThumbUpAltOutlined sx={{ color: "var(--mantine-color-text)" }} />}>
-          2 upvote
-        </Button>
-        <Button
-          variant="default"
-          leftSection={<ChatBubbleOutlineOutlinedIcon sx={{ color: "var(--mantine-color-text)" }} />}
-        >
-          4 Comment
-        </Button>
-      </Group>
+      </Box> */}
+
+      <Flex justify={"space-between"} px={"md"} my={"sm"}>
+        <Group justify="space-between">
+          <Avatar.Group>
+            <Avatar src="/profileuser1.jpg" />
+            <Avatar src="/profileuser.jpg" />
+            <Avatar src="/profileuser1.jpg" />
+            <Avatar>+5</Avatar>
+          </Avatar.Group>
+          <Text fz={"md"} c={"dimmed"}>
+            745 people upvoted
+          </Text>
+        </Group>
+
+        <Group>
+          <ActionIcon variant="subtle" color="gray">
+            <IoChatboxOutline size={28} />
+          </ActionIcon>
+
+          <Text fz={"md"} c={"dimmed"}>
+            40 Comments
+          </Text>
+        </Group>
+      </Flex>
+
       <CommentContainer />
-    </Stack>
+    </Card>
   );
 };
 

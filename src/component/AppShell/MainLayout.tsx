@@ -1,9 +1,10 @@
 "use client";
-import { AppShell } from "@mantine/core";
+import { AppShell, ScrollArea } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FunctionComponent, ReactNode } from "react";
 import Header from "../Navbar/Header";
 import Sidebar from "../Sidebar/Sidebar";
+import NavTabs from "../NavTabs/NavTabs";
 
 interface IMainLayout {
   children: ReactNode;
@@ -21,9 +22,14 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
         <Header />
       </AppShell.Header>
       <AppShell.Navbar>
-        <Sidebar />
+        <AppShell.Section grow component={ScrollArea}>
+          <Sidebar />
+        </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main>
+        <NavTabs />
+        {children}
+      </AppShell.Main>
     </AppShell>
   );
 };
