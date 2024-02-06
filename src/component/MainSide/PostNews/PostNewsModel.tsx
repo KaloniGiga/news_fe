@@ -1,6 +1,6 @@
 import { Modal, Button } from "@mantine/core";
-import { FunctionComponent } from "react";
-import PostNewsForm from "./PostNewsForm";
+import { FunctionComponent, SetStateAction } from "react";
+import PostNewsFormContainer from "./PostNewsFormContainer";
 
 interface IPostNewsModel {
   opened: boolean;
@@ -8,21 +8,37 @@ interface IPostNewsModel {
   open: () => void;
   isEdit: boolean;
   editData?: any;
+  createPost?: boolean;
+  setCreatePost: React.Dispatch<SetStateAction<boolean>>;
 }
-const PostNewsModel: FunctionComponent<IPostNewsModel> = ({ opened, open, close, isEdit, editData }) => {
+const PostNewsModel: FunctionComponent<IPostNewsModel> = ({
+  setCreatePost,
+  createPost = false,
+  opened,
+  open,
+  close,
+  isEdit,
+  editData,
+}) => {
   return (
     <Modal
       opened={opened}
       onClose={close}
       size={"lg"}
-      title="Create post"
+      title={`${createPost ? "Create Post" : "Share News"}`}
       overlayProps={{
         backgroundOpacity: 0.55,
       }}
       zIndex={9999}
       centered
+      styles={{ root: { color: "var(--mantine-color-text)" } }}
     >
-      <PostNewsForm isEdit={isEdit} editData={editData} />
+      <PostNewsFormContainer
+        setCreatePost={setCreatePost}
+        createPost={createPost}
+        isEdit={isEdit}
+        editData={editData}
+      />
     </Modal>
   );
 };

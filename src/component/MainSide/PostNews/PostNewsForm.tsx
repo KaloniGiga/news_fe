@@ -15,10 +15,11 @@ import { PostData } from "@/redux/post/type";
 interface IPostNewsForm {
   isEdit: boolean;
   editData: any;
+  createPost: boolean;
 }
 
 const tagsData = ["React", "Svelte", "Angular", "Vue", "java"];
-const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) => {
+const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, createPost }) => {
   const [addPost, { isLoading: postLoading, data: postData }] = useAddPostMutation();
   const [putPost, { isLoading: editLoading, data: editPostData }] = usePutPostMutation();
 
@@ -75,22 +76,25 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) =>
 
   return (
     <div className="w-full h-full">
-      <PostNewsUserInfo />
       <form onSubmit={form.onSubmit(handleFormSubmit)}>
         <div className="w-full flex flex-col gap-y-4 mt-4 px-2">
-          <TextInput
-            styles={{ input: { border: "none" } }}
-            required
-            multiple={true}
-            placeholder="Share your link."
-            size="md"
-            value={form.values.links}
-            onChange={event => form.setFieldValue("links", event.currentTarget.value)}
-            error={form.errors.links && "links must be seperated by comma"}
-          />
-          <div>
-            <LinkPreview url={form.values.links} />
-          </div>
+          {!createPost && (
+            <>
+              <TextInput
+                styles={{ input: { border: "none" } }}
+                required
+                multiple={true}
+                placeholder="Share your link."
+                size="md"
+                value={form.values.links}
+                onChange={event => form.setFieldValue("links", event.currentTarget.value)}
+                error={form.errors.links && "links must be seperated by comma"}
+              />
+              <div>
+                <LinkPreview url={form.values.links} />
+              </div>
+            </>
+          )}
 
           <TextInput
             styles={{ input: { border: "none" } }}
@@ -125,7 +129,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData }) =>
             error={form.errors.description && "Invalid description"}
           /> */}
 
-          {showEditor ? (
+          {createPost && showEditor ? (
             <NewEditor
               placeholder="Write description"
               onChange={val => form.setFieldValue("description", val)}

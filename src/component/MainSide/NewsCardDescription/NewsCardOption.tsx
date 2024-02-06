@@ -4,7 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HideSourceIcon from "@mui/icons-material/HideSource";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import EditNews from "../EditNews/EditNews";
 import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
 import { ActionIcon, Menu } from "@mantine/core";
@@ -22,6 +22,7 @@ interface INewsCardOption {
 }
 
 const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
+  const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const user = useAppSelector(selectUser);
 
@@ -46,7 +47,15 @@ const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
           <Menu.Item leftSection={<FaRegSave size={20} />}>Save</Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <PostNewsModel editData={editData} isEdit={true} open={open} close={close} opened={opened} />
+      <PostNewsModel
+        createPost={createPost}
+        setCreatePost={setCreatePost}
+        editData={editData}
+        isEdit={true}
+        open={open}
+        close={close}
+        opened={opened}
+      />
     </>
   );
 };

@@ -55,7 +55,7 @@ const FeedContainer = () => {
       <CircularProgress />
     </Box>
   ) : data && data.data ? (
-    <Grid p={"md"} gutter={"md"}>
+    <Grid p={"md"} pl={"5%"} gutter={"md"}>
       {data.data.map((item, index: number) => {
         return (
           <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>

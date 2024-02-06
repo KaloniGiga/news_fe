@@ -1,12 +1,8 @@
 "use client";
-import LeftSide from "@/component/LeftSide/LeftSide";
-import MainSide from "@/component/MainSide/MainSide";
-import Header from "@/component/Navbar/Header";
-import Navbar from "@/component/Navbar/Navbar";
-import Sidebar from "@/component/Sidebar/Sidebar";
+import FeedContainer from "@/component/FeedContainer/FeedContainer";
 
 const HomePage = () => {
-  return <MainSide />;
+  return <FeedContainer />;
 };
 
 export default HomePage;

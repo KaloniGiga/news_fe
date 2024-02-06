@@ -16,7 +16,7 @@ const NavTabs = () => {
     <Tabs
       defaultValue={"/"}
       styles={{ panel: { border: "none" }, tab: { fontSize: "16px", padding: "10px 30px" } }}
-      className="text-mantineText my-4 ml-2"
+      className="text-mantineText mt-6"
       onChange={value => router.push(`${value}`)}
     >
       <Tabs.List className="before:hidden">

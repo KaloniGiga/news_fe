@@ -90,7 +90,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
           <ActionIcon
             variant="subtle"
             color="gray"
-            styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--maintine-color-dark-6))" } }}
+            styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))" } }}
           >
             <VscComment size={22} color={theme.colors.yellow[7]} />
           </ActionIcon>

@@ -25,26 +25,12 @@ import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import Link from "next/link";
 import { IoCreateOutline } from "react-icons/io5";
 import { RiShareBoxLine } from "react-icons/ri";
+import { BiCategory } from "react-icons/bi";
 
 const data = [
-  // {
-  //   label: "Discover",
-  //   items: [
-  //     { title: "My Feed", link: "/", icon: DynamicFeedIcon },
-  //     { title: "Post", link: "/post", icon: PostAddRounded },
-  //     { title: "Best discussions", link: "", icon: TagOutlined },
-  //     { title: "Most upvoted", link: "", icon: ArrowUpwardSharp },
-  //   ],
-  // },
-  {
-    label: "",
-    items: [
-      { title: "Submit news", link: "", icon: RiShareBoxLine },
-      { title: "Create post", link: "", icon: IoCreateOutline },
-    ],
-  },
   {
     label: "Category",
+    icon: BiCategory,
     items: [
       { title: "Politics", link: "", icon: "" },
       { title: "Business", link: "", icon: "" },
@@ -70,12 +56,16 @@ const Sidebar = () => {
 
   const links = data.map((val, index) => (
     <Stack pb={"sm"} key={index}>
-      <Text size="sm">{val.label ? val.label : ""}</Text>
+      <Group>
+        <Text size="md">{val.label ? val.label : ""}</Text>
+        {/* <val.icon size={30} /> */}
+      </Group>
       {val.items.map((item, index) => {
         return (
           <Link key={index} href={item.link}>
-            <Group className={`${item.icon ? "" : "pl-8"} hover:bg-[var(--mantine-color-body)]`}>
-              {item.icon && <item.icon size={22} />}
+            <Group
+              className={`${item.icon ? "" : "pl-8"} hover:bg-[light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6))]`}
+            >
               <Text className={`${item.icon ? "" : "pl-8"} inline-block`}>{item.title}</Text>
             </Group>
           </Link>

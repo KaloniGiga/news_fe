@@ -1,8 +1,7 @@
-import FeedContainer from "@/component/FeedContainer/FeedContainer";
-import { Box } from "@mantine/core";
+import MainSide from "@/component/MainSide/MainSide";
 
 const PostPage = () => {
-  return <FeedContainer />;
+  return <MainSide />;
 };
 
 export default PostPage;

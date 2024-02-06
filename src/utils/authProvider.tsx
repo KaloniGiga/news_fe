@@ -10,9 +10,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
   const { data: userData, error } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
   useEffect(() => {
-    if (error) {
-      dispatch(resetAuthUser());
-    }
+    // if (error) {
+    //   dispatch(resetAuthUser());
+    // }
     if (userData && userData.data) {
       dispatch(setAuthUser(userData.data));
     }

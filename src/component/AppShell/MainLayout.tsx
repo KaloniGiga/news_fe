@@ -5,12 +5,16 @@ import { FunctionComponent, ReactNode } from "react";
 import Header from "../Navbar/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import NavTabs from "../NavTabs/NavTabs";
+import MainDescription from "../MainSide/MainDescription";
+import { useAppSelector } from "@/redux/hooks";
+import { selectUser } from "@/redux/auth/auth.selector";
 
 interface IMainLayout {
   children: ReactNode;
 }
 const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
   const [opened, { toggle }] = useDisclosure();
+  const user = useAppSelector(selectUser);
 
   return (
     <AppShell
@@ -27,7 +31,8 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <NavTabs />
+        {user && <MainDescription user={user} />}
+        {/* <NavTabs /> */}
         {children}
       </AppShell.Main>
     </AppShell>

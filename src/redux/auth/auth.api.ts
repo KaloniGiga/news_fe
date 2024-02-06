@@ -17,6 +17,12 @@ export const authApi = baseApi.injectEndpoints({
         body: userDetails,
       }),
     }),
+    googleAuth: builder.query<any, void>({
+      query: () => ({
+        url: "v1/auth/google",
+        method: "GET",
+      }),
+    }),
     logout: builder.mutation<LoginResponse, void>({
       query: () => ({
         url: "v1/auth/logout",
@@ -32,4 +38,10 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useReadLoginMutation, useCreateUserMutation, useLogoutMutation, useGetUserQuery } = authApi;
+export const {
+  useReadLoginMutation,
+  useCreateUserMutation,
+  useLogoutMutation,
+  useGetUserQuery,
+  useLazyGoogleAuthQuery,
+} = authApi;
