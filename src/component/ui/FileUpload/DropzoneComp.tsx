@@ -4,6 +4,7 @@ import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
+import React from "react";
 
 interface IDropzone {
   onChange: (value: any) => void;
@@ -56,7 +57,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   return (
     <div className="pb-2">
       <Dropzone onDrop={onDrop} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE}>
-        <Group justify="center" gap={"xl"} style={{ pointerEvents: "none" }}>
+        <Group justify="center" gap={"md"} style={{ pointerEvents: "none" }}>
           <Dropzone.Accept>
             <IconUpload style={{ width: rem(52), height: rem(52), color: "#1C7ED6" }} stroke={1.5} />
           </Dropzone.Accept>
@@ -71,7 +72,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
             <Text size="xl" inline>
               Drag images here or click to select files
             </Text>
-            <Text size="sm" c="dimmed" inline mt={7}>
+            <Text size="sm" c="dimmed" inline mt={4}>
               Attach as many files as you like, each file should not exceed 5mb
             </Text>
           </div>

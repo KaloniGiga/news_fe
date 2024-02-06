@@ -3,6 +3,7 @@ import Header from "@/component/Navbar/Header";
 import Sidebar from "@/component/Sidebar/Sidebar";
 import AuthProvider from "@/utils/authProvider";
 import { AppShell } from "@mantine/core";
+import React from "react";
 import { ReactNode } from "react";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {

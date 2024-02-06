@@ -25,7 +25,7 @@ const CategoryContainer = () => {
     "researcher",
   ];
   return (
-    <Card pt={"xl"} px={"lg"} radius={"md"} className="mt-8">
+    <Card withBorder pt={"xl"} px={"lg"} radius={"md"} className="mt-8">
       <Chip.Group multiple value={choosenCategory} onChange={setChoosenCategory}>
         <SimpleGrid verticalSpacing={"lg"} spacing={"lg"} cols={{ base: 2, md: 4 }}>
           {categoryData &&

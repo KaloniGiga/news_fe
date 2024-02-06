@@ -8,7 +8,7 @@ const ChooseCategory = () => {
       <Title order={2} size={"h1"}>
         What are you interested in?
       </Title>
-      <Text my={"lg"} size="lg">
+      <Text my={"md"} size="lg">
         Choose three or more
       </Text>
       <CategoryContainer />
