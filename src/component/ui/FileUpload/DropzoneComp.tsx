@@ -35,7 +35,12 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   const getImages = () => {
     if (image) {
       return (
-        <Image alt="" width={200} height={200} src={`${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${image}`} />
+        <Image
+          alt=""
+          width={200}
+          height={200}
+          src={image && image.includes("https") ? image : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${image}`}
+        />
       );
     } else {
       return <div></div>;
@@ -51,7 +56,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   return (
     <div className="pb-2">
       <Dropzone onDrop={onDrop} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE}>
-        <Group justify="center" gap={"xl"} mih={200} style={{ pointerEvents: "none" }}>
+        <Group justify="center" gap={"xl"} style={{ pointerEvents: "none" }}>
           <Dropzone.Accept>
             <IconUpload style={{ width: rem(52), height: rem(52), color: "#1C7ED6" }} stroke={1.5} />
           </Dropzone.Accept>

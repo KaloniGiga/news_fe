@@ -1,9 +1,10 @@
 import AuthForm from "@/component/Account/AuthForm";
+import UserLoginForm from "@/component/Account/UserAuthenticationForm";
 
 const AuthPage = () => {
   return (
-    <div className="w-full min-h-screen pt-8 pb-16 overflow-x-hidden overflow-y-auto bg-[#f5f5f5]">
-      <AuthForm />
+    <div className="w-full min-h-screen text-[var(--mantine-color-text)]">
+      <UserLoginForm />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { Button, ButtonProps } from "@mantine/core";
+import Link from "next/link";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -30,5 +31,16 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 }
 
 export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef<"button">) {
-  return <Button leftSection={<GoogleIcon />} variant="default" {...props} />;
+  return (
+    <Button
+      component={Link}
+      href={`${process.env.NEXT_PUBLIC_SERVER_URL}/v1/auth/google`}
+      leftSection={<GoogleIcon />}
+      variant="default"
+      // onClick={e => e.preventDefault()}
+      radius={"xl"}
+    >
+      Continue with Google
+    </Button>
+  );
 }

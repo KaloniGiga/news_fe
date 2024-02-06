@@ -4,6 +4,7 @@ import {
   Anchor,
   Box,
   Button,
+  Card,
   Checkbox,
   Divider,
   Group,
@@ -33,7 +34,7 @@ import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 
 const UserLoginForm = () => {
-  const [type, toggle] = useToggle(["Login", "Sign up"]);
+  const [type, toggle] = useToggle(["Sign up", "Login"]);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [readLogin, { isLoading: loginLoading, data: readLoginData }] = useReadLoginMutation();
@@ -70,7 +71,6 @@ const UserLoginForm = () => {
   }, [createUserData, readLoginData, dispatch, router]);
 
   const handleFormSubmit: SubmitHandler<UserData> = values => {
-    console.log(values);
     if (type == "Login") {
       readLogin(values);
     } else {
@@ -79,96 +79,94 @@ const UserLoginForm = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center">
+    <div className="w-full h-screen flex items-center overflow-hidden">
       <div className="w-[60%] h-full bg-[url('/loginnews1.jpg')] bg-cover bg-center"></div>
-      <div className="w-[40%]">
-        <Paper h="100%" w="100%" p="xl">
-          <Title order={2} ta="center" mt="md" mb="md">
-            Welcome back to News Portal!
-          </Title>
-          <form onSubmit={form.onSubmit(handleFormSubmit)}>
-            <Stack>
-              {type === "Sign up" && (
-                <TextInput
-                  required
-                  label="Username"
-                  placeholder="Your username"
-                  size="md"
-                  value={form.values.username}
-                  onChange={event => form.setFieldValue("username", event.currentTarget.value)}
-                  error={form.errors.email && "Invalid username"}
-                  leftSection={<PersonOutlineIcon />}
-                />
-              )}
-
+      <Card className="w-[40%]" p="xl">
+        <Title order={2} ta="center" mt="md" mb="md">
+          Welcome back to News Portal!
+        </Title>
+        <form onSubmit={form.onSubmit(handleFormSubmit)}>
+          <Stack>
+            {type === "Sign up" && (
               <TextInput
                 required
-                label="Email"
+                label="Username"
+                placeholder="Your username"
                 size="md"
-                placeholder="hello@gmail.com"
-                value={form.values.email}
-                onChange={event => form.setFieldValue("email", event.currentTarget.value)}
-                error={form.errors.email && "Invalid email"}
-                leftSection={<MailOutlineIcon />}
+                value={form.values.username}
+                onChange={event => form.setFieldValue("username", event.currentTarget.value)}
+                error={form.errors.email && "Invalid username"}
+                leftSection={<PersonOutlineIcon />}
               />
-
-              <PasswordInput
-                required
-                label="Password"
-                placeholder="Your password"
-                size="md"
-                value={form.values.password}
-                onChange={event => form.setFieldValue("password", event.currentTarget.value)}
-                error={form.errors.password && "Password should include at least 6 characters"}
-                leftSection={<LockOpenIcon />}
-              />
-
-              {type === "Sign up" && (
-                <Checkbox
-                  label="I accept terms and conditions"
-                  checked={form.values.terms}
-                  onChange={event => form.setFieldValue("terms", event.currentTarget.checked)}
-                />
-              )}
-            </Stack>
-
-            {type == "Login" && (
-              <Group justify="space-between" mt="lg">
-                <Checkbox
-                  onChange={event => form.setFieldValue("keepLoggedIn", event.currentTarget.checked)}
-                  checked={form.values.keepLoggedIn}
-                  label="Keep me logged in"
-                />
-                <Anchor component="button" size="sm">
-                  Forgot password?
-                </Anchor>
-              </Group>
             )}
 
-            <Stack mt="xl" align="flex-start">
-              <Anchor
-                fs={"xl"}
-                component="button"
-                type="button"
-                c="dimmed"
-                onClick={() => router.push("/auth")}
-                size="xs"
-              >
-                {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
-              </Anchor>
-              <Button loading={loginLoading || createUserLoading} fullWidth type="submit" radius="sm">
-                {upperFirst(type)}
-              </Button>
-            </Stack>
-          </form>
+            <TextInput
+              required
+              label="Email"
+              size="md"
+              placeholder="hello@gmail.com"
+              value={form.values.email}
+              onChange={event => form.setFieldValue("email", event.currentTarget.value)}
+              error={form.errors.email && "Invalid email"}
+              leftSection={<MailOutlineIcon />}
+            />
 
-          <Divider label="Or continue with email" labelPosition="center" my="lg" />
-          <Group grow mb={"md"} mt="md">
-            <GoogleButton radius={"xl"}> Continue with Google</GoogleButton>
-            <FacebookButton radius={"xl"}>Continue with Facebook</FacebookButton>
-          </Group>
-        </Paper>
-      </div>
+            <PasswordInput
+              required
+              label="Password"
+              placeholder="Your password"
+              size="md"
+              value={form.values.password}
+              onChange={event => form.setFieldValue("password", event.currentTarget.value)}
+              error={form.errors.password && "Password should include at least 6 characters"}
+              leftSection={<LockOpenIcon />}
+            />
+
+            {type === "Sign up" && (
+              <Checkbox
+                label="I accept terms and conditions"
+                checked={form.values.terms}
+                onChange={event => form.setFieldValue("terms", event.currentTarget.checked)}
+              />
+            )}
+          </Stack>
+
+          {type == "Login" && (
+            <Group justify="space-between" mt="lg">
+              <Checkbox
+                onChange={event => form.setFieldValue("keepLoggedIn", event.currentTarget.checked)}
+                checked={form.values.keepLoggedIn}
+                label="Keep me logged in"
+              />
+              <Anchor component="button" size="sm">
+                Forgot password?
+              </Anchor>
+            </Group>
+          )}
+
+          <Stack mt="xl" align="flex-start">
+            <Anchor
+              fs={"xl"}
+              component="button"
+              type="button"
+              c="dimmed"
+              onClick={() => router.push("/login")}
+              size="xs"
+            >
+              {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
+            </Anchor>
+            <Button loading={loginLoading || createUserLoading} fullWidth type="submit" radius="sm">
+              {upperFirst(type)}
+            </Button>
+          </Stack>
+        </form>
+
+        <Divider label="Or continue with email" labelPosition="center" my="lg" />
+        <Group grow mb={"md"} mt="md">
+          <GoogleButton radius={"xl"}> Continue with Google</GoogleButton>
+          <FacebookButton radius={"xl"}>Continue with Facebook</FacebookButton>
+        </Group>
+      </Card>
     </div>
   );
 };

@@ -14,6 +14,8 @@ const config = {
     },
     extend: {
       colors: {
+        mantineText: "var(--mantine-color-text)",
+        mantineBody: "var(--mantine-color-body)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

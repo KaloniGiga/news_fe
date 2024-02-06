@@ -4,24 +4,28 @@ import { IconButton } from "@mui/material";
 import NewsCardOption from "./NewsCardOption";
 import { FunctionComponent } from "react";
 import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
+import { Flex, Group, Stack, Text } from "@mantine/core";
 
 interface INewsCardDesc {
   editData: GetPostData;
 }
 const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => {
+  console.log(editData);
   return (
-    <div className="w-full flex justify-between px-2">
-      <div className="w-full flex gap-x-2 items-center">
-        <div className="">
+    <Flex justify={"space-between"} p={"md"}>
+      <Group>
+        <div>
           <MuiAvatar src="/profileuser.jpg" />
         </div>
-        <div>
-          <h3 className="font-medium">{editData.user.username}</h3>
-          <h6 className="text-[13px] font-regular">Jan 24( 1 day ago)</h6>
-        </div>
-      </div>
+        <Stack gap={0}>
+          <Text fz={"md"}>{editData.user?.username}</Text>
+          <Text fz={"sm"} c={"dimmed"}>
+            posted 3 months ago
+          </Text>
+        </Stack>
+      </Group>
       <NewsCardOption editData={editData} />
-    </div>
+    </Flex>
   );
 };
 

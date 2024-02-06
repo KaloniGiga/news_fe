@@ -1,13 +1,11 @@
 "use client";
-import Image from "next/image";
-import MainTabs from "./MainTabs";
-import { Avatar, CircularProgress } from "@mui/material";
-import MainDescription from "./MainDescription";
-import NewsContainer from "./NewsContainer";
-import { useGetPostQuery } from "@/redux/post/post.api";
-import { Box, Center, Text } from "@mantine/core";
 
-const MainSide = () => {
+import { useGetPostQuery } from "@/redux/post/post.api";
+import { CircularProgress } from "@mui/material";
+import FeedPost from "../MainSide/FeedPost/FeedPost";
+import { Box, Grid, Text } from "@mantine/core";
+
+const FeedContainer = () => {
   const { data, isLoading } = useGetPostQuery(undefined, { refetchOnMountOrArgChange: true });
   const newsData = [
     {
@@ -18,6 +16,7 @@ const MainSide = () => {
       coverImage: "/profileuser.jpg",
       upvote: 200,
       comments: 12,
+      links: "",
     },
     {
       title: "How to do Open Source Contribution?",
@@ -27,6 +26,7 @@ const MainSide = () => {
       coverImage: "/profileuser1.jpg",
       upvote: 120,
       comments: 20,
+      links: "",
     },
     {
       title: "What is a Vector Database?",
@@ -36,6 +36,7 @@ const MainSide = () => {
       coverImage: "/loginnews1.jpg",
       upvote: 12,
       comments: 50,
+      links: "",
     },
     {
       title: "JWT vs Session Authentication",
@@ -45,22 +46,29 @@ const MainSide = () => {
       coverImage: "/loginnewspaper.jpg",
       upvote: 198,
       comments: 4,
+      links: "",
     },
   ];
 
   return isLoading ? (
-    <Center>
+    <Box>
       <CircularProgress />
-    </Center>
-  ) : data && data.data ? (
-    <Box component="div" className="w-full h-full text-mantineText">
-      <NewsContainer news={data.data} />
     </Box>
+  ) : data && data.data ? (
+    <Grid p={"md"} pl={"5%"} gutter={"md"}>
+      {data.data.map((item, index: number) => {
+        return (
+          <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
+            <FeedPost feedData={item} />
+          </Grid.Col>
+        );
+      })}
+    </Grid>
   ) : (
-    <Center>
+    <Box>
       <Text>No Data Found</Text>
-    </Center>
+    </Box>
   );
 };
 
-export default MainSide;
+export default FeedContainer;

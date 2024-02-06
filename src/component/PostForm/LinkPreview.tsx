@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material";
 import Image from "next/image";
 import { BeatLoader } from "react-spinners";
 import { FunctionComponent, useEffect, useState } from "react";
+import { Card, Group } from "@mantine/core";
 
 interface ILinkPreview {
   url: string;
@@ -29,31 +30,30 @@ const LinkPreview: FunctionComponent<ILinkPreview> = ({ url }) => {
   };
 
   return url && isLoading ? (
-    <div className="p-4 w-full flex justify-center items-center">
+    <div className="px-4 w-full flex justify-center items-center">
       <BeatLoader size={12} color="#36d7b7" />
     </div>
   ) : url ? (
     linkPreviewData ? (
-      <div
-        onClick={handleClick}
-        className="w-full flex border-[1px] border-[rgba(0,0,0,0.1)] mt-2 rounded-xl cursor-pointer bg-[#fff5f5]"
-      >
-        <div className="w-[70%] p-2">
-          <h3 className="text-[20px] font-semibold">{linkPreviewData?.title}</h3>
-          <p className="text-[16px] font-regular mb-2">{linkPreviewData?.description}</p>
-        </div>
-        <div className="w-[25%] flex justify-center items-center">
-          {linkPreviewData?.image && (
-            <img
-              width={1000}
-              height={1000}
-              src={linkPreviewData?.image}
-              alt="Link Preview"
-              className="w-full h-full object-cover object-center"
-            />
-          )}
-        </div>
-      </div>
+      <Card withBorder onClick={handleClick} className="w-full flex">
+        <Group justify="space-between">
+          <div className="w-[70%] p-2">
+            <h3 className="text-[20px] font-semibold">{linkPreviewData?.title}</h3>
+            <p className="text-[16px] font-regular mb-2">{linkPreviewData?.description}</p>
+          </div>
+          <div className="w-[25%] flex justify-center items-center">
+            {linkPreviewData?.image && (
+              <img
+                width={1000}
+                height={1000}
+                src={linkPreviewData?.image}
+                alt="Link Preview"
+                className="w-full h-full object-cover object-center"
+              />
+            )}
+          </div>
+        </Group>
+      </Card>
     ) : (
       <div>{/* <BeatLoader size={12} color="#36d7b7" /> */}</div>
     )
