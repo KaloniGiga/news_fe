@@ -10,7 +10,8 @@ import DropzoneComp from "@/component/ui/FileUpload/DropzoneComp";
 import NewEditor from "@/component/MyEditor/NewEditor";
 import LinkPreview from "@/component/PostForm/LinkPreview";
 import { useAddPostMutation, usePutPostMutation } from "@/redux/post/post.api";
-import { PostData } from "@/redux/post/type";
+import { PostData, PostTypeEnum } from "@/redux/post/type";
+import { useGetCategoryQuery } from "../../../redux/category/category.api";
 
 interface IPostNewsForm {
   isEdit: boolean;
@@ -18,10 +19,23 @@ interface IPostNewsForm {
   createPost: boolean;
 }
 
-const tagsData = ["React", "Svelte", "Angular", "Vue", "java"];
+const tagsData = [
+  "React",
+  "Svelte",
+  "Angular",
+  "Vue",
+  "java",
+  "politics",
+  "entertainment",
+  "journalism",
+  "geopolitics",
+  "category",
+  "sports",
+];
 const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, createPost }) => {
   const [addPost, { isLoading: postLoading, data: postData }] = useAddPostMutation();
   const [putPost, { isLoading: editLoading, data: editPostData }] = usePutPostMutation();
+  const { data: categoryData } = useGetCategoryQuery();
 
   const [showEditor, setShowEditor] = useState(false);
   const form = useForm<PostData>({
@@ -29,6 +43,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, crea
       links: "",
       title: "",
       tags: [],
+      category: [],
       description: "",
       coverImage: "",
     },
@@ -47,6 +62,12 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, crea
     formData.append("description", value.description);
     formData.append("links", value.links);
     formData.append("tags", JSON.stringify(value.tags));
+    formData.append("category", JSON.stringify(value.category));
+    if (createPost) {
+      formData.append("type", PostTypeEnum.CREATEPOST);
+    } else {
+      formData.append("type", PostTypeEnum.SHARELINK);
+    }
 
     if (isEdit) {
       putPost(formData);
@@ -57,12 +78,14 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, crea
 
   useEffect(() => {
     if (isEdit && editData) {
-      console.log(editData);
       form.setFieldValue("title", editData.title);
       form.setFieldValue("description", editData.description);
       form.setFieldValue("links", editData.links);
       if (editData.tags && editData?.tags?.length > 0) {
         form.setFieldValue("tags", editData.tags);
+      }
+      if (editData.category && editData?.category?.length > 0) {
+        form.setFieldValue("category", editData.category);
       }
       form.setFieldValue("coverImage", editData.coverImage);
     }
@@ -77,7 +100,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, crea
   return (
     <div className="w-full h-full">
       <form onSubmit={form.onSubmit(handleFormSubmit)}>
-        <div className="w-full flex flex-col gap-y-4 mt-4 px-2">
+        <div className="w-full flex flex-col gap-y-4 mt-4 px-2 relative">
           {!createPost && (
             <>
               <TextInput
@@ -113,9 +136,24 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, crea
             size="md"
             placeholder="Add up to 4 tags"
             maxTags={4}
-            maxDropdownHeight={300}
+            // maxDropdownHeight={500}
+            withScrollArea={true}
             onChange={value => form.setFieldValue("tags", value)}
             value={form.values.tags}
+            comboboxProps={{ withinPortal: false }}
+          />
+
+          <TagsInput
+            styles={{ input: { border: "none" } }}
+            required
+            data={categoryData ? categoryData.data.map(item => item.title) : []}
+            size="md"
+            placeholder="Add Category"
+            maxTags={1}
+            // maxDropdownHeight={300}
+            onChange={value => form.setFieldValue("category", value)}
+            value={form.values.category}
+            comboboxProps={{ withinPortal: false }}
           />
 
           {/* <Textarea

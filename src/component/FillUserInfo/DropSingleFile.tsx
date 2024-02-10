@@ -1,4 +1,4 @@
-import { Button, Group, SimpleGrid, Text, rem, useMantineTheme } from "@mantine/core";
+import { Box, Button, Group, SimpleGrid, Text, rem, useMantineTheme } from "@mantine/core";
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconDownload, IconX, IconCloudUpload } from "@tabler/icons-react";
 import Image from "next/image";
@@ -15,12 +15,14 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
   const openRef = useRef<() => void>(null);
 
   const onDrop = (files: FileWithPath[]) => {
+    console.log(files);
     onChange(files[0]);
     setFile(files[0]);
   };
 
   const previews = () => {
     if (file) {
+      console.log("file");
       const imageUrl = URL.createObjectURL(file);
       return <Image alt="" width={200} height={200} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
     } else {
@@ -29,7 +31,7 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
   };
   return (
     <div className="relative mb-2">
-      <Dropzone openRef={openRef} onDrop={() => {}} radius={"md"} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE}>
+      <Dropzone openRef={openRef} onDrop={onDrop} radius={"md"} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE}>
         <Group justify="center">
           <Dropzone.Accept>
             <IconDownload style={{ width: rem(30), height: rem(30) }} color={theme.colors.blue[6]} stroke={1.5} />
@@ -44,21 +46,21 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
 
         <Text ta="center" fw={700} fz="lg" mt="xl">
           <Dropzone.Accept>Drop files here</Dropzone.Accept>
-          <Dropzone.Reject>Pdf file less than 30mb</Dropzone.Reject>
+          <Dropzone.Reject>Image file less than 10mb</Dropzone.Reject>
           <Dropzone.Idle>Upload Avatar</Dropzone.Idle>
         </Text>
         <Text ta="center" fz="sm" mt="xs" mb="lg" c="dimmed">
-          Drag&apos;n&apos;drop files here to upload. We can accept only <i>.pdf</i> files that are less than 30mb in
-          size.
+          Drag&apos;n&apos;drop files here to upload. We can accept only <i>.png, .jpg, .webp, .avif</i> files that are
+          less than 10mb in size.
         </Text>
       </Dropzone>
 
-      <Button className="absolute left-[40%] bottom-5" size="md" radius="xl" onClick={() => openRef.current?.()}>
+      {/* <Button className="absolute left-[40%] bottom-5" size="md" radius="xl" onClick={() => openRef.current?.()}>
         Select files
-      </Button>
-      <SimpleGrid cols={{ base: 1, sm: 1 }} mt={previews.length > 0 ? "xl" : 0}>
-        {file && previews()}
-      </SimpleGrid>
+      </Button> */}
+      <Group component="div" w={"100%"} justify="center" mt={previews.length > 0 ? "xl" : 0}>
+        {previews()}
+      </Group>
     </div>
   );
 };

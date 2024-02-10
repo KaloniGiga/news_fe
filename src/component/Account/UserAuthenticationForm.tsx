@@ -65,7 +65,7 @@ const UserLoginForm = () => {
         notifications.show({
           message: "Login success! 🤥",
         });
-        router.replace("/");
+        router.replace("/choose-category");
       }
     }
   }, [createUserData, readLoginData, dispatch, router]);

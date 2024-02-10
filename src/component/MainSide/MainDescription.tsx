@@ -16,6 +16,11 @@ const MainDescription: FunctionComponent<IMainDescription> = ({ user }) => {
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
+  const setOpen = (createPost: boolean) => {
+    setCreatePost(createPost);
+    open();
+  };
+
   return (
     <Card withBorder radius={"md"} className="w-[80%] ml-[5%] my-8">
       <Flex justify={"space-between"}>
@@ -28,10 +33,10 @@ const MainDescription: FunctionComponent<IMainDescription> = ({ user }) => {
         </Group>
 
         <Group>
-          <Button variant="default" leftSection={<FaRegShareSquare />} onClick={open}>
+          <Button variant="default" leftSection={<FaRegShareSquare />} onClick={() => setOpen(false)}>
             Share News
           </Button>
-          <Button leftSection={<IoCreateOutline />} onClick={open}>
+          <Button leftSection={<IoCreateOutline />} onClick={() => setOpen(true)}>
             Create Post
           </Button>
           <PostNewsModel

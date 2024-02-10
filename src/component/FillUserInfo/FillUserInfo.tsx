@@ -1,11 +1,17 @@
 "use client";
 import { Button, Card, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
+import React, { useEffect } from "react";
 import DropSingleFile from "./DropSingleFile";
 import { SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useGetUserQuery } from "@/redux/auth/auth.api";
 
 const FillUserInfo = () => {
+  const router = useRouter();
+
+  const { data: userData, error } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+
   const form = useForm({
     initialValues: {
       file: "",
@@ -19,21 +25,35 @@ const FillUserInfo = () => {
   });
 
   const handleFormSubmit: SubmitHandler<any> = values => {
-    console.log(values);
+    const formData = new FormData();
+    formData.append("file", values.file);
+    formData.append("fullname", values.fullname);
+    formData.append("username", values.username);
+    formData.append("email", values.email);
+
+    router.push("/choose-category");
   };
 
-  return (
-    <div className="w-[40%] py-16 flex flex-col justify-center items-center gap-y-4">
-      <Title order={2}>Complete profile for full expeience.</Title>
-      <Text size="sm">Finish creating your account.</Text>
+  useEffect(() => {
+    if (userData && userData.data) {
+      form.setFieldValue("username", userData.data.username);
+      form.setFieldValue("email", userData.data.email);
+    }
+  }, [userData, form]);
 
-      <Card radius={"md"} p={"md"} className="w-full">
+  return (
+    <div className="w-[40%] py-16 flex flex-col justify-center items-center gap-y-8">
+      <Title order={3}>Complete profile for full expeience.</Title>
+      {/* <Text size="sm">Finish creating your account.</Text> */}
+
+      <Card withBorder radius={"md"} p={"lg"} className="w-full">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
             <TextInput
+              styles={{ input: { border: "none" } }}
               required
-              label="Full name"
-              placeholder="Your fullname"
+              // label="Full name"
+              placeholder="Your full name"
               size="md"
               value={form.values.fullname}
               onChange={event => form.setFieldValue("fullname", event.currentTarget.value)}
@@ -41,8 +61,9 @@ const FillUserInfo = () => {
             />
 
             <TextInput
+              styles={{ input: { border: "none" } }}
               required
-              label="Username"
+              // label="Username"
               placeholder="Your username"
               size="md"
               value={form.values.username}
@@ -51,21 +72,20 @@ const FillUserInfo = () => {
             />
 
             <TextInput
+              styles={{ input: { border: "none" } }}
               required
-              label="Email"
+              // label="Email"
               placeholder="Your email"
               size="md"
+              disabled
               value={form.values.email}
               onChange={event => form.setFieldValue("email", event.currentTarget.value)}
               error={form.errors.email && "Invalid email"}
             />
 
-            <DropSingleFile
-              value={form.values.file}
-              onChange={event => form.setFieldValue("file", event.currentTarget.value)}
-            />
+            <DropSingleFile value={form.values.file} onChange={value => form.setFieldValue("file", value)} />
 
-            <Button>Save</Button>
+            <Button type="submit">Save</Button>
           </Stack>
         </form>
       </Card>

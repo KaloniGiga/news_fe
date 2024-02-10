@@ -13,6 +13,7 @@ import { FunctionComponent, useEffect } from "react";
 import DropzoneComponent from "../ui/FileUpload/MyDropzone";
 import { useAddPostMutation, usePutPostMutation } from "@/redux/post/post.api";
 import DropzoneComp from "../ui/FileUpload/DropzoneComp";
+import React from "react";
 
 interface IPostForm {
   handleClose: () => void;
@@ -29,6 +30,7 @@ const PostForm: FunctionComponent<IPostForm> = ({ isEdit, handleClose, editData 
     coverImage: z.any().optional(),
     links: z.string().optional(),
     tags: z.any().optional(),
+    category: z.any().optional(),
   });
 
   type postType = z.infer<typeof postSchema>;
@@ -46,6 +48,7 @@ const PostForm: FunctionComponent<IPostForm> = ({ isEdit, handleClose, editData 
       coverImage: "",
       links: "",
       tags: [],
+      category: [],
     },
   });
 
@@ -57,6 +60,7 @@ const PostForm: FunctionComponent<IPostForm> = ({ isEdit, handleClose, editData 
     formData.append("description", value.description as string);
     formData.append("links", value.links as string);
     formData.append("tags", JSON.stringify(value.tags));
+    formData.append("category", JSON.stringify(value.category));
     if (isEdit) {
       putPost({ postDetails: formData, id: editData.id });
     } else {
@@ -72,6 +76,10 @@ const PostForm: FunctionComponent<IPostForm> = ({ isEdit, handleClose, editData 
       setValue(
         "tags",
         editData.tags.map((tag: any) => JSON.parse(tag))
+      );
+      setValue(
+        "category",
+        editData.category.map((category: any) => JSON.parse(category))
       );
       setValue("coverImage", editData.coverImage);
     }
@@ -121,6 +129,9 @@ const PostForm: FunctionComponent<IPostForm> = ({ isEdit, handleClose, editData 
 
             <div className="mb-8 openSans px-4">
               <TagsInput control={control} name="tags" />
+            </div>
+            <div className="mb-8 openSans px-4">
+              <TagsInput control={control} name="Category" />
             </div>
 
             <div className="my-4">

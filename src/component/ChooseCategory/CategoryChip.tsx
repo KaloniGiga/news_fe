@@ -5,11 +5,12 @@ import { GoPlus } from "react-icons/go";
 
 interface ICategoryChip {
   title: string;
+  id: number;
 }
-const CategoryChip: FunctionComponent<ICategoryChip> = ({ title }) => {
+const CategoryChip: FunctionComponent<ICategoryChip> = ({ id, title }) => {
   return (
     <Tooltip label={title} refProp="rootRef">
-      <Chip value={title}>
+      <Chip value={`${id}`}>
         <Group gap={"sm"}>
           <Text>{title}</Text>
           <GoPlus />

@@ -7,11 +7,12 @@ import { ChevronRight, LogoutOutlined, PostAddOutlined, Settings, VerifiedUserOu
 import PostNewsModel from "@/component/MainSide/PostNews/PostNewsModel";
 import { useDisclosure } from "@mantine/hooks";
 import { useLogoutMutation } from "@/redux/auth/auth.api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { resetAuthUser } from "@/redux/auth/auth.slice";
 
 const HeaderAuthUserInfo = () => {
   const dispatch = useAppDispatch();
+  const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const user = useAppSelector(selectUser);
 
@@ -19,6 +20,11 @@ const HeaderAuthUserInfo = () => {
 
   const handleLogoutClick = () => {
     logout();
+  };
+
+  const setOpen = (createPost: boolean) => {
+    setCreatePost(createPost);
+    open();
   };
 
   useEffect(() => {
@@ -49,7 +55,7 @@ const HeaderAuthUserInfo = () => {
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item leftSection={<VerifiedUserOutlined />}>Profile</Menu.Item>
-          <Menu.Item onClick={open} leftSection={<PostAddOutlined />}>
+          <Menu.Item onClick={() => setOpen(true)} leftSection={<PostAddOutlined />}>
             Create Post
           </Menu.Item>
           <Menu.Item leftSection={<Settings />}>Settings</Menu.Item>
@@ -58,7 +64,14 @@ const HeaderAuthUserInfo = () => {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <PostNewsModel isEdit={false} open={open} close={close} opened={opened} />
+      <PostNewsModel
+        createPost={createPost}
+        setCreatePost={setCreatePost}
+        isEdit={false}
+        open={open}
+        close={close}
+        opened={opened}
+      />
     </>
   );
 };

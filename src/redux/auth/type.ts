@@ -1,3 +1,5 @@
+import { CategoryData } from "../category/type";
+
 export interface UserData {
   id?: number;
   email: string;
@@ -9,8 +11,10 @@ export interface UserData {
 
 export interface IUser {
   id: number;
+  fullname: string;
   username: string;
   email: string;
+  categories: CategoryData[];
 }
 
 export interface LoginResponse {

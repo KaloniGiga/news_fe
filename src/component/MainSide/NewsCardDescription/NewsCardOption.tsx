@@ -26,6 +26,11 @@ const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const user = useAppSelector(selectUser);
 
+  const setOpen = (createPost: boolean) => {
+    setCreatePost(createPost);
+    open();
+  };
+
   return (
     <>
       <Menu withinPortal={false}>
@@ -38,7 +43,7 @@ const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
         <Menu.Dropdown>
           {user && editData.user && user.id == editData.user?.id && (
             <>
-              <Menu.Item onClick={open} leftSection={<Edit />}>
+              <Menu.Item onClick={() => setOpen(true)} leftSection={<Edit />}>
                 <EditNews editData={editData} />
               </Menu.Item>
               <Menu.Item leftSection={<DeleteIcon fontSize="small" />}>Delete</Menu.Item>
