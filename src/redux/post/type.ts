@@ -6,12 +6,22 @@ export type TagType = {
   year: number;
 };
 
+export enum PostTypeEnum {
+  CREATEPOST = "createPost",
+  SHARELINK = "shareLink",
+}
+
+export interface Category {
+  id: number;
+  title: string;
+}
 export interface PostData {
   id?: number;
   title: string;
   links: string;
   description: string;
   tags: string[];
+  category: string[];
   coverImage: any;
 }
 
@@ -26,8 +36,12 @@ export interface GetPostData {
   links: string;
   description: string;
   tags: string[];
+  categories: Category[];
   coverImage: any;
   user: IUser;
+  type: PostTypeEnum;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface LinkPreviewData {

@@ -32,6 +32,7 @@ import { notifications } from "@mantine/notifications";
 import { SubmitHandler } from "react-hook-form";
 import { UserData } from "@/redux/auth/type";
 import { useCreateUserMutation, useLazyGoogleAuthQuery, useReadLoginMutation } from "@/redux/auth/auth.api";
+import React from "react";
 
 const AuthForm = () => {
   const [type, toggle] = useToggle(["Login", "Sign up"]);
@@ -63,7 +64,12 @@ const AuthForm = () => {
         notifications.show({
           message: "Login success! 🤥",
         });
-        router.replace("/");
+
+        if (readLoginData.data && readLoginData.data.categories && readLoginData.data.categories.length > 0) {
+          router.replace("/");
+        } else {
+          router.replace("/choose-category");
+        }
       }
     }
   }, [readLoginData, dispatch, router]);

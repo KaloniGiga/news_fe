@@ -1,12 +1,48 @@
 "use client";
 
-import { useGetPostQuery } from "@/redux/post/post.api";
+import { useGetAuthUserShareLinkQuery, useGetPostQuery, useGetShareLinkQuery } from "@/redux/post/post.api";
 import { CircularProgress } from "@mui/material";
 import FeedPost from "../MainSide/FeedPost/FeedPost";
-import { Box, Grid, Text } from "@mantine/core";
+import { Box, Center, Grid, Text } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { selectUser } from "@/redux/auth/auth.selector";
 
 const FeedContainer = () => {
-  const { data, isLoading } = useGetPostQuery(undefined, { refetchOnMountOrArgChange: true });
+  const [shareLinkSkip, setShareLinkSkip] = useState(true);
+  const [authShareLinkSkip, setAuthShareLinkSkip] = useState(true);
+  const [data, setData] = useState<any>(null);
+
+  const user = useAppSelector(selectUser);
+  const { data: shareLinkData, isLoading: shareLinkIsLoading } = useGetShareLinkQuery(undefined, {
+    skip: shareLinkSkip,
+    refetchOnMountOrArgChange: true,
+  });
+  const { data: authShareLinkData, isLoading: authShareLinkIsLoading } = useGetAuthUserShareLinkQuery(undefined, {
+    skip: authShareLinkSkip,
+    refetchOnMountOrArgChange: true,
+  });
+
+  useEffect(() => {
+    if (user) {
+      setAuthShareLinkSkip(false);
+      setShareLinkSkip(true);
+    } else {
+      setAuthShareLinkSkip(true);
+      setShareLinkSkip(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (shareLinkData) {
+      setData(shareLinkData.data);
+    }
+
+    if (authShareLinkData) {
+      setData(authShareLinkData.data);
+    }
+  }, [shareLinkData, authShareLinkData]);
+
   const newsData = [
     {
       title: "State of Gaming Industry",
@@ -50,13 +86,13 @@ const FeedContainer = () => {
     },
   ];
 
-  return isLoading ? (
-    <Box>
+  return authShareLinkIsLoading || shareLinkIsLoading ? (
+    <Center className="text-mantineText">
       <CircularProgress />
-    </Box>
-  ) : data && data.data ? (
+    </Center>
+  ) : data && data.length > 0 ? (
     <Grid p={"md"} pl={"5%"} gutter={"md"}>
-      {data.data.map((item, index: number) => {
+      {data.map((item: any, index: number) => {
         return (
           <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
             <FeedPost feedData={item} />
@@ -65,9 +101,9 @@ const FeedContainer = () => {
       })}
     </Grid>
   ) : (
-    <Box>
+    <Center className="text-mantineText">
       <Text>No Data Found</Text>
-    </Box>
+    </Center>
   );
 };
 

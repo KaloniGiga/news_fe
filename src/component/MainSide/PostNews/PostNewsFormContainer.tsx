@@ -9,6 +9,7 @@ interface IPostNewsContainer {
   editData: any;
   createPost: boolean;
   setCreatePost: React.Dispatch<SetStateAction<boolean>>;
+  close: () => void;
 }
 
 const PostNewsFormContainer: FunctionComponent<IPostNewsContainer> = ({
@@ -16,6 +17,7 @@ const PostNewsFormContainer: FunctionComponent<IPostNewsContainer> = ({
   createPost,
   isEdit,
   editData,
+  close,
 }) => {
   return (
     <Flex direction={"column"} justify={"space-between"}>
@@ -35,7 +37,7 @@ const PostNewsFormContainer: FunctionComponent<IPostNewsContainer> = ({
           {/* </Tabs.Panel> */}
         </Tabs>
       </Group>
-      <PostNewsForm createPost={createPost} isEdit={isEdit} editData={editData} />
+      <PostNewsForm close={close} createPost={createPost} isEdit={isEdit} editData={editData} />
     </Flex>
   );
 };

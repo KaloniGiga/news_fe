@@ -26,55 +26,55 @@ import Link from "next/link";
 import { IoCreateOutline } from "react-icons/io5";
 import { RiShareBoxLine } from "react-icons/ri";
 import { BiCategory } from "react-icons/bi";
+import { useGetCategoryQuery } from "../../redux/category/category.api";
+import React from "react";
 
-const data = [
-  {
-    label: "Category",
-    icon: BiCategory,
-    items: [
-      { title: "Politics", link: "", icon: "" },
-      { title: "Business", link: "", icon: "" },
-      { title: "Entertainment", link: "", icon: "" },
-      { title: "Finance", link: "", icon: "" },
-      { title: "Opinion", link: "", icon: "" },
-      { title: "Geopolitics", link: "", icon: "" },
-      { title: "Conflict", link: "", icon: "" },
-      { title: "Sports", link: "", icon: "" },
-      { title: "International", link: "", icon: "" },
-      { title: "Science & Tech", link: "", icon: "" },
-      { title: "Weather", link: "", icon: "" },
-      { title: "Health", link: "", icon: "" },
-      { title: "Share Market", link: "", icon: "" },
-    ],
-  },
-];
+// const data = [
+//   {
+//     label: "Category",
+//     icon: BiCategory,
+//     items: [
+//       { title: "Politics", link: "", icon: "" },
+//       { title: "Business", link: "", icon: "" },
+//       { title: "Entertainment", link: "", icon: "" },
+//       { title: "Finance", link: "", icon: "" },
+//       { title: "Opinion", link: "", icon: "" },
+//       { title: "Geopolitics", link: "", icon: "" },
+//       { title: "Conflict", link: "", icon: "" },
+//       { title: "Sports", link: "", icon: "" },
+//       { title: "International", link: "", icon: "" },
+//       { title: "Science & Tech", link: "", icon: "" },
+//       { title: "Weather", link: "", icon: "" },
+//       { title: "Health", link: "", icon: "" },
+//       { title: "Share Market", link: "", icon: "" },
+//     ],
+//   },
+// ];
 
 const Sidebar = () => {
+  const { data, isLoading, error } = useGetCategoryQuery();
   const isAuthenticated = useAppSelector(selectAuthenticated);
   const [active, setActive] = useState<string>("My Feed");
   const [opened, { open, close }] = useDisclosure(false);
 
-  const links = data.map((val, index) => (
-    <Stack pb={"sm"} key={index}>
+  const links = () => (
+    <Stack pb={"sm"}>
       <Group>
-        <Text size="md">{val.label ? val.label : ""}</Text>
-        {/* <val.icon size={30} /> */}
+        <Text size="md">{"Category"}</Text>
       </Group>
-      {val.items.map((item, index) => {
+      {data?.data?.map((item, index) => {
         return (
-          <Link key={index} href={item.link}>
-            <Group
-              className={`${item.icon ? "" : "pl-8"} hover:bg-[light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6))]`}
-            >
-              <Text className={`${item.icon ? "" : "pl-8"} inline-block`}>{item.title}</Text>
+          <Link key={index} href={`/?category=${item.title}`}>
+            <Group className={`pl-8 hover:bg-[light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6))]`}>
+              <Text className={`pl-8 inline-block`}>{item.title}</Text>
             </Group>
           </Link>
         );
       })}
     </Stack>
-  ));
+  );
 
-  return <div className="px-4 py-4 flex flex-col text-mantineText">{links}</div>;
+  return data && <div className="px-4 py-4 flex flex-col text-mantineText">{links()}</div>;
 };
 
 export default Sidebar;

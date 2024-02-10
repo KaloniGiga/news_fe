@@ -29,19 +29,19 @@ const NewsCard: FunctionComponent<INewsCard> = ({ editData }) => {
 
       {/* post description */}
       <Stack px={"md"} gap={"sm"} my={"md"}>
-        <Link target="blank" href={editData.links}>
-          <Box>
-            <Text fw={700} size="xl" component="h1">
-              {editData.title}
-            </Text>
-            {/* <form className="mt-2">
+        {/* <Link target="blank" href={editData.links && editData.links}> */}
+        <Box>
+          <Text fw={700} size="xl" component="h1">
+            {editData.title}
+          </Text>
+          {/* <form className="mt-2">
               <div
                 className="text-[16px] font-regular line-clamp-2"
                 dangerouslySetInnerHTML={{ __html: editData.description }}
               />
             </form> */}
-          </Box>
-        </Link>
+        </Box>
+        {/* </Link> */}
 
         <Group>
           {editData.tags &&
@@ -76,7 +76,7 @@ const NewsCard: FunctionComponent<INewsCard> = ({ editData }) => {
             <Avatar>+5</Avatar>
           </Avatar.Group>
           <Text fz={"md"} c={"dimmed"}>
-            745 people upvoted
+            0 people upvoted
           </Text>
         </Group>
 
@@ -91,7 +91,7 @@ const NewsCard: FunctionComponent<INewsCard> = ({ editData }) => {
         </Group>
       </Flex>
 
-      <CommentContainer />
+      {/* <CommentContainer /> */}
     </Card>
   );
 };

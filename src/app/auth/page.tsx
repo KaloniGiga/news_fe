@@ -1,5 +1,5 @@
-import AuthForm from "@/component/Account/AuthForm";
 import UserLoginForm from "@/component/Account/UserAuthenticationForm";
+import React from "react";
 
 const AuthPage = () => {
   return (

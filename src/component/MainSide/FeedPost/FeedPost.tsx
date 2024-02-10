@@ -26,6 +26,8 @@ import { PiShareFatLight } from "react-icons/pi";
 import { CiHeart } from "react-icons/ci";
 import { VscComment } from "react-icons/vsc";
 import { BsShare } from "react-icons/bs";
+import moment from "moment";
+import NewsCardOption from "../NewsCardDescription/NewsCardOption";
 
 interface IFeedCard {
   feedData: GetPostData;
@@ -34,7 +36,7 @@ interface IFeedCard {
 const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
   const theme = useMantineTheme();
   return (
-    <Card withBorder radius={"md"} className="">
+    <Card withBorder radius={"md"} className="h-full">
       {/* post description */}
 
       {/* post image */}
@@ -53,30 +55,32 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
         </a>
       </Card.Section>
 
-      <Badge
-        className={"absolute top-2 right-2 pointer-events-none"}
-        variant="gradient"
-        gradient={{ from: "yellow", to: "red" }}
-      >
-        outstanding
-      </Badge>
+      {feedData && feedData.categories && feedData.categories.length > 0 && (
+        <Badge
+          className={"absolute top-2 right-2 pointer-events-none"}
+          variant="gradient"
+          gradient={{ from: "yellow", to: "red" }}
+        >
+          {feedData.categories[0].title}
+        </Badge>
+      )}
 
       <Text mt={"xs"} fw={700} fz={"lg"}>
-        Top 50 underrated plants for house decoration
+        {feedData && feedData.title}
       </Text>
       <Text fz="xs" c="dimmed" mt={"sm"}>
-        posted 34 minutes ago
+        {moment(feedData.createdAt, "YYYYMMDD").fromNow()}
       </Text>
       <Group mt={"lg"}>
         <Avatar src="/profileUser1.jpg" size={24} radius="xl" />
         <Text fz="sm" inline className="">
-          Dipak Kalauni
+          {feedData && feedData.user.username}
         </Text>
       </Group>
 
       <Group className="p-2 mt-4 bg-[var(--maintine-color-body)]" justify="space-between">
         <Text fz="sm" c="dimmed">
-          125 upvotes
+          0 upvotes
         </Text>
 
         <Group gap={8} mr={0}>
@@ -101,6 +105,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
           >
             <BsShare size={20} color={theme.colors.blue[6]} />
           </ActionIcon>
+          <NewsCardOption isCreatePost={false} editData={feedData} />
         </Group>
       </Group>
     </Card>

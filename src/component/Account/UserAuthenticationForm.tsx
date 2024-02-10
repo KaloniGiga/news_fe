@@ -57,7 +57,11 @@ const UserLoginForm = () => {
   useEffect(() => {
     if (createUserData) {
       dispatch(setAuthUser(createUserData.data));
-      router.replace("/");
+      if (createUserData.data && createUserData.data.categories && createUserData.data.categories.length > 0) {
+        router.replace("/");
+      } else {
+        router.replace("/choose-category");
+      }
     } else if (readLoginData) {
       form.reset();
       if (readLoginData.data) {
@@ -65,7 +69,11 @@ const UserLoginForm = () => {
         notifications.show({
           message: "Login success! 🤥",
         });
-        router.replace("/");
+        if (readLoginData.data && readLoginData.data.categories && readLoginData.data.categories.length > 0) {
+          router.replace("/");
+        } else {
+          router.replace("/choose-category");
+        }
       }
     }
   }, [createUserData, readLoginData, dispatch, router]);

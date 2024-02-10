@@ -4,11 +4,47 @@ import MainTabs from "./MainTabs";
 import { Avatar, CircularProgress } from "@mui/material";
 import MainDescription from "./MainDescription";
 import NewsContainer from "./NewsContainer";
-import { useGetPostQuery } from "@/redux/post/post.api";
+import { useGetAuthUserCreatePostQuery, useGetCreatePostQuery, useGetPostQuery } from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
+import { useAppSelector } from "@/redux/hooks";
+import { selectUser } from "@/redux/auth/auth.selector";
+import { useEffect, useState } from "react";
 
 const MainSide = () => {
-  const { data, isLoading } = useGetPostQuery(undefined, { refetchOnMountOrArgChange: true });
+  const [createPostSkip, setCreatePostSkip] = useState(true);
+  const [authCreatePostSkip, setAuthCreatePostSkip] = useState(true);
+  const [data, setData] = useState<any>(null);
+
+  const user = useAppSelector(selectUser);
+  const { data: postData, isLoading: postIsLoading } = useGetCreatePostQuery(undefined, {
+    skip: createPostSkip,
+    refetchOnMountOrArgChange: true,
+  });
+  const { data: authPostData, isLoading: authPostIsLoading } = useGetAuthUserCreatePostQuery(undefined, {
+    skip: authCreatePostSkip,
+    refetchOnMountOrArgChange: true,
+  });
+
+  useEffect(() => {
+    if (user) {
+      setAuthCreatePostSkip(false);
+      setCreatePostSkip(true);
+    } else {
+      setAuthCreatePostSkip(true);
+      setCreatePostSkip(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (postData) {
+      setData(postData.data);
+    }
+
+    if (authPostData) {
+      setData(authPostData.data);
+    }
+  }, [postData, authPostData]);
+
   const newsData = [
     {
       title: "State of Gaming Industry",
@@ -48,16 +84,16 @@ const MainSide = () => {
     },
   ];
 
-  return isLoading ? (
-    <Center>
+  return postIsLoading || authPostIsLoading ? (
+    <Center className="text-mantineText">
       <CircularProgress />
     </Center>
-  ) : data && data.data ? (
+  ) : data && data.length > 0 ? (
     <Box component="div" className="w-full h-full text-mantineText">
-      <NewsContainer news={data.data} />
+      <NewsContainer news={data} />
     </Box>
   ) : (
-    <Center>
+    <Center className="text-mantineText">
       <Text>No Data Found</Text>
     </Center>
   );

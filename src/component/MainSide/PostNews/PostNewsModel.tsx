@@ -30,7 +30,7 @@ const PostNewsModel: FunctionComponent<IPostNewsModel> = ({
         backgroundOpacity: 0.55,
       }}
       zIndex={9999}
-      centered
+      // centered
       styles={{ root: { color: "var(--mantine-color-text)" } }}
     >
       <PostNewsFormContainer
@@ -38,6 +38,7 @@ const PostNewsModel: FunctionComponent<IPostNewsModel> = ({
         createPost={createPost}
         isEdit={isEdit}
         editData={editData}
+        close={close}
       />
     </Modal>
   );

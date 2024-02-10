@@ -5,12 +5,11 @@ import NewsCardOption from "./NewsCardOption";
 import { FunctionComponent } from "react";
 import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
 import { Flex, Group, Stack, Text } from "@mantine/core";
-
+import moment from "moment";
 interface INewsCardDesc {
   editData: GetPostData;
 }
 const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => {
-  console.log(editData);
   return (
     <Flex justify={"space-between"} p={"md"}>
       <Group>
@@ -20,11 +19,11 @@ const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => 
         <Stack gap={0}>
           <Text fz={"md"}>{editData.user?.username}</Text>
           <Text fz={"sm"} c={"dimmed"}>
-            posted 3 months ago
+            {moment(editData.createdAt, "YYYYMMDD").fromNow()}
           </Text>
         </Stack>
       </Group>
-      <NewsCardOption editData={editData} />
+      <NewsCardOption isCreatePost={true} editData={editData} />
     </Flex>
   );
 };
