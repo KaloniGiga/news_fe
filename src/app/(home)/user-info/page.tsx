@@ -1,5 +1,5 @@
 import React from "react";
-import FillUserInfo from "../../component/FillUserInfo/FillUserInfo";
+import FillUserInfo from "../../../component/FillUserInfo/FillUserInfo";
 
 const UserInfoPage = () => {
   return (

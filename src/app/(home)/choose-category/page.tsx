@@ -1,5 +1,5 @@
 import React from "react";
-import ChooseCategory from "../../component/ChooseCategory/ChooseCategory";
+import ChooseCategory from "../../../component/ChooseCategory/ChooseCategory";
 
 const ChooseCategoryPage = () => {
   return (
