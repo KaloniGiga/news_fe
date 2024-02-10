@@ -38,6 +38,7 @@ const PostNewsModel: FunctionComponent<IPostNewsModel> = ({
         createPost={createPost}
         isEdit={isEdit}
         editData={editData}
+        close={close}
       />
     </Modal>
   );

@@ -5,16 +5,16 @@ import { FaRegNewspaper } from "react-icons/fa";
 import { FaFireAlt } from "react-icons/fa";
 import { GoCommentDiscussion } from "react-icons/go";
 import { ArrowUpwardOutlined, DynamicFeedOutlined, PostAddTwoTone, TagOutlined } from "@mui/icons-material";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { GoHome } from "react-icons/go";
 
 const NavTabs = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const theme = useMantineTheme();
-
   return (
     <Tabs
-      defaultValue={"/"}
+      defaultValue={pathname}
       styles={{ panel: { border: "none" }, tab: { fontSize: "16px", padding: "10px 30px" } }}
       className="text-mantineText mt-6"
       onChange={value => router.push(`${value}`)}

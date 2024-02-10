@@ -57,8 +57,6 @@ const Sidebar = () => {
   const [active, setActive] = useState<string>("My Feed");
   const [opened, { open, close }] = useDisclosure(false);
 
-  console.log(data);
-
   const links = () => (
     <Stack pb={"sm"}>
       <Group>

@@ -46,7 +46,6 @@ const CategoryContainer = () => {
   }, [categoryPreferenceData]);
 
   useEffect(() => {
-    console.log(user);
     if (user && user.categories && user.categories.length > 0) {
       const categories = user.categories.map(item => `${item.id}`);
       setChoosenCategory(categories);

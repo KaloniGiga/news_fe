@@ -6,11 +6,13 @@ import DropSingleFile from "./DropSingleFile";
 import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
+import { useAppSelector } from "@/redux/hooks";
+import { selectUser } from "@/redux/auth/auth.selector";
 
 const FillUserInfo = () => {
   const router = useRouter();
-
-  const { data: userData, error } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+  const user = useAppSelector(selectUser);
+  // const { data: userData, error } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
 
   const form = useForm({
     initialValues: {
@@ -35,11 +37,11 @@ const FillUserInfo = () => {
   };
 
   useEffect(() => {
-    if (userData && userData.data) {
-      form.setFieldValue("username", userData.data.username);
-      form.setFieldValue("email", userData.data.email);
+    if (user) {
+      form.setFieldValue("username", user.username);
+      form.setFieldValue("email", user.email);
     }
-  }, [userData, form]);
+  }, [user, form]);
 
   return (
     <div className="w-[40%] py-16 flex flex-col justify-center items-center gap-y-8">

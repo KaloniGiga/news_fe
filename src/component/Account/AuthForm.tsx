@@ -64,7 +64,12 @@ const AuthForm = () => {
         notifications.show({
           message: "Login success! 🤥",
         });
-        router.replace("/");
+
+        if (readLoginData.data && readLoginData.data.categories && readLoginData.data.categories.length > 0) {
+          router.replace("/");
+        } else {
+          router.replace("/choose-category");
+        }
       }
     }
   }, [readLoginData, dispatch, router]);

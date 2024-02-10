@@ -10,7 +10,6 @@ interface INewsCardDesc {
   editData: GetPostData;
 }
 const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => {
-  console.log(editData);
   return (
     <Flex justify={"space-between"} p={"md"}>
       <Group>
@@ -24,7 +23,7 @@ const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => 
           </Text>
         </Stack>
       </Group>
-      <NewsCardOption editData={editData} />
+      <NewsCardOption isCreatePost={true} editData={editData} />
     </Flex>
   );
 };

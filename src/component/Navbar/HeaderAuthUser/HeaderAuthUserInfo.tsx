@@ -9,9 +9,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { useLogoutMutation } from "@/redux/auth/auth.api";
 import { useEffect, useState } from "react";
 import { resetAuthUser } from "@/redux/auth/auth.slice";
+import { useRouter } from "next/navigation";
 
 const HeaderAuthUserInfo = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const user = useAppSelector(selectUser);
@@ -25,6 +27,10 @@ const HeaderAuthUserInfo = () => {
   const setOpen = (createPost: boolean) => {
     setCreatePost(createPost);
     open();
+  };
+
+  const handleProfileClick = () => {
+    router.push("/user-info");
   };
 
   useEffect(() => {
@@ -54,7 +60,9 @@ const HeaderAuthUserInfo = () => {
           </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item leftSection={<VerifiedUserOutlined />}>Profile</Menu.Item>
+          <Menu.Item onClick={() => handleProfileClick()} leftSection={<VerifiedUserOutlined />}>
+            Profile
+          </Menu.Item>
           <Menu.Item onClick={() => setOpen(true)} leftSection={<PostAddOutlined />}>
             Create Post
           </Menu.Item>

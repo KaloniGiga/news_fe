@@ -19,9 +19,10 @@ import { FaRegSave } from "react-icons/fa";
 
 interface INewsCardOption {
   editData: GetPostData;
+  isCreatePost: boolean;
 }
 
-const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
+const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData, isCreatePost = true }) => {
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const user = useAppSelector(selectUser);
@@ -43,7 +44,7 @@ const NewsCardOption: FunctionComponent<INewsCardOption> = ({ editData }) => {
         <Menu.Dropdown>
           {user && editData.user && user.id == editData.user?.id && (
             <>
-              <Menu.Item onClick={() => setOpen(true)} leftSection={<Edit />}>
+              <Menu.Item onClick={() => setOpen(isCreatePost)} leftSection={<Edit />}>
                 <EditNews editData={editData} />
               </Menu.Item>
               <Menu.Item leftSection={<DeleteIcon fontSize="small" />}>Delete</Menu.Item>

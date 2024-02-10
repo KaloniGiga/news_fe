@@ -17,6 +17,7 @@ interface IPostNewsForm {
   isEdit: boolean;
   editData: any;
   createPost: boolean;
+  close: () => void;
 }
 
 const tagsData = [
@@ -32,7 +33,7 @@ const tagsData = [
   "category",
   "sports",
 ];
-const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, createPost }) => {
+const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editData, createPost }) => {
   const [addPost, { isLoading: postLoading, data: postData }] = useAddPostMutation();
   const [putPost, { isLoading: editLoading, data: editPostData }] = usePutPostMutation();
   const { data: categoryData } = useGetCategoryQuery();
@@ -96,6 +97,16 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ isEdit, editData, crea
       setShowEditor(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (postData) {
+      close();
+    }
+
+    if (editPostData) {
+      close();
+    }
+  }, [postData, editPostData, close]);
 
   return (
     <div className="w-full h-full">

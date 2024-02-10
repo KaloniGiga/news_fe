@@ -27,6 +27,7 @@ import { CiHeart } from "react-icons/ci";
 import { VscComment } from "react-icons/vsc";
 import { BsShare } from "react-icons/bs";
 import moment from "moment";
+import NewsCardOption from "../NewsCardDescription/NewsCardOption";
 
 interface IFeedCard {
   feedData: GetPostData;
@@ -34,9 +35,8 @@ interface IFeedCard {
 
 const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
   const theme = useMantineTheme();
-  console.log(feedData);
   return (
-    <Card withBorder radius={"md"} className="">
+    <Card withBorder radius={"md"} className="h-full">
       {/* post description */}
 
       {/* post image */}
@@ -105,6 +105,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
           >
             <BsShare size={20} color={theme.colors.blue[6]} />
           </ActionIcon>
+          <NewsCardOption isCreatePost={false} editData={feedData} />
         </Group>
       </Group>
     </Card>

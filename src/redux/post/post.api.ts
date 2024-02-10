@@ -11,13 +11,45 @@ export const postApi = baseApi.injectEndpoints({
       providesTags: (result, error, arg) =>
         result && result.data ? [...result.data.map(({ id }) => ({ type: "Post" as const, id })), "Post"] : ["Post"],
     }),
+    getAuthUserShareLink: builder.query<GetPostResponse, void>({
+      query: () => ({
+        url: `v1/post/auth/link`,
+        method: "GET",
+      }),
+      providesTags: (result, error, arg) =>
+        result && result.data
+          ? [...result.data.map(({ id }) => ({ type: "ShareLink" as const, id })), "ShareLink"]
+          : ["ShareLink"],
+    }),
+    getShareLink: builder.query<GetPostResponse, void>({
+      query: () => ({
+        url: `v1/post/link`,
+        method: "GET",
+      }),
+    }),
+    getAuthUserCreatePost: builder.query<GetPostResponse, void>({
+      query: () => ({
+        url: `v1/post/auth/create-post`,
+        method: "GET",
+      }),
+      providesTags: (result, error, arg) =>
+        result && result.data
+          ? [...result.data.map(({ id }) => ({ type: "CreatePost" as const, id })), "CreatePost"]
+          : ["CreatePost"],
+    }),
+    getCreatePost: builder.query<GetPostResponse, void>({
+      query: () => ({
+        url: `v1/post/create-post`,
+        method: "GET",
+      }),
+    }),
     addPost: builder.mutation<PostResponse, any>({
       query: postDetails => ({
         url: "v1/post/add",
         method: "POST",
         body: postDetails,
       }),
-      invalidatesTags: ["Post"],
+      invalidatesTags: ["Post", "ShareLink", "CreatePost"],
     }),
     putPost: builder.mutation<PostResponse, any>({
       query: postDetails => ({
@@ -25,7 +57,7 @@ export const postApi = baseApi.injectEndpoints({
         method: "PUT",
         body: postDetails,
       }),
-      invalidatesTags: ["Post"],
+      invalidatesTags: ["Post", "ShareLink", "CreatePost"],
     }),
     deletePost: builder.mutation<PostResponse, number>({
       query: id => ({
@@ -37,4 +69,15 @@ export const postApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetPostQuery, useAddPostMutation, usePutPostMutation, useDeletePostMutation } = postApi;
+export const {
+  useGetPostQuery,
+  useGetAuthUserCreatePostQuery,
+  useLazyGetAuthUserCreatePostQuery,
+  useLazyGetAuthUserShareLinkQuery,
+  useGetAuthUserShareLinkQuery,
+  useGetCreatePostQuery,
+  useGetShareLinkQuery,
+  useAddPostMutation,
+  usePutPostMutation,
+  useDeletePostMutation,
+} = postApi;
