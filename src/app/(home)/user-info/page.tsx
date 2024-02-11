@@ -1,9 +1,9 @@
 import React from "react";
-import FillUserInfo from "../../../component/FillUserInfo/FillUserInfo";
+import FillUserInfo from "../../../component/UserProfile/FillUserInfo";
 
 const UserInfoPage = () => {
   return (
-    <div className="w-full min-h-screen flex justify-center items-center text-[var(--mantine-color-text)] bg-[var(--mantine-color-body)]">
+    <div className="w-full flex justify-center items-center text-[var(--mantine-color-text)] bg-[var(--mantine-color-body)]">
       <FillUserInfo />
     </div>
   );

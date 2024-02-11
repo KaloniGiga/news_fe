@@ -41,20 +41,20 @@ const FillUserInfo = () => {
       form.setFieldValue("username", user.username);
       form.setFieldValue("email", user.email);
     }
-  }, [user, form]);
+  }, [user]);
 
   return (
-    <div className="w-[40%] py-16 flex flex-col justify-center items-center gap-y-8">
-      <Title order={3}>Complete profile for full expeience.</Title>
-      {/* <Text size="sm">Finish creating your account.</Text> */}
-
+    <div className="w-[70%] pt-32 pb-16 flex flex-col justify-center items-center gap-y-8">
       <Card withBorder radius={"md"} p={"lg"} className="w-full">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
+            <Text my={"sm"} size="xl" fw={700}>
+              Profile Info
+            </Text>
             <TextInput
-              styles={{ input: { border: "none" } }}
-              required
-              // label="Full name"
+              // styles={{ input: { border: "none" } }}
+              // required
+              label="Full name"
               placeholder="Your full name"
               size="md"
               value={form.values.fullname}
@@ -63,9 +63,9 @@ const FillUserInfo = () => {
             />
 
             <TextInput
-              styles={{ input: { border: "none" } }}
+              // styles={{ input: { border: "none" } }}
               required
-              // label="Username"
+              label="Username"
               placeholder="Your username"
               size="md"
               value={form.values.username}
@@ -74,9 +74,9 @@ const FillUserInfo = () => {
             />
 
             <TextInput
-              styles={{ input: { border: "none" } }}
-              required
-              // label="Email"
+              // styles={{ input: { border: "none" } }}
+              // required
+              label="Email"
               placeholder="Your email"
               size="md"
               disabled
