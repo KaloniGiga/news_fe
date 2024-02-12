@@ -21,6 +21,16 @@ export const postApi = baseApi.injectEndpoints({
           ? [...result.data.map(({ id }) => ({ type: "ShareLink" as const, id })), "ShareLink"]
           : ["ShareLink"],
     }),
+    getUserShareLink: builder.query<GetPostResponse, void>({
+      query: () => ({
+        url: `v1/post/user/link`,
+        method: "GET",
+      }),
+      providesTags: (result, error, arg) =>
+        result && result.data
+          ? [...result.data.map(({ id }) => ({ type: "ShareLink" as const, id })), "ShareLink"]
+          : ["ShareLink"],
+    }),
     getShareLink: builder.query<GetPostResponse, void>({
       query: () => ({
         url: `v1/post/link`,
@@ -30,6 +40,16 @@ export const postApi = baseApi.injectEndpoints({
     getAuthUserCreatePost: builder.query<GetPostResponse, void>({
       query: () => ({
         url: `v1/post/auth/create-post`,
+        method: "GET",
+      }),
+      providesTags: (result, error, arg) =>
+        result && result.data
+          ? [...result.data.map(({ id }) => ({ type: "CreatePost" as const, id })), "CreatePost"]
+          : ["CreatePost"],
+    }),
+    getUserCreatePost: builder.query<GetPostResponse, void>({
+      query: () => ({
+        url: `v1/post/user/create-post`,
         method: "GET",
       }),
       providesTags: (result, error, arg) =>
@@ -77,6 +97,8 @@ export const {
   useGetAuthUserShareLinkQuery,
   useGetCreatePostQuery,
   useGetShareLinkQuery,
+  useGetUserCreatePostQuery,
+  useGetUserShareLinkQuery,
   useAddPostMutation,
   usePutPostMutation,
   useDeletePostMutation,

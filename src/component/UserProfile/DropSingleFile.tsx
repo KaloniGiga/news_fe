@@ -24,7 +24,7 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
     if (file) {
       console.log("file");
       const imageUrl = URL.createObjectURL(file);
-      return <Image alt="" width={200} height={200} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
+      return <Image alt="" width={120} height={120} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
     } else {
       return <div></div>;
     }
@@ -32,7 +32,7 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
   return (
     <div className="relative mb-2">
       <Dropzone openRef={openRef} onDrop={onDrop} radius={"md"} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE}>
-        <Group justify="center">
+        {/* <Group justify="center">
           <Dropzone.Accept>
             <IconDownload style={{ width: rem(30), height: rem(30) }} color={theme.colors.blue[6]} stroke={1.5} />
           </Dropzone.Accept>
@@ -42,13 +42,14 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
           <Dropzone.Idle>
             <IconCloudUpload style={{ width: rem(30), height: rem(30) }} stroke={1.5} />
           </Dropzone.Idle>
-        </Group>
+        </Group> */}
 
-        <Text ta="center" fw={700} fz="lg" mt="xl">
+        <Text ta="center" fw={700} fz="lg" mt="md">
           <Dropzone.Accept>Drop files here</Dropzone.Accept>
           <Dropzone.Reject>Image file less than 10mb</Dropzone.Reject>
           <Dropzone.Idle>Upload Avatar</Dropzone.Idle>
         </Text>
+
         <Text ta="center" fz="sm" mt="xs" mb="lg" c="dimmed">
           Drag&apos;n&apos;drop files here to upload. We can accept only <i>.png, .jpg, .webp, .avif</i> files that are
           less than 10mb in size.

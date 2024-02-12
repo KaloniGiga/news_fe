@@ -1,11 +1,11 @@
 "use client";
-import { useGetCreatePostQuery } from "@/redux/post/post.api";
+import { useGetUserCreatePostQuery } from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
 import { CircularProgress } from "@mui/material";
 import NewsContainer from "../MainSide/NewsContainer";
 
 const UserPost = () => {
-  const { data: postData, isLoading: postIsLoading } = useGetCreatePostQuery(undefined, {
+  const { data: postData, isLoading: postIsLoading } = useGetUserCreatePostQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 

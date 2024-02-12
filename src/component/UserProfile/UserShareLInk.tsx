@@ -2,10 +2,10 @@
 import { Center, Grid, Text } from "@mantine/core";
 import { CircularProgress } from "@mui/material";
 import FeedPost from "../MainSide/FeedPost/FeedPost";
-import { useGetShareLinkQuery } from "@/redux/post/post.api";
+import { useGetUserShareLinkQuery } from "@/redux/post/post.api";
 
 const UserShareLink = () => {
-  const { data: shareLinkData, isLoading: shareLinkIsLoading } = useGetShareLinkQuery(undefined, {
+  const { data: shareLinkData, isLoading: shareLinkIsLoading } = useGetUserShareLinkQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
   return shareLinkIsLoading ? (

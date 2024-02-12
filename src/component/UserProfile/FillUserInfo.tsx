@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Button, Card, Group, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React, { useEffect } from "react";
 import DropSingleFile from "./DropSingleFile";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import { useAppSelector } from "@/redux/hooks";
 import { selectUser } from "@/redux/auth/auth.selector";
+import UploadAvatar from "./UploadAvatar";
 
 const FillUserInfo = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const FillUserInfo = () => {
   }, [user]);
 
   return (
-    <div className="w-[70%] pt-32 pb-16 flex flex-col justify-center items-center gap-y-8">
+    <div className="w-full pb-8 flex flex-col justify-center items-center gap-y-8">
       <Card withBorder radius={"md"} p={"lg"} className="w-full">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
@@ -86,8 +87,11 @@ const FillUserInfo = () => {
             />
 
             <DropSingleFile value={form.values.file} onChange={value => form.setFieldValue("file", value)} />
+            {/* <UploadAvatar /> */}
 
+            {/* <Group> */}
             <Button type="submit">Save</Button>
+            {/* </Group> */}
           </Stack>
         </form>
       </Card>
