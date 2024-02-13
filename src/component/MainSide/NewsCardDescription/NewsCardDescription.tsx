@@ -14,7 +14,13 @@ const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => 
     <Flex justify={"space-between"} p={"md"}>
       <Group>
         <div>
-          <MuiAvatar src="/profileuser.jpg" />
+          <MuiAvatar
+            src={
+              editData && editData.user.picture && editData.user.picture.includes("https")
+                ? editData.user.picture
+                : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${editData.user.picture}`
+            }
+          />
         </div>
         <Stack gap={0}>
           <Text fz={"md"}>{editData.user?.username}</Text>

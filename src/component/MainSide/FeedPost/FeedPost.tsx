@@ -28,12 +28,14 @@ import { VscComment } from "react-icons/vsc";
 import { BsShare } from "react-icons/bs";
 import moment from "moment";
 import NewsCardOption from "../NewsCardDescription/NewsCardOption";
+import { userAgent } from "next/server";
 
 interface IFeedCard {
   feedData: GetPostData;
 }
 
 const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
+  console.log(feedData);
   const theme = useMantineTheme();
   return (
     <Card withBorder radius={"md"} className="h-full">
@@ -72,7 +74,17 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
         {moment(feedData.createdAt, "YYYYMMDD").fromNow()}
       </Text>
       <Group mt={"lg"}>
-        <Avatar src="/profileUser1.jpg" size={24} radius="xl" />
+        <Avatar
+          src={
+            feedData && feedData.user.picture && feedData.user.picture.includes("https")
+              ? feedData.user.picture
+              : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
+          }
+          size={24}
+          radius="xl"
+        >
+          {feedData && feedData.user.username[0]}
+        </Avatar>
         <Text fz="sm" inline className="">
           {feedData && feedData.user.username}
         </Text>

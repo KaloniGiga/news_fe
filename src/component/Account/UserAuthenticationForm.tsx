@@ -32,13 +32,13 @@ import { useAppDispatch } from "@/redux/hooks";
 import { setAuthUser } from "@/redux/auth/auth.slice";
 import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const UserLoginForm = () => {
   const [type, toggle] = useToggle(["Sign up", "Login"]);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [readLogin, { isLoading: loginLoading, data: readLoginData }] = useReadLoginMutation();
-  const [createUser, { isLoading: createUserLoading, data: createUserData }] = useCreateUserMutation();
+  const [createUser, { isLoading: createUserLoading, data: createUserData, error }] = useCreateUserMutation();
 
   const form = useForm({
     initialValues: {
@@ -62,26 +62,11 @@ const UserLoginForm = () => {
       } else {
         router.replace("/choose-category");
       }
-    } else if (readLoginData) {
-      form.reset();
-      if (readLoginData.data) {
-        dispatch(setAuthUser(readLoginData.data));
-        notifications.show({
-          message: "Login success! 🤥",
-        });
-        if (readLoginData.data && readLoginData.data.categories && readLoginData.data.categories.length > 0) {
-          router.replace("/");
-        } else {
-          router.replace("/choose-category");
-        }
-      }
     }
-  }, [createUserData, readLoginData, dispatch, router]);
+  }, [createUserData, dispatch, router]);
 
   const handleFormSubmit: SubmitHandler<UserData> = values => {
-    if (type == "Login") {
-      readLogin(values);
-    } else {
+    if (type == "Sign up") {
       createUser(values);
     }
   };
@@ -93,6 +78,9 @@ const UserLoginForm = () => {
         <Title order={2} ta="center" mt="md" mb="md">
           Welcome back to News Portal!
         </Title>
+        <Text ta={"center"} size="xs" c="red">
+          {error && ((error as FetchBaseQueryError).data as any).message}
+        </Text>
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
             {type === "Sign up" && (
@@ -163,7 +151,7 @@ const UserLoginForm = () => {
             >
               {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
             </Anchor>
-            <Button loading={loginLoading || createUserLoading} fullWidth type="submit" radius="sm">
+            <Button loading={createUserLoading} fullWidth type="submit" radius="sm">
               {upperFirst(type)}
             </Button>
           </Stack>
