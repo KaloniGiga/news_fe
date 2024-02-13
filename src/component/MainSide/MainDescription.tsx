@@ -7,14 +7,17 @@ import { FunctionComponent, useState } from "react";
 import { IUser } from "@/redux/auth/type";
 import PostNewsModel from "./PostNews/PostNewsModel";
 import { useDisclosure } from "@mantine/hooks";
-import { selectUser } from "@/redux/auth/auth.selector";
+import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useAppSelector } from "@/redux/hooks";
+import { useGetUserQuery } from "@/redux/auth/auth.api";
+import MuiAvatar from "../Avatar/MuiAvatar";
 
 const MainDescription = () => {
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const user = useAppSelector(selectUser);
+  const { data: user } = useGetUserQuery();
+  const isAuthenticatedUser = useAppSelector(selectAuthenticated);
 
   const setOpen = (createPost: boolean) => {
     setCreatePost(createPost);
@@ -23,13 +26,22 @@ const MainDescription = () => {
 
   return (
     <Card withBorder radius={"md"} className="w-[80%] ml-[5%] my-8">
-      {user && (
+      {isAuthenticatedUser && (
         <Flex justify={"space-between"}>
           <Group>
-            <Avatar src={"/profileuser.jpg"} />
+            <MuiAvatar
+              name={user?.data.username[0]}
+              src={
+                user && user.data.picture
+                  ? user.data.picture.includes("https")
+                    ? user.data.picture
+                    : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${user.data.picture}`
+                  : ""
+              }
+            />
             <Stack gap={0}>
-              <Text>{user.username}</Text>
-              <Text>{user.email}</Text>
+              <Text>{user && user.data.username}</Text>
+              <Text>{user && user.data.email}</Text>
             </Stack>
           </Group>
 

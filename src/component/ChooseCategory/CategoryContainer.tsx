@@ -3,51 +3,36 @@ import { Button, Card, Chip, Divider, SimpleGrid } from "@mantine/core";
 import { useEffect, useState } from "react";
 import CategoryChip from "./CategoryChip";
 import React from "react";
-import { FaArrowRightToBracket } from "react-icons/fa6";
 import { useGetCategoryQuery } from "@/redux/category/category.api";
 import { useAddUserCategoryPreferenceMutation } from "@/redux/user/user.api";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { selectUser } from "@/redux/auth/auth.selector";
+import { useAppDispatch } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
+import { useGetUserQuery } from "@/redux/auth/auth.api";
 
 const CategoryContainer = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
+  const router = useRouter();
+  // const user = useAppSelector(selectUser);
+  const { data: user, refetch } = useGetUserQuery();
   const [addUserCategoryPreference, { isLoading: categoryPreferenceIsLoading, data: categoryPreferenceData }] =
     useAddUserCategoryPreferenceMutation();
   const { data: categoryData, isLoading: categoryIsLoading, error } = useGetCategoryQuery();
   const [choosenCategory, setChoosenCategory] = useState<string[]>([]);
-  // const categoryData = [
-  //   "react",
-  //   "angular",
-  //   "vue",
-  //   "nextjs",
-  //   "nuxtjs",
-  //   "javascript",
-  //   "data scient",
-  //   "machine learning",
-  //   "deep learning",
-  //   "data analytics",
-  //   "software engineering",
-  //   "quality analyst",
-  //   "ethical hacking",
-  //   "cybersecurity expert",
-  //   "researcher",
-  // ];
 
   const handleCategorySubmit = () => {
-    console.log(choosenCategory);
     addUserCategoryPreference({ categories: choosenCategory });
   };
 
   useEffect(() => {
     if (categoryPreferenceData) {
-      console.log(categoryPreferenceData);
+      refetch();
+      router.push("/");
     }
   }, [categoryPreferenceData]);
 
   useEffect(() => {
-    if (user && user.categories && user.categories.length > 0) {
-      const categories = user.categories.map(item => `${item.id}`);
+    if (user && user.data.categories && user.data.categories.length > 0) {
+      const categories = user.data.categories.map(item => `${item.id}`);
       setChoosenCategory(categories);
     }
   }, [user]);

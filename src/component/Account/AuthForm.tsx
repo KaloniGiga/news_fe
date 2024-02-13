@@ -33,15 +33,15 @@ import { SubmitHandler } from "react-hook-form";
 import { UserData } from "@/redux/auth/type";
 import { useCreateUserMutation, useLazyGoogleAuthQuery, useReadLoginMutation } from "@/redux/auth/auth.api";
 import React from "react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const AuthForm = () => {
   const [type, toggle] = useToggle(["Login", "Sign up"]);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const [readLogin, { isLoading: loginLoading, data: readLoginData }] = useReadLoginMutation();
-  const [createUser, { isLoading: createUserLoading, data: createUserData }] = useCreateUserMutation();
-  const [googleAuth, { isLoading }] = useLazyGoogleAuthQuery();
+  const [readLogin, { isLoading: loginLoading, data: readLoginData, error }] = useReadLoginMutation();
+  const [googleAuth, { isLoading, error: googleError }] = useLazyGoogleAuthQuery();
   const form = useForm({
     initialValues: {
       email: "",
@@ -86,6 +86,9 @@ const AuthForm = () => {
         <Title order={2} ta="center" mt="md" mb="xl">
           Welcome back to News Portal!
         </Title>
+        <Text ta={"center"} size="xs" c="red">
+          {error && ((error as FetchBaseQueryError).data as any).message}
+        </Text>
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
             {type === "Sign up" && (

@@ -19,7 +19,7 @@ const UserPost = () => {
     </Box>
   ) : (
     <Center className="text-mantineText">
-      <Text>No Data Found</Text>
+      <Text>No Post Found</Text>
     </Center>
   );
 };

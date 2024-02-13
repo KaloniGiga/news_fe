@@ -6,7 +6,7 @@ import MuiAvatar from "../../Avatar/MuiAvatar";
 import { ChevronRight, LogoutOutlined, PostAddOutlined, Settings, VerifiedUserOutlined } from "@mui/icons-material";
 import PostNewsModel from "@/component/MainSide/PostNews/PostNewsModel";
 import { useDisclosure } from "@mantine/hooks";
-import { useLogoutMutation } from "@/redux/auth/auth.api";
+import { useGetUserQuery, useLogoutMutation } from "@/redux/auth/auth.api";
 import { useEffect, useState } from "react";
 import { resetAuthUser } from "@/redux/auth/auth.slice";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,8 @@ const HeaderAuthUserInfo = () => {
   const router = useRouter();
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-  const user = useAppSelector(selectUser);
+  // const user = useAppSelector(selectUser);
+  const { data: user } = useGetUserQuery();
 
   const [logout, { isLoading, error, data }] = useLogoutMutation();
 
@@ -45,7 +46,16 @@ const HeaderAuthUserInfo = () => {
         <Menu.Target>
           <UnstyledButton>
             <Group>
-              <MuiAvatar src="profileuser.jpg" />
+              <MuiAvatar
+                name={user?.data.username[0]}
+                src={
+                  user && user.data.picture
+                    ? user.data.picture.includes("https")
+                      ? user.data.picture
+                      : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${user.data.picture}`
+                    : ""
+                }
+              />
               {/* <div>
             <Text size="sm" fw={500}>
               {user ? user.username : ""}

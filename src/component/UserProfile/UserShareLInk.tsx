@@ -24,7 +24,7 @@ const UserShareLink = () => {
     </Grid>
   ) : (
     <Center className="text-mantineText">
-      <Text>No Data Found</Text>
+      <Text>No Shared Link Found</Text>
     </Center>
   );
 };

@@ -4,6 +4,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { Button, Group } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import HeaderAuthUserInfo from "./HeaderAuthUser/HeaderAuthUserInfo";
+import { useGetUserQuery } from "@/redux/auth/auth.api";
 
 const AuthButtonContainer = () => {
   const router = useRouter();

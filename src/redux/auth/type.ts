@@ -14,7 +14,9 @@ export interface IUser {
   fullname: string;
   username: string;
   email: string;
+  picture: string;
   categories: CategoryData[];
+  isGoogleAuth: boolean;
 }
 
 export interface LoginResponse {
@@ -22,4 +24,10 @@ export interface LoginResponse {
   code: number;
   message: string;
   data: IUser;
+}
+
+export interface PasswordDetail {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }

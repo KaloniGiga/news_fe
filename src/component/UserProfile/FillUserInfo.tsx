@@ -5,15 +5,19 @@ import React, { useEffect } from "react";
 import DropSingleFile from "./DropSingleFile";
 import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useGetUserQuery } from "@/redux/auth/auth.api";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { selectUser } from "@/redux/auth/auth.selector";
 import UploadAvatar from "./UploadAvatar";
+import { useUpdateUserMutation } from "@/redux/user/user.api";
+import { setAuthUser } from "@/redux/auth/auth.slice";
+import { useGetUserQuery } from "@/redux/auth/auth.api";
 
 const FillUserInfo = () => {
   const router = useRouter();
-  const user = useAppSelector(selectUser);
-  // const { data: userData, error } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+  const dispatch = useAppDispatch();
+  // const user = useAppSelector(selectUser);
+  const { data: userData, refetch } = useGetUserQuery();
+  const [updateUser, { isLoading, data: updateData, error }] = useUpdateUserMutation();
 
   const form = useForm({
     initialValues: {
@@ -34,15 +38,23 @@ const FillUserInfo = () => {
     formData.append("username", values.username);
     formData.append("email", values.email);
 
-    router.push("/choose-category");
+    updateUser(formData);
   };
 
   useEffect(() => {
-    if (user) {
-      form.setFieldValue("username", user.username);
-      form.setFieldValue("email", user.email);
+    if (userData && userData.data) {
+      console.log(userData);
+      form.setFieldValue("fullname", userData.data.fullname);
+      form.setFieldValue("username", userData.data.username);
+      form.setFieldValue("email", userData.data.email);
     }
-  }, [user]);
+  }, [userData]);
+
+  useEffect(() => {
+    if (updateData) {
+      refetch();
+    }
+  }, [updateData]);
 
   return (
     <div className="w-full pb-8 flex flex-col justify-center items-center gap-y-8">
@@ -90,7 +102,9 @@ const FillUserInfo = () => {
             {/* <UploadAvatar /> */}
 
             {/* <Group> */}
-            <Button type="submit">Save</Button>
+            <Button loading={isLoading} type="submit">
+              Save
+            </Button>
             {/* </Group> */}
           </Stack>
         </form>

@@ -7,7 +7,7 @@ export interface UserUpdateResponse {
   data: IUser;
 }
 
-export interface AddCategoryPreferenceResponse {
+export interface UserResponse {
   success: boolean;
   code: number;
   message: string;

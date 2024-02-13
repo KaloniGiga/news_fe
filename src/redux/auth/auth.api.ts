@@ -1,5 +1,5 @@
 import { baseApi } from "../base-query/base-query.config";
-import { LoginResponse, UserData } from "./type";
+import { LoginResponse, PasswordDetail, UserData } from "./type";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -29,6 +29,13 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    changePassword: builder.mutation<LoginResponse, PasswordDetail>({
+      query: passwordDetail => ({
+        url: "v1/auth/change/password",
+        method: "PATCH",
+        body: passwordDetail,
+      }),
+    }),
     getUser: builder.query<LoginResponse, void>({
       query: () => ({
         url: "v1/auth/user",
@@ -44,4 +51,5 @@ export const {
   useLogoutMutation,
   useGetUserQuery,
   useLazyGoogleAuthQuery,
+  useChangePasswordMutation,
 } = authApi;
