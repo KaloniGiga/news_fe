@@ -6,6 +6,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { FunctionComponent, useEffect } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Button } from "@mantine/core";
 // import Superscript from '@tiptap/extension-superscript';
 // import SubScript from '@tiptap/extension-subscript'
 
@@ -42,6 +43,7 @@ const NewEditor: FunctionComponent<INewEditor> = ({ placeholder, onChange, value
 
   return (
     <RichTextEditor editor={editor}>
+      <RichTextEditor.Content />
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
@@ -87,7 +89,9 @@ const NewEditor: FunctionComponent<INewEditor> = ({ placeholder, onChange, value
         </RichTextEditor.ControlsGroup>
       </RichTextEditor.Toolbar>
 
-      <RichTextEditor.Content />
+      <RichTextEditor.ControlsGroup>
+        <Button variant="default">Comment</Button>
+      </RichTextEditor.ControlsGroup>
     </RichTextEditor>
   );
 };
