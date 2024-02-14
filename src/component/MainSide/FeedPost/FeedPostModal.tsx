@@ -124,15 +124,6 @@ const FeedPostModal: FunctionComponent<IFeedPostModal> = ({ feedData, opened, cl
             </Button>
           </Group>
         </Card.Section>
-        <Card.Section>
-          <WriteComment />
-        </Card.Section>
-        <Card.Section>
-          <CommentContainer />
-          <CommentContainer />
-          <CommentContainer />
-          <CommentContainer />
-        </Card.Section>
       </Card>
     </Modal>
   );

@@ -14,9 +14,10 @@ import {
   Stack,
   Text,
   Title,
+  useMantineTheme,
 } from "@mantine/core";
 import Link from "next/link";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import { TfiComment } from "react-icons/tfi";
@@ -27,14 +28,20 @@ import { useParams } from "next/navigation";
 import { useGetPostByIdQuery } from "@/redux/post/post.api";
 import WriteComment from "@/component/MainSide/Comment/WriteComment";
 import CommentContainer from "@/component/MainSide/Comment/CommentContainer";
+import { CiHeart } from "react-icons/ci";
+import { BsShare } from "react-icons/bs";
+import { VscComment } from "react-icons/vsc";
+import { IComment } from "@/redux/comment/type";
 
 const FeedPage = () => {
   const { id } = useParams();
-  console.log(id);
-  const { data: feedData, isLoading, error } = useGetPostByIdQuery(Number(id));
+  const theme = useMantineTheme();
+  const [isCommentClicked, setIsCommentClicked] = useState(false);
+
+  const { data: feedData, isLoading, error, refetch } = useGetPostByIdQuery(Number(id));
   return (
-    <div>
-      <Card>
+    <div className="w-[70%] mx-auto text-[var(--mantine-color-text)] bg-[var(--mantine-color-body)] mt-8 pb-8">
+      <Card p={"md"}>
         <Card.Section>
           <Group p={"md"}>
             <MuiAvatar
@@ -99,37 +106,48 @@ const FeedPage = () => {
             <Text>220 Upvotes</Text>
             <Text>2 Comments</Text>
           </Group>
-          <Group m={"md"} p={"sm"} justify="space-between" className="rounded-xl border-[2px] border-[rgba(0,0,0,0.1)]">
-            <ActionIcon.Group>
-              <ActionIcon variant="subtle" color="gray">
-                <BiUpvote size={25} />
-              </ActionIcon>
-              <ActionIcon variant="subtle" color="gray">
-                <BiDownvote size={25} />
-              </ActionIcon>
-            </ActionIcon.Group>
+          <Group
+            m={"md"}
+            p={"sm"}
+            justify="space-between"
+            className="rounded-xl border-[2px] border-[rgba(255,255,255,0.5)]"
+          >
+            <Button variant="subtle" color="gray" leftSection={<CiHeart size={28} color={theme.colors.red[6]} />}>
+              Upvote
+            </Button>
 
-            <Button color="gray" variant="subtle" leftSection={<TfiComment size={22} />}>
+            <Button
+              onClick={() => setIsCommentClicked(prev => !prev)}
+              color="gray"
+              variant="subtle"
+              leftSection={<VscComment size={22} color={theme.colors.yellow[7]} />}
+            >
               Comment
             </Button>
 
-            <Button color="gray" variant="subtle" leftSection={<IoBookmarkOutline size={22} />}>
+            <Button
+              color="gray"
+              variant="subtle"
+              leftSection={<IoBookmarkOutline size={22} color={theme.colors.orange[6]} />}
+            >
               Bookmark
             </Button>
 
-            <Button color="gray" variant="subtle" leftSection={<FaShare size={22} />}>
+            <Button color="gray" variant="subtle" leftSection={<BsShare size={20} color={theme.colors.blue[6]} />}>
               Share
             </Button>
           </Group>
         </Card.Section>
-        <Card.Section>
-          <WriteComment />
-        </Card.Section>
-        <Card.Section>
-          <CommentContainer />
-          <CommentContainer />
-          <CommentContainer />
-          <CommentContainer />
+        {isCommentClicked && (
+          <Card.Section p={"md"}>
+            <WriteComment refetch={refetch} postId={Number(id)} />
+          </Card.Section>
+        )}
+        <Card.Section p={"md"}>
+          {feedData &&
+            feedData.data.comments?.map((comment: IComment, index: number) => {
+              return <CommentContainer comment={comment} key={index} />;
+            })}
         </Card.Section>
       </Card>
     </div>
