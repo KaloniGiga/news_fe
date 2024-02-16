@@ -39,7 +39,10 @@ export interface GetPostData {
   tags: string[];
   categories: Category[];
   coverImage: any;
+  commentNum: number;
   comments?: IComment[];
+  upvoteNum: number;
+  upvotes: any;
   user: IUser;
   type: PostTypeEnum;
   createdAt: Date;

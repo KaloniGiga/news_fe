@@ -32,11 +32,10 @@ import { CiHeart } from "react-icons/ci";
 import { BsShare } from "react-icons/bs";
 import { VscComment } from "react-icons/vsc";
 import { IComment } from "@/redux/comment/type";
+import PostToolButton from "@/component/PostToolButton/PostToolButton";
 
 const FeedPage = () => {
   const { id } = useParams();
-  const theme = useMantineTheme();
-  const [isCommentClicked, setIsCommentClicked] = useState(false);
 
   const { data: feedData, isLoading, error, refetch } = useGetPostByIdQuery(Number(id));
   return (
@@ -101,48 +100,9 @@ const FeedPage = () => {
           )}
         </Card.Section>
 
-        <Card.Section>
-          <Group p={"md"}>
-            <Text>220 Upvotes</Text>
-            <Text>2 Comments</Text>
-          </Group>
-          <Group
-            m={"md"}
-            p={"sm"}
-            justify="space-between"
-            className="rounded-xl border-[2px] border-[rgba(255,255,255,0.5)]"
-          >
-            <Button variant="subtle" color="gray" leftSection={<CiHeart size={28} color={theme.colors.red[6]} />}>
-              Upvote
-            </Button>
-
-            <Button
-              onClick={() => setIsCommentClicked(prev => !prev)}
-              color="gray"
-              variant="subtle"
-              leftSection={<VscComment size={22} color={theme.colors.yellow[7]} />}
-            >
-              Comment
-            </Button>
-
-            <Button
-              color="gray"
-              variant="subtle"
-              leftSection={<IoBookmarkOutline size={22} color={theme.colors.orange[6]} />}
-            >
-              Bookmark
-            </Button>
-
-            <Button color="gray" variant="subtle" leftSection={<BsShare size={20} color={theme.colors.blue[6]} />}>
-              Share
-            </Button>
-          </Group>
+        <Card.Section p={"md"}>
+          <PostToolButton feedData={feedData && feedData.data} refetch={refetch} postId={Number(id)} />
         </Card.Section>
-        {isCommentClicked && (
-          <Card.Section p={"md"}>
-            <WriteComment refetch={refetch} postId={Number(id)} />
-          </Card.Section>
-        )}
         <Card.Section p={"md"}>
           {feedData &&
             feedData.data.comments?.map((comment: IComment, index: number) => {
