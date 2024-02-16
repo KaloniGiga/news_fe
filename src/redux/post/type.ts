@@ -1,5 +1,6 @@
 import { PreviewData } from "next";
 import { IUser } from "../auth/type";
+import { IComment } from "../comment/type";
 
 export type TagType = {
   title: string;
@@ -38,6 +39,10 @@ export interface GetPostData {
   tags: string[];
   categories: Category[];
   coverImage: any;
+  commentNum: number;
+  comments?: IComment[];
+  upvoteNum: number;
+  upvotes: any;
   user: IUser;
   type: PostTypeEnum;
   createdAt: Date;

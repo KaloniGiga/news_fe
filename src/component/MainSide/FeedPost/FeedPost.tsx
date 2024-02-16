@@ -39,8 +39,6 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
   const theme = useMantineTheme();
   return (
     <Card withBorder radius={"md"} className="h-full">
-      {/* post description */}
-
       {/* post image */}
       <Card.Section>
         <a>

@@ -1,15 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const NewsLogo = () => {
   return (
     <div className="w-[20%] h-[10vh]">
-      <Image
-        src={"/newslogo.png"}
-        alt=""
-        width={2000}
-        height={2000}
-        className="w-full h-full object-contain object-center"
-      />
+      <Link href={"/"}>
+        <Image
+          src={"/newslogo.png"}
+          alt=""
+          width={2000}
+          height={2000}
+          className="w-full h-full object-contain object-center"
+        />
+      </Link>
     </div>
   );
 };

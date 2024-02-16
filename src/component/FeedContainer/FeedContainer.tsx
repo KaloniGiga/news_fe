@@ -2,11 +2,11 @@
 
 import { useGetAuthUserShareLinkQuery, useGetPostQuery, useGetShareLinkQuery } from "@/redux/post/post.api";
 import { CircularProgress } from "@mui/material";
-import FeedPost from "../MainSide/FeedPost/FeedPost";
-import { Box, Center, Grid, Text } from "@mantine/core";
+import { Center, Grid, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectUser } from "@/redux/auth/auth.selector";
+import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
 
 const FeedContainer = () => {
   const [shareLinkSkip, setShareLinkSkip] = useState(true);
@@ -95,7 +95,7 @@ const FeedContainer = () => {
       {data.map((item: any, index: number) => {
         return (
           <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-            <FeedPost feedData={item} />
+            <FeedPostWrapper feedData={item} />
           </Grid.Col>
         );
       })}
