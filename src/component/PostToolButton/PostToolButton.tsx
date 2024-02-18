@@ -5,8 +5,10 @@ import WriteComment from "../MainSide/Comment/WriteComment";
 import { FunctionComponent, useState } from "react";
 import { GetPostData } from "@/redux/post/type";
 import { CiHeart } from "react-icons/ci";
+import { GoHeartFill } from "react-icons/go";
 import { BsShare } from "react-icons/bs";
 import { useAddUpvoteToAPostMutation, useRemoveUpvoteToAPostMutation } from "@/redux/upvote/upvote.api";
+import ShareButton from "./ShareButton";
 
 interface IPostToolButton {
   feedData?: GetPostData;
@@ -65,9 +67,7 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, refetch,
           Bookmark
         </Button>
 
-        <Button color="gray" variant="subtle" leftSection={<BsShare size={20} color={theme.colors.blue[6]} />}>
-          Share
-        </Button>
+        <ShareButton />
       </Group>
       {isCommentClicked && <WriteComment refetch={refetch} postId={postId} />}
     </>

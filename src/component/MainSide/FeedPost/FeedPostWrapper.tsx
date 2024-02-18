@@ -9,14 +9,14 @@ interface IFeedCardWrapper {
 }
 
 const FeedPostWrapper: FunctionComponent<IFeedCardWrapper> = ({ feedData }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+  // const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
-      <div className="cursor-pointer" onClick={open}>
+      <div className="cursor-pointer">
         <FeedPost feedData={feedData} />
       </div>
-      <FeedPostModal feedData={feedData} opened={opened} open={open} close={close} />
+      {/* <FeedPostModal feedData={feedData} opened={opened} open={open} close={close} /> */}
     </>
   );
 };
