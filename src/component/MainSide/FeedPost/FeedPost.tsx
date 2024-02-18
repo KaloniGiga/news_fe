@@ -29,19 +29,20 @@ import { BsShare } from "react-icons/bs";
 import moment from "moment";
 import NewsCardOption from "../NewsCardDescription/NewsCardOption";
 import { userAgent } from "next/server";
+import { usePathname } from "next/navigation";
 
 interface IFeedCard {
   feedData: GetPostData;
 }
 
 const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
-  console.log(feedData);
+  const pathname = usePathname();
   const theme = useMantineTheme();
   return (
     <Card withBorder radius={"md"} className="h-full">
       {/* post image */}
       <Card.Section>
-        <a>
+        <a href={`/feed/post/${feedData.id}`}>
           <Image
             src={
               feedData.coverImage && feedData.coverImage.includes("https")
@@ -115,7 +116,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
           >
             <BsShare size={20} color={theme.colors.blue[6]} />
           </ActionIcon>
-          <NewsCardOption isCreatePost={false} editData={feedData} />
+          {pathname == "/user-info/feed" && <NewsCardOption isCreatePost={false} editData={feedData} />}
         </Group>
       </Group>
     </Card>
