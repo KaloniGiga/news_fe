@@ -8,14 +8,16 @@ export const upvoteApi = baseApi.injectEndpoints({
         url: `v1/upvote/${postId}`,
         method: "POST",
       }),
+      invalidatesTags: [{ type: "Post", id: "getPostById" }],
     }),
-    removeUpvoteToAPost: builder.mutation<UpvoteResponse, number>({
+    removeUpvoteFromAPost: builder.mutation<UpvoteResponse, number>({
       query: postId => ({
         url: `v1/upvote/${postId}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Post", id: "getPostById" }],
     }),
   }),
 });
 
-export const { useAddUpvoteToAPostMutation, useRemoveUpvoteToAPostMutation } = upvoteApi;
+export const { useAddUpvoteToAPostMutation, useRemoveUpvoteFromAPostMutation } = upvoteApi;

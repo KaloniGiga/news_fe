@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/component/Navbar/Header";
-import { AppShell } from "@mantine/core";
+import { AppShell, ScrollArea } from "@mantine/core";
 import { ReactNode } from "react";
 import ShareContainer from "../PostToolButton/ShareContainer";
 import { useDisclosure } from "@mantine/hooks";
@@ -21,9 +21,9 @@ export default function TargetPostsLayout({ children }: { children: ReactNode })
       <AppShell.Navbar>
         <ShareContainer />
       </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main component={ScrollArea}>{children}</AppShell.Main>
       <AppShell.Aside>
-        <div>Hello world</div>
+        <div></div>
       </AppShell.Aside>
     </AppShell>
   );

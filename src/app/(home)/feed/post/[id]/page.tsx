@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
 import { GetPostData } from "@/redux/post/type";
@@ -17,7 +18,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import Link from "next/link";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import { TfiComment } from "react-icons/tfi";
@@ -25,7 +26,11 @@ import { FaShare } from "react-icons/fa6";
 import { IoAlbumsSharp, IoBookmarkOutline } from "react-icons/io5";
 import moment from "moment";
 import { useParams } from "next/navigation";
-import { useGetPostByIdQuery } from "@/redux/post/post.api";
+import {
+  useGetPostByIdQuery,
+  useLazyGetPostByIdForAuthUserQuery,
+  useLazyGetPostByIdQuery,
+} from "@/redux/post/post.api";
 import WriteComment from "@/component/MainSide/Comment/WriteComment";
 import CommentContainer from "@/component/MainSide/Comment/CommentContainer";
 import { CiHeart } from "react-icons/ci";
@@ -33,67 +38,85 @@ import { BsShare } from "react-icons/bs";
 import { VscComment } from "react-icons/vsc";
 import { IComment } from "@/redux/comment/type";
 import PostToolButton from "@/component/PostToolButton/PostToolButton";
+import { useAppSelector } from "@/redux/hooks";
+import { selectAuthenticated } from "@/redux/auth/auth.selector";
 
 const FeedPage = () => {
   const { id } = useParams();
   const theme = useMantineTheme();
+  const isAuthenticatedUser = useAppSelector(selectAuthenticated);
+  const [feedData, setFeedData] = useState<GetPostData | null>(null);
 
-  const {
-    data: feedData,
-    isLoading,
-    error,
-    refetch,
-  } = useGetPostByIdQuery(Number(id), { refetchOnMountOrArgChange: true });
-  console.log(feedData);
-  return isLoading ? (
+  const [getPostById, { isLoading: postLoading, data: postData }] = useLazyGetPostByIdQuery();
+  const [getPostByIdForAuthUser, { isLoading: authUserPostLoading, data: authUserPostData }] =
+    useLazyGetPostByIdForAuthUserQuery();
+
+  useEffect(() => {
+    if (isAuthenticatedUser && id) {
+      getPostByIdForAuthUser(Number(id));
+    } else {
+      getPostById(Number(id));
+    }
+  }, [isAuthenticatedUser, id]);
+
+  useEffect(() => {
+    if (postData) {
+      setFeedData(postData.data);
+    }
+
+    if (authUserPostData) {
+      setFeedData(authUserPostData.data);
+    }
+  }, [postData, authUserPostData]);
+
+  return postLoading || authUserPostLoading ? (
     <div>Loading...</div>
   ) : feedData ? (
-    // <div className="w-[80%] mx-auto text-[var(--mantine-color-text)] bg-[var(--mantine-color-body)] mt-4 pb-8">
-    <Card w={"90%"} mx={"auto"} withBorder p={"md"} my={"md"}>
+    <Card w={"90%"} mx={"auto"} mt={"md"} my={"xl"} withBorder>
       <Card.Section>
         <Group p={"md"}>
           <MuiAvatar
-            name={feedData?.data.user.username[0]}
+            name={feedData?.user.username[0]}
             src={
-              feedData && feedData.data.user.picture
-                ? feedData.data.user.picture.includes("https")
-                  ? feedData.data.user.picture
-                  : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
+              feedData && feedData.user.picture
+                ? feedData.user.picture.includes("https")
+                  ? feedData.user.picture
+                  : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
                 : ""
             }
           />
           <Stack gap={0}>
-            <Text>{feedData && feedData.data.user.username}</Text>
-            <Text>{feedData && feedData.data.user.email}</Text>
+            <Text>{feedData && feedData.user.username}</Text>
+            <Text>{feedData && feedData.user.email}</Text>
           </Stack>
         </Group>
       </Card.Section>
       <Card.Section p={"md"}>
-        <Title order={3}>{feedData && feedData.data.title}</Title>
+        <Title order={3}>{feedData && feedData.title}</Title>
       </Card.Section>
       <Card.Section p={"md"}>
-        <Text>{feedData?.data.description}</Text>
+        <Text>{feedData?.description}</Text>
       </Card.Section>
       <Card.Section p={"xs"}>
         <Group mb={"sm"}>
           {feedData &&
-            feedData.data.tags &&
-            feedData.data.tags.length > 0 &&
-            feedData.data.tags.map((item: string, index: number) => {
+            feedData.tags &&
+            feedData.tags.length > 0 &&
+            feedData.tags.map((item: string, index: number) => {
               return <Box key={index}>{`#${item}`}</Box>;
             })}
         </Group>
         <Text fz={"sm"} c={"dimmed"}>
-          {moment(feedData && feedData.data.createdAt, "YYYYMMDD").fromNow()}
+          {moment(feedData && feedData.createdAt, "YYYYMMDD").fromNow()}
         </Text>
       </Card.Section>
       <Card.Section p={"md"}>
         <a>
           <Image
             src={
-              feedData && feedData.data.coverImage && feedData.data.coverImage.includes("https")
-                ? feedData.data.coverImage
-                : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
+              feedData && feedData.coverImage && feedData.coverImage.includes("https")
+                ? feedData.coverImage
+                : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.coverImage}`
             }
             alt=""
             fit="cover"
@@ -103,24 +126,23 @@ const FeedPage = () => {
       </Card.Section>
       <Card.Section p={"md"}>
         {feedData && (
-          <Link target="blank" href={feedData.data.links}>
-            <Text c={theme.colors.blue[6]}>{feedData && feedData.data.links}</Text>
+          <Link target="blank" href={feedData.links}>
+            <Text c={theme.colors.blue[6]}>{feedData && feedData.links}</Text>
           </Link>
         )}
       </Card.Section>
 
       <Card.Section p={"md"}>
-        <PostToolButton feedData={feedData && feedData.data} refetch={refetch} postId={Number(id)} />
+        <PostToolButton feedData={feedData} postId={Number(id)} />
       </Card.Section>
       <Card.Section p={"md"}>
         {feedData &&
-          feedData.data.comments?.map((comment: IComment, index: number) => {
+          feedData.comments?.map((comment: IComment, index: number) => {
             return <CommentContainer comment={comment} key={index} />;
           })}
       </Card.Section>
     </Card>
   ) : (
-    // </div>
     <div>{"Something went wrong"}</div>
   );
 };

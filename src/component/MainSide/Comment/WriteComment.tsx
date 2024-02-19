@@ -6,9 +6,8 @@ import { FunctionComponent, useEffect } from "react";
 
 interface IWriteComment {
   postId: number;
-  refetch: () => void;
 }
-const WriteComment: FunctionComponent<IWriteComment> = ({ postId, refetch }) => {
+const WriteComment: FunctionComponent<IWriteComment> = ({ postId }) => {
   const form = useForm({
     initialValues: {
       comment: "",
@@ -20,7 +19,6 @@ const WriteComment: FunctionComponent<IWriteComment> = ({ postId, refetch }) => 
   useEffect(() => {
     if (commentData) {
       console.log(commentData);
-      refetch();
     }
   }, [commentData]);
 
