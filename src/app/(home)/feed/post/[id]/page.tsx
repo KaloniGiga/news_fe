@@ -121,6 +121,7 @@ const FeedPage = () => {
             alt=""
             fit="cover"
             h={200}
+            fallbackSrc="/loginnewspaper.jpg"
           />
         </a>
       </Card.Section>
