@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useGetLinkPreviewQuery } from "@/redux/link-preview/link-preview.api";
 import { LinkPreviewData } from "@/redux/post/type";
@@ -43,7 +44,7 @@ const LinkPreview: FunctionComponent<ILinkPreview> = ({ url }) => {
           </div>
           <div className="w-[25%] flex justify-center items-center">
             {linkPreviewData?.image && (
-              <Image
+              <img
                 width={1000}
                 height={1000}
                 src={linkPreviewData?.image}

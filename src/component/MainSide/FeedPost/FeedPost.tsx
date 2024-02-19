@@ -116,7 +116,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
           >
             <BsShare size={20} color={theme.colors.blue[6]} />
           </ActionIcon>
-          {pathname == "/user-info/feed" && <NewsCardOption isCreatePost={false} editData={feedData} />}
+          {pathname == "/user-info/share-link" && <NewsCardOption isCreatePost={false} editData={feedData} />}
         </Group>
       </Group>
     </Card>

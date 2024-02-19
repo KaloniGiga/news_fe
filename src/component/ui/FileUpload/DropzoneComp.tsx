@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { Group, SimpleGrid, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
@@ -27,7 +28,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   const previews = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      return <Image alt="" width={200} height={200} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
+      return <img alt="" width={200} height={200} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
     } else {
       return <div></div>;
     }
@@ -36,7 +37,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   const getImages = () => {
     if (image) {
       return (
-        <Image
+        <img
           alt=""
           width={200}
           height={200}
