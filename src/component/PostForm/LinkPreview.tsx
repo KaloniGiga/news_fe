@@ -43,7 +43,7 @@ const LinkPreview: FunctionComponent<ILinkPreview> = ({ url }) => {
           </div>
           <div className="w-[25%] flex justify-center items-center">
             {linkPreviewData?.image && (
-              <img
+              <Image
                 width={1000}
                 height={1000}
                 src={linkPreviewData?.image}
