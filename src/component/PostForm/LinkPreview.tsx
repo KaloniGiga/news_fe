@@ -3,10 +3,9 @@
 import { useGetLinkPreviewQuery } from "@/redux/link-preview/link-preview.api";
 import { LinkPreviewData } from "@/redux/post/type";
 import { CircularProgress } from "@mui/material";
-import Image from "next/image";
 import { BeatLoader } from "react-spinners";
 import { FunctionComponent, useEffect, useState } from "react";
-import { Card, Group } from "@mantine/core";
+import { Card, Group, Image } from "@mantine/core";
 
 interface ILinkPreview {
   url: string;
@@ -44,12 +43,13 @@ const LinkPreview: FunctionComponent<ILinkPreview> = ({ url }) => {
           </div>
           <div className="w-[25%] flex justify-center items-center">
             {linkPreviewData?.image && (
-              <img
+              <Image
                 width={1000}
                 height={1000}
                 src={linkPreviewData?.image}
                 alt="Link Preview"
-                className="w-full h-full object-cover object-center"
+                fallbackSrc="/loginnewspaper.jpg"
+                fit="cover"
               />
             )}
           </div>

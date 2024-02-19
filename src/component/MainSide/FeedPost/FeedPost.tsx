@@ -52,6 +52,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
             alt=""
             fit="cover"
             h={200}
+            fallbackSrc="/loginnewspaper.jpg"
           />
         </a>
       </Card.Section>
