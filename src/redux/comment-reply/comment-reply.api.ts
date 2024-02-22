@@ -8,6 +8,7 @@ export const commentReplyApi = baseApi.injectEndpoints({
         url: `v1/reply-comment/${commentId}`,
         method: "GET",
       }),
+      //   transformResponse: (response: GetReplyCommentResponse, meta, arg) => response.data,
     }),
     createCommentReply: builder.mutation<CommentReplyResponse, CommentReplyData>({
       query: replyDetails => ({

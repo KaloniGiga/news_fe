@@ -9,8 +9,16 @@ interface IWriteComment {
   postId?: number;
   commentId?: number;
   isCommentReply?: boolean;
+  buttonLabel?: string;
+  placeholder?: string;
 }
-const WriteComment: FunctionComponent<IWriteComment> = ({ postId, commentId, isCommentReply = false }) => {
+const WriteComment: FunctionComponent<IWriteComment> = ({
+  postId,
+  commentId,
+  isCommentReply = false,
+  buttonLabel,
+  placeholder,
+}) => {
   const form = useForm({
     initialValues: {
       comment: "",
@@ -48,13 +56,13 @@ const WriteComment: FunctionComponent<IWriteComment> = ({ postId, commentId, isC
   return (
     <div>
       <CommentEditor
-        placeholder="Share your thoughts"
+        placeholder={placeholder ? placeholder : "Share your thoughts"}
         onChange={val => form.setFieldValue("comment", val)}
         value={form.values.comment}
       />
       <div className="w-full flex justify-end p-2 bg-mantineBody">
         <Button loading={isLoading} onClick={handleCommentSubmit}>
-          Comment
+          {buttonLabel ? buttonLabel : "Comment"}
         </Button>
       </div>
     </div>
