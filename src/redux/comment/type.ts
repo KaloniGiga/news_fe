@@ -4,6 +4,9 @@ import { GetPostData } from "../post/type";
 export interface IComment {
   id: number;
   message: string;
+  commentRepliesNum: number;
+  commentLikesNum: number;
+  hasUserLiked: boolean;
   user: IUser;
   post: GetPostData;
   createdAt: Date;
