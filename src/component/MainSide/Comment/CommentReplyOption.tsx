@@ -1,25 +1,24 @@
-import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
-import { IComment } from "@/redux/comment/type";
+import { selectUser } from "@/redux/auth/auth.selector";
+import { useDeleteCommentReplyMutation } from "@/redux/comment-reply/comment-reply.api";
+import { ICommentReply } from "@/redux/comment-reply/type";
 import { useAppSelector } from "@/redux/hooks";
 import { ActionIcon, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FunctionComponent } from "react";
-import { MdMoreVert } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-import { MdOutlineDelete } from "react-icons/md";
-import { MdOutlineReportGmailerrorred } from "react-icons/md";
-import { useDeleteCommentMutation } from "@/redux/comment/comment.api";
+import { MdMoreVert, MdOutlineDelete, MdOutlineReportGmailerrorred } from "react-icons/md";
 
-interface ICommentOption {
-  commentData: IComment;
+interface ICommentReplyOption {
+  commentData: ICommentReply;
 }
-const CommentOption: FunctionComponent<ICommentOption> = ({ commentData }) => {
+const CommentReplyOption: FunctionComponent<ICommentReplyOption> = ({ commentData }) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [deleteComment, { isLoading, data, isError }] = useDeleteCommentMutation();
   const user = useAppSelector(selectUser);
 
-  const handleDeleteCommentClick = () => {
-    deleteComment(commentData.id);
+  const [deleteCommentReply, { isLoading, data, error }] = useDeleteCommentReplyMutation();
+
+  const handleCommentReplyDelete = () => {
+    deleteCommentReply(commentData.id);
   };
 
   return (
@@ -37,7 +36,7 @@ const CommentOption: FunctionComponent<ICommentOption> = ({ commentData }) => {
               <Menu.Item leftSection={<CiEdit />}>Edit</Menu.Item>
             )}
             {user && commentData.user && user.id == commentData.user.id && (
-              <Menu.Item onClick={handleDeleteCommentClick} leftSection={<MdOutlineDelete />}>
+              <Menu.Item onClick={handleCommentReplyDelete} leftSection={<MdOutlineDelete />}>
                 Delete
               </Menu.Item>
             )}
@@ -49,4 +48,4 @@ const CommentOption: FunctionComponent<ICommentOption> = ({ commentData }) => {
   );
 };
 
-export default CommentOption;
+export default CommentReplyOption;

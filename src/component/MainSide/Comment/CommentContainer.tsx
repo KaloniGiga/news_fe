@@ -11,17 +11,37 @@ import WriteComment from "./WriteComment";
 import { MdOutlineReply } from "react-icons/md";
 import CommentOption from "./CommentOption";
 import CommentReply from "./CommentReply";
+import { useAddLikeToACommentMutation, useRemoveLikeToACommentMutation } from "@/redux/comment-like/comment-like.api";
+import { useGetCommentsByPostIdQuery } from "@/redux/comment/comment.api";
 
 interface ICommentContainer {
   comment: IComment;
+  postId: number;
 }
 
-const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment }) => {
+const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postId }) => {
   const [isCommentClicked, setIsCommentClicked] = useState(false);
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
-
+  const [addLikeToAComment, { isLoading: addLikeLoading, data: addLikeData }] = useAddLikeToACommentMutation();
+  const [removeLikeToAComment, { isLoading: removeLikeLoading, data: removeLikeData }] =
+    useRemoveLikeToACommentMutation();
   const theme = useMantineTheme();
 
+  const handleLikeToCommentToggle = () => {
+    if (!isAuthenticatedUser) return;
+    if (isAuthenticatedUser && comment) {
+      if (comment.hasUserLiked) {
+        removeLikeToAComment({ commentId: comment.id, postId });
+      } else {
+        addLikeToAComment({ commentId: comment.id, postId });
+      }
+    }
+  };
+
+  const handleReplyCommentToggle = () => {
+    if (!isAuthenticatedUser) return;
+    setIsCommentClicked(prev => !prev);
+  };
   return (
     <Stack gap={"xs"} px={"md"} my={"sm"}>
       <div className="w-full flex gap-x-2 justify-start ">
@@ -48,50 +68,46 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment }) => 
               <CommentOption commentData={comment} />
             </div>
           </div>
-          {/* <h4 className="text-sm line-clamp-3">{comment.message}</h4> */}
           <h4 dangerouslySetInnerHTML={{ __html: comment.message }} />
-          {isAuthenticatedUser && (
-            <Group>
-              <Button
-                // onClick={handleUpvoteToggle}
-                variant="subtle"
-                color="gray"
-                leftSection={
-                  comment && comment?.hasUserLiked ? (
-                    <GoHeartFill size={20} color={theme.colors.red[6]} />
-                  ) : (
-                    <CiHeart size={20} color={theme.colors.red[6]} />
-                  )
-                }
-              >
-                {`${comment.commentLikesNum} likes`}
-              </Button>
+          <Group>
+            <Button
+              onClick={handleLikeToCommentToggle}
+              variant="subtle"
+              color="gray"
+              leftSection={
+                comment && comment?.hasUserLiked ? (
+                  <GoHeartFill size={20} color={theme.colors.red[6]} />
+                ) : (
+                  <CiHeart size={20} color={theme.colors.red[6]} />
+                )
+              }
+            >
+              {`${comment.commentLikesNum} likes`}
+            </Button>
 
-              <Button
-                onClick={() => setIsCommentClicked(prev => !prev)}
-                color="gray"
-                variant="subtle"
-                leftSection={<MdOutlineReply size={18} color={theme.colors.yellow[7]} />}
-              >
-                {`${comment.commentRepliesNum} Reply`}
-              </Button>
-            </Group>
-          )}
+            <Button
+              onClick={handleReplyCommentToggle}
+              color="gray"
+              variant="subtle"
+              leftSection={<MdOutlineReply size={18} color={theme.colors.yellow[7]} />}
+            >
+              {`${comment.commentRepliesNum} Reply`}
+            </Button>
+          </Group>
           {isCommentClicked && (
             <WriteComment
+              toggleComment={handleReplyCommentToggle}
               buttonLabel="Submit"
               placeholder="Reply to the comment."
               commentId={comment.id}
+              postId={postId}
               isCommentReply={true}
             />
           )}
         </div>
       </div>
-      {/* <div className="w-full my-2 ml-[6%]">
-        <h3 className="font-semibold text-sm cursor-pointer">See All Comment</h3>
-      </div> */}
-      <div>
-        <CommentReply commentId={comment.id} />
+      <div className="flex justify-end">
+        <CommentReply commentReply={comment.commentReplies} />
       </div>
     </Stack>
   );

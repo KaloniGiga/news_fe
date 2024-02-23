@@ -33,7 +33,6 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
   const [removeBookmarkFromAPost, { error: removeBookmarkError }] = useRemoveBookmarkFromAPostMutation();
 
   const handleUpvoteToggle = () => {
-    console.log("hanlde toogle upvote.");
     if (isAuthenticatedUser) {
       if (feedData && feedData?.hasUserUpvoted) {
         removeUpvoteToAPost(postId);
@@ -41,6 +40,11 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
         addUpvoteToAPost(postId);
       }
     }
+  };
+
+  const handleCommentToggle = () => {
+    if (!isAuthenticatedUser) return;
+    setIsCommentClicked(prev => !prev);
   };
 
   const handleBookmarkToggle = () => {
@@ -82,7 +86,7 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
         </Button>
 
         <Button
-          onClick={() => setIsCommentClicked(prev => !prev)}
+          onClick={handleCommentToggle}
           color="gray"
           variant="subtle"
           leftSection={<VscComment size={22} color={theme.colors.yellow[7]} />}
@@ -107,7 +111,7 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
 
         <ShareButton />
       </Group>
-      {isCommentClicked && <WriteComment postId={postId} />}
+      {isCommentClicked && <WriteComment toggleComment={handleCommentToggle} postId={postId} />}
     </>
   );
 };

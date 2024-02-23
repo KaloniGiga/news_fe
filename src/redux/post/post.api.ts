@@ -8,8 +8,6 @@ export const postApi = baseApi.injectEndpoints({
         url: `v1/post`,
         method: "GET",
       }),
-      // providesTags: (result, error, arg) =>
-      // result && result.data ? [...result.data.map(({ id }) => ({ type: "Post" as const, id })), "Post"] : ["Post"],
     }),
     getPostById: builder.query<PostResponse, number>({
       query: id => ({
@@ -22,6 +20,7 @@ export const postApi = baseApi.injectEndpoints({
         url: `v1/post/auth/${id}`,
         method: "GET",
       }),
+      providesTags: ["SinglePost"],
     }),
     getAuthUserShareLink: builder.query<GetPostResponse, void>({
       query: () => ({

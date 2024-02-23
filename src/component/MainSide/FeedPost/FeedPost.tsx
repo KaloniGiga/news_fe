@@ -30,6 +30,7 @@ import moment from "moment";
 import NewsCardOption from "../NewsCardDescription/NewsCardOption";
 import { userAgent } from "next/server";
 import { usePathname } from "next/navigation";
+import { GoHeartFill } from "react-icons/go";
 
 interface IFeedCard {
   feedData: GetPostData;
@@ -39,10 +40,10 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
   const pathname = usePathname();
   const theme = useMantineTheme();
   return (
-    <Card withBorder radius={"md"} className="h-full">
-      {/* post image */}
-      <Card.Section>
-        <a href={`/feed/post/${feedData.id}`}>
+    <Link href={`/feed/post/${feedData.id}`}>
+      <Card withBorder radius={"md"} className="h-full">
+        {/* post image */}
+        <Card.Section>
           <Image
             src={
               feedData.coverImage && feedData.coverImage.includes("https")
@@ -54,73 +55,77 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
             h={200}
             fallbackSrc="/loginnewspaper.jpg"
           />
-        </a>
-      </Card.Section>
+        </Card.Section>
 
-      {feedData && feedData.categories && feedData.categories.length > 0 && (
-        <Badge
-          className={"absolute top-2 right-2 pointer-events-none"}
-          variant="gradient"
-          gradient={{ from: "yellow", to: "red" }}
-        >
-          {feedData.categories[0].title}
-        </Badge>
-      )}
+        {feedData && feedData.categories && feedData.categories.length > 0 && (
+          <Badge
+            className={"absolute top-2 right-2 pointer-events-none"}
+            variant="gradient"
+            gradient={{ from: "yellow", to: "red" }}
+          >
+            {feedData.categories[0].title}
+          </Badge>
+        )}
 
-      <Text mt={"xs"} fw={700} fz={"lg"}>
-        {feedData && feedData.title}
-      </Text>
-      <Text fz="xs" c="dimmed" mt={"sm"}>
-        {moment(feedData.createdAt, "YYYYMMDD").fromNow()}
-      </Text>
-      <Group mt={"lg"}>
-        <Avatar
-          src={
-            feedData && feedData.user.picture && feedData.user.picture.includes("https")
-              ? feedData.user.picture
-              : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
-          }
-          size={24}
-          radius="xl"
-        >
-          {feedData && feedData.user.username[0]}
-        </Avatar>
-        <Text fz="sm" inline className="">
-          {feedData && feedData.user.username}
+        <Text mt={"xs"} fw={700} fz={"lg"}>
+          {feedData && feedData.title}
         </Text>
-      </Group>
-
-      <Group className="p-2 mt-4 bg-[var(--maintine-color-body)]" justify="space-between">
-        <Text fz="sm" c="dimmed">
-          0 upvotes
+        <Text fz="xs" c="dimmed" mt={"sm"}>
+          {moment(feedData.createdAt, "YYYYMMDD").fromNow()}
         </Text>
-
-        <Group gap={8} mr={0}>
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--maintine-color-dark-6))" } }}
+        <Group mt={"lg"}>
+          <Avatar
+            src={
+              feedData && feedData.user.picture && feedData.user.picture.includes("https")
+                ? feedData.user.picture
+                : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
+            }
+            size={24}
+            radius="xl"
           >
-            <CiHeart size={28} color={theme.colors.red[6]} />
-          </ActionIcon>
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))" } }}
-          >
-            <VscComment size={22} color={theme.colors.yellow[7]} />
-          </ActionIcon>
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--maintine-color-dark-6))" } }}
-          >
-            <BsShare size={20} color={theme.colors.blue[6]} />
-          </ActionIcon>
-          {pathname == "/user-info/share-link" && <NewsCardOption isCreatePost={false} editData={feedData} />}
+            {feedData && feedData.user.username[0]}
+          </Avatar>
+          <Text fz="sm" inline className="">
+            {feedData && feedData.user.username}
+          </Text>
         </Group>
-      </Group>
-    </Card>
+
+        <Group className="p-2 mt-4 bg-[var(--maintine-color-body)]" justify="space-between">
+          <Text fz="sm" c="dimmed">
+            {`${feedData.upvoteNum} upvotes `}
+          </Text>
+
+          <Group gap={8} mr={0}>
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--maintine-color-dark-6))" } }}
+            >
+              {feedData && feedData.hasUserUpvoted ? (
+                <GoHeartFill size={28} color={theme.colors.red[6]} />
+              ) : (
+                <CiHeart size={28} color={theme.colors.red[6]} />
+              )}
+            </ActionIcon>
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))" } }}
+            >
+              <VscComment size={22} color={theme.colors.yellow[7]} />
+            </ActionIcon>
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              styles={{ root: { background: "light-dark(var(--mantine-color-gray-0), var(--maintine-color-dark-6))" } }}
+            >
+              <BsShare size={20} color={theme.colors.blue[6]} />
+            </ActionIcon>
+            {pathname == "/user-info/share-link" && <NewsCardOption isCreatePost={false} editData={feedData} />}
+          </Group>
+        </Group>
+      </Card>
+    </Link>
   );
 };
 

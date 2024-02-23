@@ -1,4 +1,5 @@
 import { baseApi } from "../base-query/base-query.config";
+import { commentApi } from "../comment/comment.api";
 import { CommentReplyData, CommentReplyResponse, GetReplyCommentResponse } from "./type";
 
 export const commentReplyApi = baseApi.injectEndpoints({
@@ -8,7 +9,6 @@ export const commentReplyApi = baseApi.injectEndpoints({
         url: `v1/reply-comment/${commentId}`,
         method: "GET",
       }),
-      //   transformResponse: (response: GetReplyCommentResponse, meta, arg) => response.data,
     }),
     createCommentReply: builder.mutation<CommentReplyResponse, CommentReplyData>({
       query: replyDetails => ({
@@ -16,6 +16,8 @@ export const commentReplyApi = baseApi.injectEndpoints({
         method: "POST",
         body: replyDetails,
       }),
+      invalidatesTags: ["Comments"],
+      // invalidatesTags: (result, error, args) => (result ? [{ type: "Comments", id: args.postId }] : ["Comments"]),
     }),
     updateCommentReply: builder.mutation<CommentReplyResponse, CommentReplyData>({
       query: replyDetails => ({
@@ -23,12 +25,14 @@ export const commentReplyApi = baseApi.injectEndpoints({
         method: "PUT",
         body: replyDetails,
       }),
+      invalidatesTags: ["Comments"],
     }),
     deleteCommentReply: builder.mutation<CommentReplyResponse, number>({
       query: id => ({
         url: `v1/reply-comment/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Comments"],
     }),
   }),
 });

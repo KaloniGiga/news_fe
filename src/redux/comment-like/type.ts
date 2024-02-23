@@ -10,8 +10,8 @@ export interface ICommentLike {
 }
 
 export interface CommentLikeData {
-  id?: number;
   commentId: number;
+  postId: number;
 }
 
 export interface CommentLikeResponse {

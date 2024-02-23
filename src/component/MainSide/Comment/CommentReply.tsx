@@ -4,25 +4,23 @@ import { Stack } from "@mantine/core";
 import { FunctionComponent } from "react";
 import CommentOption from "./CommentOption";
 import moment from "moment";
+import CommentReplyOption from "./CommentReplyOption";
+import { ICommentReply } from "@/redux/comment-reply/type";
 
-interface ICommentReply {
-  commentId: number;
+interface ICommentReplyData {
+  commentReply: ICommentReply[];
 }
-const CommentReply: FunctionComponent<ICommentReply> = ({ commentId }) => {
-  const { data: commentReplyData, isLoading, error, isError } = useGetCommentReplyByCommentIdQuery(commentId);
-
+const CommentReply: FunctionComponent<ICommentReplyData> = ({ commentReply }) => {
   return (
-    <Stack>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Failed to load replies.</div>}
-      {commentReplyData &&
-        commentReplyData.data.length > 0 &&
-        commentReplyData.data.map((replyItem, index) => (
+    <Stack w={"95%"} className="">
+      {commentReply &&
+        commentReply.length > 0 &&
+        commentReply.map((replyItem, index) => (
           <div key={index} className="w-full flex gap-x-2 justify-start ">
             <div>
               <MuiAvatar
                 // size="small"
-                sx={{ width: 30, height: 30 }}
+                sx={{ width: 25, height: 25 }}
                 name={replyItem.user.username[0]}
                 src={
                   replyItem.user && replyItem.user.picture
@@ -39,7 +37,9 @@ const CommentReply: FunctionComponent<ICommentReply> = ({ commentId }) => {
                   <span className="font-semibold">{replyItem.user.username}</span>
                   <span className="font-regular text-sm">{moment(replyItem.createdAt, "YYYYMMDD").fromNow()}</span>
                 </div>
-                <div>{/* <CommentOption commentData={replyItem} /> */}</div>
+                <div>
+                  <CommentReplyOption commentData={replyItem} />
+                </div>
               </div>
               {/* <h4 className="text-sm line-clamp-3">{comment.message}</h4> */}
               <h4 dangerouslySetInnerHTML={{ __html: replyItem.message }} />

@@ -40,111 +40,102 @@ import { IComment } from "@/redux/comment/type";
 import PostToolButton from "@/component/PostToolButton/PostToolButton";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated } from "@/redux/auth/auth.selector";
+import { useGetCommentsByPostIdQuery, useLazyGetCommentsByPostIdQuery } from "@/redux/comment/comment.api";
 
 const FeedPage = () => {
   const { id } = useParams();
   const theme = useMantineTheme();
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
-  const [feedData, setFeedData] = useState<GetPostData | null>(null);
 
-  const [getPostById, { isLoading: postLoading, data: postData }] = useLazyGetPostByIdQuery();
-  const [getPostByIdForAuthUser, { isLoading: authUserPostLoading, data: authUserPostData }] =
+  const [getPostByIdForAuthUser, { isLoading: authUserPostLoading, data: feedData, isError }] =
     useLazyGetPostByIdForAuthUserQuery();
 
+  const [getCommentsByPostId, { isLoading: commentLoading, data: comments, isError: commentError }] =
+    useLazyGetCommentsByPostIdQuery();
+
   useEffect(() => {
-    if (isAuthenticatedUser && id) {
-      getPostByIdForAuthUser(Number(id));
-    } else {
-      getPostById(Number(id));
-    }
+    getPostByIdForAuthUser(Number(id));
+    getCommentsByPostId(Number(id));
   }, [isAuthenticatedUser, id]);
 
-  useEffect(() => {
-    if (postData) {
-      setFeedData(postData.data);
-    }
-
-    if (authUserPostData) {
-      setFeedData(authUserPostData.data);
-    }
-  }, [postData, authUserPostData]);
-
-  return postLoading || authUserPostLoading ? (
-    <div>Loading...</div>
-  ) : feedData ? (
+  return (
     <Card w={"90%"} mx={"auto"} mt={"md"} my={"xl"} withBorder>
-      <Card.Section>
-        <Group p={"md"}>
-          <MuiAvatar
-            name={feedData?.user.username[0]}
-            src={
-              feedData && feedData.user.picture
-                ? feedData.user.picture.includes("https")
-                  ? feedData.user.picture
-                  : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
-                : ""
-            }
-          />
-          <Stack gap={0}>
-            <Text>{feedData && feedData.user.username}</Text>
-            <Text>{feedData && feedData.user.email}</Text>
-          </Stack>
-        </Group>
-      </Card.Section>
-      <Card.Section p={"md"}>
-        <Title order={3}>{feedData && feedData.title}</Title>
-      </Card.Section>
-      <Card.Section p={"md"}>
-        <Text>{feedData?.description}</Text>
-      </Card.Section>
-      <Card.Section p={"xs"}>
-        <Group mb={"sm"}>
-          {feedData &&
-            feedData.tags &&
-            feedData.tags.length > 0 &&
-            feedData.tags.map((item: string, index: number) => {
-              return <Box key={index}>{`#${item}`}</Box>;
-            })}
-        </Group>
-        <Text fz={"sm"} c={"dimmed"}>
-          {moment(feedData && feedData.createdAt, "YYYYMMDD").fromNow()}
-        </Text>
-      </Card.Section>
-      <Card.Section p={"md"}>
-        <a>
-          <Image
-            src={
-              feedData && feedData.coverImage && feedData.coverImage.includes("https")
-                ? feedData.coverImage
-                : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.coverImage}`
-            }
-            alt=""
-            fit="cover"
-            h={200}
-            fallbackSrc="/loginnewspaper.jpg"
-          />
-        </a>
-      </Card.Section>
-      <Card.Section p={"md"}>
-        {feedData && (
-          <Link target="blank" href={feedData.links}>
-            <Text c={theme.colors.blue[6]}>{feedData && feedData.links}</Text>
-          </Link>
-        )}
-      </Card.Section>
+      {authUserPostLoading && <div>Loading...</div>}
+      {isError && <div>Failed to load data.</div>}
+      {feedData && (
+        <>
+          <Card.Section>
+            <Group p={"md"}>
+              <MuiAvatar
+                name={feedData?.data.user.username[0]}
+                src={
+                  feedData && feedData.data.user.picture
+                    ? feedData.data.user.picture.includes("https")
+                      ? feedData.data.user.picture
+                      : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
+                    : ""
+                }
+              />
+              <Stack gap={0}>
+                <Text>{feedData && feedData.data.user.username}</Text>
+                <Text>{feedData && feedData.data.user.email}</Text>
+              </Stack>
+            </Group>
+          </Card.Section>
+          <Card.Section p={"md"}>
+            <Title order={3}>{feedData && feedData.data.title}</Title>
+          </Card.Section>
+          <Card.Section p={"md"}>
+            <Text>{feedData?.data.description}</Text>
+          </Card.Section>
+          <Card.Section p={"xs"}>
+            <Group mb={"sm"}>
+              {feedData &&
+                feedData.data.tags &&
+                feedData.data.tags.length > 0 &&
+                feedData.data.tags.map((item: string, index: number) => {
+                  return <Box key={index}>{`#${item}`}</Box>;
+                })}
+            </Group>
+            <Text fz={"sm"} c={"dimmed"}>
+              {moment(feedData && feedData.data.createdAt, "YYYYMMDD").fromNow()}
+            </Text>
+          </Card.Section>
+          <Card.Section p={"md"}>
+            <a>
+              <Image
+                src={
+                  feedData && feedData.data.coverImage && feedData.data.coverImage.includes("https")
+                    ? feedData.data.coverImage
+                    : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
+                }
+                alt=""
+                fit="cover"
+                h={200}
+                fallbackSrc="/loginnewspaper.jpg"
+              />
+            </a>
+          </Card.Section>
+          <Card.Section p={"md"}>
+            {feedData && (
+              <Link target="blank" href={feedData.data.links}>
+                <Text c={theme.colors.blue[6]}>{feedData && feedData.data.links}</Text>
+              </Link>
+            )}
+          </Card.Section>
 
-      <Card.Section p={"md"}>
-        <PostToolButton feedData={feedData} postId={Number(id)} />
-      </Card.Section>
-      <Card.Section p={"md"}>
-        {feedData &&
-          feedData.comments?.map((comment: IComment, index: number) => {
-            return <CommentContainer comment={comment} key={index} />;
-          })}
-      </Card.Section>
+          <Card.Section p={"md"}>
+            <PostToolButton feedData={feedData.data} postId={Number(id)} />
+          </Card.Section>
+          <Card.Section p={"md"}>
+            {comments &&
+              comments?.data.map((comment: IComment, index: number) => {
+                return <CommentContainer postId={Number(id)} comment={comment} key={index} />;
+              })}
+          </Card.Section>
+        </>
+      )}
     </Card>
-  ) : (
-    <div>{"Something went wrong"}</div>
   );
 };
 

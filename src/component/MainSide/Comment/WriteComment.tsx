@@ -6,6 +6,7 @@ import { useForm } from "@mantine/form";
 import { FunctionComponent, useEffect } from "react";
 
 interface IWriteComment {
+  toggleComment?: () => void;
   postId?: number;
   commentId?: number;
   isCommentReply?: boolean;
@@ -18,6 +19,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   isCommentReply = false,
   buttonLabel,
   placeholder,
+  toggleComment,
 }) => {
   const form = useForm({
     initialValues: {
@@ -31,19 +33,22 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
 
   useEffect(() => {
     if (commentData) {
-      console.log(commentData);
+      form.reset();
+      toggleComment && toggleComment();
     }
 
-    if (commentReplyLoading) {
-      console.log(commentReplyData);
+    if (commentReplyData) {
+      form.reset();
+      toggleComment && toggleComment();
     }
-  }, [commentData]);
+  }, [commentData, commentReplyData]);
 
   const handleCommentSubmit = () => {
-    if (isCommentReply && commentId) {
+    if (isCommentReply && commentId && postId) {
       createCommentReply({
         message: form.values.comment,
         commentId: commentId,
+        postId: postId,
       });
     } else if (postId) {
       createComment({
@@ -61,7 +66,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
         value={form.values.comment}
       />
       <div className="w-full flex justify-end p-2 bg-mantineBody">
-        <Button loading={isLoading} onClick={handleCommentSubmit}>
+        <Button loading={isLoading || commentReplyLoading} onClick={handleCommentSubmit}>
           {buttonLabel ? buttonLabel : "Comment"}
         </Button>
       </div>
