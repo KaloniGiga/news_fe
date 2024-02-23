@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NewsLogo = () => {
   return (
-    <div className="w-[20%] h-[10vh]">
+    <div className="lg:w-[20%] h-[10vh]">
       <Link href={"/"}>
         <Image
           src={"/newslogo.png"}

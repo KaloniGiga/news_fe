@@ -81,8 +81,8 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="w-full flex justify-center items-center">
-      <Card withBorder className="w-[40%]">
+    <div className="w-full h-[90vh] flex justify-center items-center">
+      <Card withBorder className="lg:w-[40%] w-full">
         <Title order={2} ta="center" mt="md" mb="xl">
           Welcome back to News Portal!
         </Title>

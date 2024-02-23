@@ -16,9 +16,9 @@ const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => 
         <div>
           <MuiAvatar
             src={
-              editData && editData.user.picture && editData.user.picture.includes("https")
+              editData && editData.user?.picture && editData.user.picture.includes("https")
                 ? editData.user.picture
-                : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${editData.user.picture}`
+                : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${editData.user?.picture}`
             }
           />
         </div>

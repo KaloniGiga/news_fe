@@ -28,6 +28,7 @@ import { RiShareBoxLine } from "react-icons/ri";
 import { BiCategory } from "react-icons/bi";
 import { useGetCategoryQuery } from "../../redux/category/category.api";
 import React from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 // const data = [
 //   {
@@ -56,7 +57,15 @@ const Sidebar = () => {
   const isAuthenticated = useAppSelector(selectAuthenticated);
   const [active, setActive] = useState<string>("My Feed");
   const [opened, { open, close }] = useDisclosure(false);
-
+  const path = usePathname();
+  const router = useRouter();
+  const handleClick = (title: string) => {
+    if (path === "/") {
+      router.replace(`?category=${title}`);
+    } else if (path === "/post") {
+      router.replace(`/post?category=${title}`);
+    }
+  };
   const links = () => (
     <Stack pb={"sm"}>
       <Group>
@@ -64,11 +73,11 @@ const Sidebar = () => {
       </Group>
       {data?.data?.map((item, index) => {
         return (
-          <Link key={index} href={`/?category=${item.title}`}>
+          <div className=" cursor-pointer" onClick={() => handleClick(item.title)} key={index}>
             <Group className={`pl-8 hover:bg-[light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6))]`}>
               <Text className={`pl-8 inline-block`}>{item.title}</Text>
             </Group>
-          </Link>
+          </div>
         );
       })}
     </Stack>
