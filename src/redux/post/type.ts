@@ -43,10 +43,13 @@ export interface GetPostData {
   comments?: IComment[];
   upvoteNum: number;
   upvotes: any;
+  bookmarkNum: number;
   user: IUser;
   type: PostTypeEnum;
   createdAt: Date;
   updatedAt: Date;
+  hasUserUpvoted?: boolean;
+  hasUserBookmarked?: boolean;
 }
 
 export interface LinkPreviewData {

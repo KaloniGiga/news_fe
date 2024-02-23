@@ -1,4 +1,5 @@
 // "use client";
+import React from "react";
 import { MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";

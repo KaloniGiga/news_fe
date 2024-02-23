@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Flex, Group, Tabs } from "@mantine/core";
 import PostNewsUserInfo from "./PostNewsUserInfo";
 import PostNewsForm from "./PostNewsForm";

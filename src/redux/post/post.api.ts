@@ -8,8 +8,6 @@ export const postApi = baseApi.injectEndpoints({
         url: `v1/post`,
         method: "GET",
       }),
-      providesTags: (result, error, arg) =>
-        result && result.data ? [...result.data.map(({ id }) => ({ type: "Post" as const, id })), "Post"] : ["Post"],
     }),
     getPostById: builder.query<PostResponse, number>({
       query: id => ({
@@ -17,25 +15,24 @@ export const postApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPostByIdForAuthUser: builder.query<PostResponse, number>({
+      query: id => ({
+        url: `v1/post/auth/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["SinglePost"],
+    }),
     getAuthUserShareLink: builder.query<GetPostResponse, void>({
       query: () => ({
         url: `v1/post/auth/link`,
         method: "GET",
       }),
-      providesTags: (result, error, arg) =>
-        result && result.data
-          ? [...result.data.map(({ id }) => ({ type: "ShareLink" as const, id })), "ShareLink"]
-          : ["ShareLink"],
     }),
     getUserShareLink: builder.query<GetPostResponse, void>({
       query: () => ({
         url: `v1/post/user/link`,
         method: "GET",
       }),
-      providesTags: (result, error, arg) =>
-        result && result.data
-          ? [...result.data.map(({ id }) => ({ type: "ShareLink" as const, id })), "ShareLink"]
-          : ["ShareLink"],
     }),
     getShareLink: builder.query<GetPostResponse, void>({
       query: () => ({
@@ -48,20 +45,12 @@ export const postApi = baseApi.injectEndpoints({
         url: `v1/post/auth/create-post`,
         method: "GET",
       }),
-      providesTags: (result, error, arg) =>
-        result && result.data
-          ? [...result.data.map(({ id }) => ({ type: "CreatePost" as const, id })), "CreatePost"]
-          : ["CreatePost"],
     }),
     getUserCreatePost: builder.query<GetPostResponse, void>({
       query: () => ({
         url: `v1/post/user/create-post`,
         method: "GET",
       }),
-      providesTags: (result, error, arg) =>
-        result && result.data
-          ? [...result.data.map(({ id }) => ({ type: "CreatePost" as const, id })), "CreatePost"]
-          : ["CreatePost"],
     }),
     getCreatePost: builder.query<GetPostResponse, void>({
       query: () => ({
@@ -75,7 +64,6 @@ export const postApi = baseApi.injectEndpoints({
         method: "POST",
         body: postDetails,
       }),
-      invalidatesTags: ["Post", "ShareLink", "CreatePost"],
     }),
     putPost: builder.mutation<PostResponse, any>({
       query: postDetails => ({
@@ -83,14 +71,12 @@ export const postApi = baseApi.injectEndpoints({
         method: "PUT",
         body: postDetails,
       }),
-      invalidatesTags: ["Post", "ShareLink", "CreatePost"],
     }),
     deletePost: builder.mutation<PostResponse, number>({
       query: id => ({
         url: `v1/post/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Post"],
     }),
   }),
 });
@@ -109,4 +95,6 @@ export const {
   usePutPostMutation,
   useDeletePostMutation,
   useGetPostByIdQuery,
+  useLazyGetPostByIdForAuthUserQuery,
+  useLazyGetPostByIdQuery,
 } = postApi;

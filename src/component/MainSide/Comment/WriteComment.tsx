@@ -1,14 +1,26 @@
 import CommentEditor from "@/component/MyEditor/CommentEditor";
+import { useCreateCommentReplyMutation } from "@/redux/comment-reply/comment-reply.api";
 import { useCreateCommentMutation } from "@/redux/comment/comment.api";
 import { Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FunctionComponent, useEffect } from "react";
 
 interface IWriteComment {
-  postId: number;
-  refetch: () => void;
+  toggleComment?: () => void;
+  postId?: number;
+  commentId?: number;
+  isCommentReply?: boolean;
+  buttonLabel?: string;
+  placeholder?: string;
 }
-const WriteComment: FunctionComponent<IWriteComment> = ({ postId, refetch }) => {
+const WriteComment: FunctionComponent<IWriteComment> = ({
+  postId,
+  commentId,
+  isCommentReply = false,
+  buttonLabel,
+  placeholder,
+  toggleComment,
+}) => {
   const form = useForm({
     initialValues: {
       comment: "",
@@ -16,31 +28,46 @@ const WriteComment: FunctionComponent<IWriteComment> = ({ postId, refetch }) => 
   });
 
   const [createComment, { isLoading, data: commentData, error }] = useCreateCommentMutation();
+  const [createCommentReply, { isLoading: commentReplyLoading, data: commentReplyData }] =
+    useCreateCommentReplyMutation();
 
   useEffect(() => {
     if (commentData) {
-      console.log(commentData);
-      refetch();
+      form.reset();
+      toggleComment && toggleComment();
     }
-  }, [commentData]);
+
+    if (commentReplyData) {
+      form.reset();
+      toggleComment && toggleComment();
+    }
+  }, [commentData, commentReplyData]);
 
   const handleCommentSubmit = () => {
-    createComment({
-      message: form.values.comment,
-      postId: postId,
-    });
+    if (isCommentReply && commentId && postId) {
+      createCommentReply({
+        message: form.values.comment,
+        commentId: commentId,
+        postId: postId,
+      });
+    } else if (postId) {
+      createComment({
+        message: form.values.comment,
+        postId: postId,
+      });
+    }
   };
 
   return (
     <div>
       <CommentEditor
-        placeholder="Share your thoughts"
+        placeholder={placeholder ? placeholder : "Share your thoughts"}
         onChange={val => form.setFieldValue("comment", val)}
         value={form.values.comment}
       />
       <div className="w-full flex justify-end p-2 bg-mantineBody">
-        <Button loading={isLoading} onClick={handleCommentSubmit}>
-          Comment
+        <Button loading={isLoading || commentReplyLoading} onClick={handleCommentSubmit}>
+          {buttonLabel ? buttonLabel : "Comment"}
         </Button>
       </div>
     </div>

@@ -1,20 +1,20 @@
 import { baseApi } from "../base-query/base-query.config";
 import { postApi } from "../post/post.api";
-import { UpvoteResponse } from "./type";
+import { BookmarkResponse } from "./type";
 
-export const upvoteApi = baseApi.injectEndpoints({
+export const bookmarkApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    addUpvoteToAPost: builder.mutation<UpvoteResponse, number>({
+    addBookmarkToAPost: builder.mutation<BookmarkResponse, number>({
       query: postId => ({
-        url: `v1/upvote/${postId}`,
+        url: `v1/bookmark/${postId}`,
         method: "POST",
       }),
       invalidatesTags: ["SinglePost"],
       async onQueryStarted(postId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           postApi.util.updateQueryData("getPostByIdForAuthUser", postId, draft => {
-            draft.data.hasUserUpvoted = true;
-            draft.data.upvoteNum += 1;
+            draft.data.hasUserBookmarked = true;
+            draft.data.bookmarkNum += 1;
           })
         );
         try {
@@ -24,17 +24,17 @@ export const upvoteApi = baseApi.injectEndpoints({
         }
       },
     }),
-    removeUpvoteFromAPost: builder.mutation<UpvoteResponse, number>({
+    removeBookmarkFromAPost: builder.mutation<BookmarkResponse, number>({
       query: postId => ({
-        url: `v1/upvote/${postId}`,
+        url: `v1/bookmark/${postId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["SinglePost"],
       async onQueryStarted(postId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           postApi.util.updateQueryData("getPostByIdForAuthUser", postId, draft => {
-            draft.data.hasUserUpvoted = false;
-            draft.data.upvoteNum -= 1;
+            draft.data.hasUserBookmarked = false;
+            draft.data.bookmarkNum -= 1;
           })
         );
         try {
@@ -47,4 +47,4 @@ export const upvoteApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useAddUpvoteToAPostMutation, useRemoveUpvoteFromAPostMutation } = upvoteApi;
+export const { useAddBookmarkToAPostMutation, useRemoveBookmarkFromAPostMutation } = bookmarkApi;

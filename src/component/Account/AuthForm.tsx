@@ -79,6 +79,7 @@ const AuthForm = () => {
       readLogin(values);
     }
   };
+  console.log(error);
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -87,7 +88,7 @@ const AuthForm = () => {
           Welcome back to News Portal!
         </Title>
         <Text ta={"center"} size="xs" c="red">
-          {error && ((error as FetchBaseQueryError).data as any).message}
+          {error && (error as FetchBaseQueryError).data && ((error as FetchBaseQueryError).data as any).message}
         </Text>
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>

@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import { Group, SimpleGrid, Text, rem } from "@mantine/core";
+import { Group, Image, SimpleGrid, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { FunctionComponent, useEffect, useState } from "react";
-import Image from "next/image";
 import React from "react";
 
 interface IDropzone {
@@ -27,7 +27,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
   const previews = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      return <Image alt="" width={200} height={200} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
+      return <img alt="" width={200} height={200} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
     } else {
       return <div></div>;
     }
@@ -40,6 +40,7 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
           alt=""
           width={200}
           height={200}
+          fallbackSrc="/loginnewspaper.jpg"
           src={image && image.includes("https") ? image : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${image}`}
         />
       );
