@@ -21,6 +21,7 @@ interface ICommentContainer {
 
 const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postId }) => {
   const [isCommentClicked, setIsCommentClicked] = useState(false);
+  const [isEditComment, setIsEditComment] = useState(false);
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
   const [addLikeToAComment, { isLoading: addLikeLoading, data: addLikeData }] = useAddLikeToACommentMutation();
   const [removeLikeToAComment, { isLoading: removeLikeLoading, data: removeLikeData }] =
@@ -42,6 +43,12 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
     if (!isAuthenticatedUser) return;
     setIsCommentClicked(prev => !prev);
   };
+
+  const handleEditToggle = () => {
+    if (!isAuthenticatedUser) return;
+    setIsEditComment(prev => !prev);
+  };
+
   return (
     <Stack gap={"xs"} px={"md"} my={"sm"}>
       <div className="w-full flex gap-x-2 justify-start ">
@@ -65,10 +72,20 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
               <span className="font-regular text-sm">{moment(comment.createdAt, "YYYYMMDD").fromNow()}</span>
             </div>
             <div>
-              <CommentOption commentData={comment} />
+              <CommentOption handleEditToggle={handleEditToggle} commentData={comment} />
             </div>
           </div>
-          <h4 dangerouslySetInnerHTML={{ __html: comment.message }} />
+          {!isEditComment && <h4 dangerouslySetInnerHTML={{ __html: comment.message }} />}
+          {isEditComment && (
+            <WriteComment
+              toggleComment={handleEditToggle}
+              isEdit={true}
+              editData={comment.message}
+              buttonLabel="Edit"
+              commentId={comment.id}
+              postId={postId}
+            />
+          )}
           <Group>
             <Button
               onClick={handleLikeToCommentToggle}
@@ -107,7 +124,13 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
         </div>
       </div>
       <div className="flex justify-end">
-        <CommentReply commentReply={comment.commentReplies} />
+        <Stack w={"95%"}>
+          {comment.commentReplies &&
+            comment.commentReplies.length > 0 &&
+            comment.commentReplies.map((replyItem, index) => (
+              <CommentReply key={index} commentId={comment.id} commentReply={replyItem} />
+            ))}
+        </Stack>
       </div>
     </Stack>
   );

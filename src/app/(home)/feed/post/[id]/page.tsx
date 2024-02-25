@@ -82,44 +82,52 @@ const FeedPage = () => {
               </Stack>
             </Group>
           </Card.Section>
-          <Card.Section p={"md"}>
+          <Card.Section px={"md"} pt={"md"}>
             <Title order={3}>{feedData && feedData.data.title}</Title>
           </Card.Section>
-          <Card.Section p={"md"}>
-            <Text>{feedData?.data.description}</Text>
-          </Card.Section>
-          <Card.Section p={"xs"}>
-            <Group mb={"sm"}>
-              {feedData &&
-                feedData.data.tags &&
-                feedData.data.tags.length > 0 &&
-                feedData.data.tags.map((item: string, index: number) => {
+          {feedData && feedData.data.description && (
+            <Card.Section p={"md"}>
+              <form className="">
+                <div
+                  className="text-[16px] font-regular line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: feedData.data.description }}
+                />
+              </form>
+            </Card.Section>
+          )}
+          <Card.Section px={"md"}>
+            {feedData && feedData.data.tags && feedData.data.tags.length > 0 && (
+              <Group mb={"sm"}>
+                {feedData.data.tags.map((item: string, index: number) => {
                   return <Box key={index}>{`#${item}`}</Box>;
                 })}
-            </Group>
+              </Group>
+            )}
             <Text fz={"sm"} c={"dimmed"}>
               {moment(feedData && feedData.data.createdAt, "YYYYMMDD").fromNow()}
             </Text>
           </Card.Section>
+          {feedData && feedData.data.coverImage && (
+            <Card.Section p={"md"}>
+              <a>
+                <Image
+                  src={
+                    feedData.data.coverImage.includes("https")
+                      ? feedData.data.coverImage
+                      : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
+                  }
+                  alt=""
+                  fit="cover"
+                  h={200}
+                  fallbackSrc="/loginnewspaper.jpg"
+                />
+              </a>
+            </Card.Section>
+          )}
           <Card.Section p={"md"}>
-            <a>
-              <Image
-                src={
-                  feedData && feedData.data.coverImage && feedData.data.coverImage.includes("https")
-                    ? feedData.data.coverImage
-                    : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
-                }
-                alt=""
-                fit="cover"
-                h={200}
-                fallbackSrc="/loginnewspaper.jpg"
-              />
-            </a>
-          </Card.Section>
-          <Card.Section p={"md"}>
-            {feedData && (
+            {feedData && feedData.data.links && (
               <Link target="blank" href={feedData.data.links}>
-                <Text c={theme.colors.blue[6]}>{feedData && feedData.data.links}</Text>
+                <Text c={theme.colors.blue[6]}>{feedData.data.links}</Text>
               </Link>
             )}
           </Card.Section>

@@ -14,7 +14,6 @@ export interface CommentReplyData {
   id?: number;
   message: string;
   commentId: number;
-  postId: number;
 }
 
 export interface GetReplyCommentResponse {
