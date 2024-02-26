@@ -2,7 +2,7 @@ import { Button, Group, Text, useMantineTheme } from "@mantine/core";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { VscComment } from "react-icons/vsc";
 import WriteComment from "../MainSide/Comment/WriteComment";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { GetPostData } from "@/redux/post/type";
 import { CiHeart } from "react-icons/ci";
 import { GoHeartFill } from "react-icons/go";
@@ -11,7 +11,7 @@ import { BsShare } from "react-icons/bs";
 import { useAddUpvoteToAPostMutation, useRemoveUpvoteFromAPostMutation } from "@/redux/upvote/upvote.api";
 import ShareButton from "./ShareButton";
 import { useAppSelector } from "@/redux/hooks";
-import { selectAuthenticated } from "@/redux/auth/auth.selector";
+import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useAddBookmarkToAPostMutation, useRemoveBookmarkFromAPostMutation } from "@/redux/bookmark/bookmark.api";
 
 interface IPostToolButton {
@@ -23,6 +23,7 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
   const theme = useMantineTheme();
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
   const [isCommentClicked, setIsCommentClicked] = useState(false);
+  const user = useAppSelector(selectUser);
 
   const [addUpvoteToAPost, { isLoading: addUpvoteLoading, data: addUpvoteData, error: addUpvoteError }] =
     useAddUpvoteToAPostMutation();
@@ -31,6 +32,23 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
 
   const [addBookmarkToAPost, { error: addBookmarkError }] = useAddBookmarkToAPostMutation();
   const [removeBookmarkFromAPost, { error: removeBookmarkError }] = useRemoveBookmarkFromAPostMutation();
+
+  // const [addBookmark, { isLoading: addBookmarkLoading, data: addBookmarkData }] = useAddBookmarkToAPostMutation();
+  // const [removeBookmark, { data: removeBookmarkData, isLoading: removeBookmarkLoading }] = useRemoveBookmarkMutation();
+  // const boolData = {
+  //   userId: user?.id,
+  //   postId: postId,
+  // };
+
+  // const [checkBookmark, { data: isBookmarkedData, isLoading }] = useRemoveBookmarkMutation();
+  // console.log(isBookmarkedData);
+  // const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // useEffect(() => {
+  //   // if (boolData) {
+  //   checkBookmark(boolData);
+  //   // }
+  // }, [addBookmarkData, removeBookmarkData]);
 
   const handleUpvoteToggle = () => {
     if (isAuthenticatedUser) {
@@ -56,6 +74,38 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
       }
     }
   };
+
+  // useEffect(() => {
+  //   if (isBookmarkedData) {
+  //     setIsBookmarked(isBookmarkedData);
+  //   }
+  // }, [isBookmarkedData]);
+
+  // const handleBookmark = () => {
+  //   if (user?.id) {
+  //     const bookmarkDetails = {
+  //       userId: user.id,
+  //       postId: postId,
+  //     };
+  //     if (!isBookmarked) {
+  //       addBookmark(bookmarkDetails);
+  //     } else {
+  //       removeBookmark(bookmarkDetails);
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (addBookmarkData) {
+  //     console.log(addBookmarkData);
+  //   }
+  // }, [addBookmarkData]);
+
+  // useEffect(() => {
+  //   if (removeBookmarkData) {
+  //     console.log(removeBookmarkData);
+  //   }
+  // }, [removeBookmarkData]);
 
   return (
     <>
@@ -117,3 +167,6 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
 };
 
 export default PostToolButton;
+function useRemoveBookmarkMutation(): [any, { data: any; isLoading: any }] {
+  throw new Error("Function not implemented.");
+}

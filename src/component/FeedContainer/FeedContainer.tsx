@@ -1,18 +1,25 @@
 "use client";
 
-import { useGetAuthUserShareLinkQuery, useGetPostQuery, useGetShareLinkQuery } from "@/redux/post/post.api";
+import {
+  useGetAuthUserShareLinkQuery,
+  useGetPostQuery,
+  useGetShareLinkQuery,
+  useSearchCategoryFeedQuery,
+} from "@/redux/post/post.api";
 import { CircularProgress } from "@mui/material";
 import { Center, Grid, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectUser } from "@/redux/auth/auth.selector";
 import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
+import { useSearchParams } from "next/navigation";
 
 const FeedContainer = () => {
   const [shareLinkSkip, setShareLinkSkip] = useState(true);
   const [authShareLinkSkip, setAuthShareLinkSkip] = useState(true);
   const [data, setData] = useState<any>(null);
-
+  const search = useSearchParams();
+  const searchVal = search.get("category");
   const user = useAppSelector(selectUser);
   const { data: shareLinkData, isLoading: shareLinkIsLoading } = useGetShareLinkQuery(undefined, {
     skip: shareLinkSkip,
@@ -22,6 +29,8 @@ const FeedContainer = () => {
     skip: authShareLinkSkip,
     refetchOnMountOrArgChange: true,
   });
+
+  const { data: catPostData, isLoading: catPostLoading } = useSearchCategoryFeedQuery(searchVal ? searchVal : "");
 
   useEffect(() => {
     if (user) {
@@ -34,14 +43,19 @@ const FeedContainer = () => {
   }, [user]);
 
   useEffect(() => {
-    if (shareLinkData) {
-      setData(shareLinkData.data);
-    }
+    if (!searchVal) {
+      if (shareLinkData) {
+        setData(shareLinkData.data);
+      }
 
-    if (authShareLinkData) {
-      setData(authShareLinkData.data);
+      if (authShareLinkData) {
+        setData(authShareLinkData.data);
+      }
+    } else {
+      console.log(catPostData);
+      setData(catPostData?.data);
     }
-  }, [shareLinkData, authShareLinkData]);
+  }, [shareLinkData, authShareLinkData, searchVal, catPostData]);
 
   const newsData = [
     {
@@ -86,7 +100,7 @@ const FeedContainer = () => {
     },
   ];
 
-  return authShareLinkIsLoading || shareLinkIsLoading ? (
+  return authShareLinkIsLoading || shareLinkIsLoading || catPostLoading ? (
     <Center className="text-mantineText">
       <CircularProgress />
     </Center>

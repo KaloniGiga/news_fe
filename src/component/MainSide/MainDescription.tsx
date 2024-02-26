@@ -25,9 +25,9 @@ const MainDescription = () => {
   };
 
   return (
-    <Card withBorder radius={"md"} className="w-[80%] ml-[5%] my-8">
+    <Card withBorder radius={"md"} className="lg:w-[80%] w-[90%] ml-[5%] my-8">
       {isAuthenticatedUser && (
-        <Flex justify={"space-between"}>
+        <Flex className="flex lg:flex-row flex-col gap-5 justify-between">
           <Group>
             <MuiAvatar
               name={user?.data.username[0]}

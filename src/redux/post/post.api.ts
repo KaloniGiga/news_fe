@@ -77,6 +77,25 @@ export const postApi = baseApi.injectEndpoints({
         url: `v1/post/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Post"],
+    }),
+    searchPost: builder.query<GetPostResponse, string[]>({
+      query: searchVal => ({
+        url: `v1/post/search?searchVal=${searchVal}`,
+        method: "GET",
+      }),
+    }),
+    searchCategory: builder.query<GetPostResponse, string>({
+      query: val => ({
+        url: `v1/post/catSearch?cat=${val}`,
+        method: "GET",
+      }),
+    }),
+    searchCategoryFeed: builder.query<GetPostResponse, string>({
+      query: val => ({
+        url: `v1/post/catSearchFeed?cat=${val}`,
+        method: "GET",
+      }),
     }),
   }),
 });
@@ -95,6 +114,9 @@ export const {
   usePutPostMutation,
   useDeletePostMutation,
   useGetPostByIdQuery,
+  useSearchPostQuery,
+  useSearchCategoryQuery,
+  useSearchCategoryFeedQuery,
   useLazyGetPostByIdForAuthUserQuery,
   useLazyGetPostByIdQuery,
 } = postApi;

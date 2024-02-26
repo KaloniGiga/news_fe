@@ -38,6 +38,8 @@ import { BsShare } from "react-icons/bs";
 import { VscComment } from "react-icons/vsc";
 import { IComment } from "@/redux/comment/type";
 import PostToolButton from "@/component/PostToolButton/PostToolButton";
+import RecommendedPosts from "@/component/RecommendedPosts/RecommendedPosts";
+import SkeletonComponent from "@/component/Skeleton/Skeleton";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated } from "@/redux/auth/auth.selector";
 import { useGetCommentsByPostIdQuery, useLazyGetCommentsByPostIdQuery } from "@/redux/comment/comment.api";
@@ -58,92 +60,123 @@ const FeedPage = () => {
     getCommentsByPostId(Number(id));
   }, [isAuthenticatedUser, id]);
 
-  return (
-    <Card w={"90%"} mx={"auto"} mt={"md"} my={"xl"} withBorder>
-      {authUserPostLoading && <div>Loading...</div>}
-      {isError && <div>Failed to load data.</div>}
-      {feedData && (
-        <>
-          <Card.Section>
-            <Group p={"md"}>
-              <MuiAvatar
-                name={feedData?.data.user.username[0]}
-                src={
-                  feedData && feedData.data.user.picture
-                    ? feedData.data.user.picture.includes("https")
-                      ? feedData.data.user.picture
-                      : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
-                    : ""
-                }
-              />
-              <Stack gap={0}>
-                <Text>{feedData && feedData.data.user.username}</Text>
-                <Text>{feedData && feedData.data.user.email}</Text>
-              </Stack>
-            </Group>
-          </Card.Section>
-          <Card.Section px={"md"} pt={"md"}>
-            <Title order={3}>{feedData && feedData.data.title}</Title>
-          </Card.Section>
-          {feedData && feedData.data.description && (
-            <Card.Section p={"md"}>
-              <form className="">
-                <div
-                  className="text-[16px] font-regular line-clamp-2"
-                  dangerouslySetInnerHTML={{ __html: feedData.data.description }}
-                />
-              </form>
-            </Card.Section>
-          )}
-          <Card.Section px={"md"}>
-            {feedData && feedData.data.tags && feedData.data.tags.length > 0 && (
-              <Group mb={"sm"}>
-                {feedData.data.tags.map((item: string, index: number) => {
-                  return <Box key={index}>{`#${item}`}</Box>;
-                })}
-              </Group>
-            )}
-            <Text fz={"sm"} c={"dimmed"}>
-              {moment(feedData && feedData.data.createdAt, "YYYYMMDD").fromNow()}
-            </Text>
-          </Card.Section>
-          {feedData && feedData.data.coverImage && (
-            <Card.Section p={"md"}>
-              <a>
-                <Image
-                  src={
-                    feedData.data.coverImage.includes("https")
-                      ? feedData.data.coverImage
-                      : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
-                  }
-                  alt=""
-                  fit="cover"
-                  h={200}
-                  fallbackSrc="/loginnewspaper.jpg"
-                />
-              </a>
-            </Card.Section>
-          )}
-          <Card.Section p={"md"}>
-            {feedData && feedData.data.links && (
-              <Link target="blank" href={feedData.data.links}>
-                <Text c={theme.colors.blue[6]}>{feedData.data.links}</Text>
-              </Link>
-            )}
-          </Card.Section>
+  const [tags, setTags] = useState<string[] | null>(null);
+  // const {
+  //   data: feedData,
+  //   isLoading,
+  //   error,
+  //   refetch,
+  // } = useGetPostByIdQuery(Number(id), { refetchOnMountOrArgChange: true });
 
-          <Card.Section p={"md"}>
-            <PostToolButton feedData={feedData.data} postId={Number(id)} />
-          </Card.Section>
-          <Card.Section p={"md"}>
-            {comments &&
-              comments?.data.map((comment: IComment, index: number) => {
-                return <CommentContainer postId={Number(id)} comment={comment} key={index} />;
-              })}
-          </Card.Section>
-        </>
+  useEffect(() => {
+    if (feedData?.data) {
+      setTags(feedData.data.tags);
+    }
+    console.log(tags);
+  }, [feedData]);
+  // console.log(feedData);
+
+  return (
+    <div className="w-full h-full">
+      <Card w={"95%"} mx={"auto"} mt={"md"} my={"xl"} withBorder>
+        {authUserPostLoading && (
+          <div className="w-full h-full">
+            <Card w={"95%"} mx={"auto"} withBorder p={"md"} my={"md"}>
+              <Card.Section className="p-4">
+                <SkeletonComponent />
+              </Card.Section>
+            </Card>
+          </div>
+        )}
+        {isError && <div>Failed to load data.</div>}
+        {feedData && (
+          <>
+            <Card.Section>
+              <Group p={"md"}>
+                <MuiAvatar
+                  name={feedData?.data.user.username[0]}
+                  src={
+                    feedData && feedData.data.user.picture
+                      ? feedData.data.user.picture.includes("https")
+                        ? feedData.data.user.picture
+                        : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
+                      : ""
+                  }
+                />
+                <Stack gap={0}>
+                  <Text>{feedData && feedData.data.user.username}</Text>
+                  <Text>{feedData && feedData.data.user.email}</Text>
+                </Stack>
+              </Group>
+            </Card.Section>
+            <Card.Section px={"md"} pt={"md"}>
+              <Title order={3}>{feedData && feedData.data.title}</Title>
+            </Card.Section>
+            {feedData && feedData.data.description && (
+              <Card.Section p={"md"}>
+                <form className="">
+                  <div
+                    className="text-[16px] font-regular line-clamp-2"
+                    dangerouslySetInnerHTML={{ __html: feedData.data.description }}
+                  />
+                </form>
+              </Card.Section>
+            )}
+            <Card.Section px={"md"}>
+              {feedData && feedData.data.tags && feedData.data.tags.length > 0 && (
+                <Group mb={"sm"}>
+                  {feedData.data.tags.map((item: string, index: number) => {
+                    return <Box key={index}>{`#${item}`}</Box>;
+                  })}
+                </Group>
+              )}
+              <Text fz={"sm"} c={"dimmed"}>
+                {moment(feedData && feedData.data.createdAt, "YYYYMMDD").fromNow()}
+              </Text>
+            </Card.Section>
+            {feedData && feedData.data.coverImage && (
+              <Card.Section p={"md"}>
+                <a>
+                  <Image
+                    src={
+                      feedData.data.coverImage.includes("https")
+                        ? feedData.data.coverImage
+                        : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
+                    }
+                    alt=""
+                    fit="cover"
+                    h={200}
+                    fallbackSrc="/loginnewspaper.jpg"
+                  />
+                </a>
+              </Card.Section>
+            )}
+            <Card.Section p={"md"}>
+              {feedData && feedData.data.links && (
+                <Link target="blank" href={feedData.data.links}>
+                  <Text c={theme.colors.blue[6]}>{feedData.data.links}</Text>
+                </Link>
+              )}
+            </Card.Section>
+
+            <Card.Section p={"md"}>
+              <PostToolButton feedData={feedData.data} postId={Number(id)} />
+            </Card.Section>
+            <Card.Section p={"md"}>
+              {comments &&
+                comments?.data.map((comment: IComment, index: number) => {
+                  return <CommentContainer postId={Number(id)} comment={comment} key={index} />;
+                })}
+            </Card.Section>
+          </>
+        )}
+      </Card>
+      {tags && (
+        <div className="w-[95%] mx-auto mt-4">
+          <RecommendedPosts tags={tags} id={Number(id)} />
+        </div>
       )}
-    </Card>
+    </div>
   );
 };
 

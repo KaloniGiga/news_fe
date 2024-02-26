@@ -4,17 +4,24 @@ import MainTabs from "./MainTabs";
 import { Avatar, CircularProgress } from "@mui/material";
 import MainDescription from "./MainDescription";
 import NewsContainer from "./NewsContainer";
-import { useGetAuthUserCreatePostQuery, useGetCreatePostQuery, useGetPostQuery } from "@/redux/post/post.api";
+import {
+  useGetAuthUserCreatePostQuery,
+  useGetCreatePostQuery,
+  useGetPostQuery,
+  useSearchCategoryQuery,
+} from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
 import { useAppSelector } from "@/redux/hooks";
 import { selectUser } from "@/redux/auth/auth.selector";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const MainSide = () => {
   const [createPostSkip, setCreatePostSkip] = useState(true);
   const [authCreatePostSkip, setAuthCreatePostSkip] = useState(true);
   const [data, setData] = useState<any>(null);
-
+  const search = useSearchParams();
+  const searchVal = search.get("category");
   const user = useAppSelector(selectUser);
   const { data: postData, isLoading: postIsLoading } = useGetCreatePostQuery(undefined, {
     skip: createPostSkip,
@@ -24,6 +31,8 @@ const MainSide = () => {
     skip: authCreatePostSkip,
     refetchOnMountOrArgChange: true,
   });
+
+  const { data: catPostData, isLoading: catPostLoading } = useSearchCategoryQuery(searchVal ? searchVal : "");
 
   useEffect(() => {
     if (user) {
@@ -36,14 +45,19 @@ const MainSide = () => {
   }, [user]);
 
   useEffect(() => {
-    if (postData) {
-      setData(postData.data);
-    }
+    if (!searchVal) {
+      if (postData) {
+        setData(postData.data);
+      }
 
-    if (authPostData) {
-      setData(authPostData.data);
+      if (authPostData) {
+        setData(authPostData.data);
+      }
+    } else {
+      console.log(catPostData);
+      setData(catPostData?.data);
     }
-  }, [postData, authPostData]);
+  }, [postData, authPostData, searchVal, catPostData]);
 
   const newsData = [
     {
@@ -84,7 +98,7 @@ const MainSide = () => {
     },
   ];
 
-  return postIsLoading || authPostIsLoading ? (
+  return postIsLoading || authPostIsLoading || catPostLoading ? (
     <Center className="text-mantineText">
       <CircularProgress />
     </Center>

@@ -8,7 +8,7 @@ interface INewsContainer {
 }
 const NewsContainer: FunctionComponent<INewsContainer> = ({ news }) => {
   return (
-    <Flex w={"70%"} py={"xl"} ml={"8%"} rowGap={"xl"} direction={"column"}>
+    <Flex className="lg:w-[70%] w-[90%]" py={"xl"} ml={"5%"} rowGap={"xl"} direction={"column"}>
       {news && news.length > 0 ? (
         <>
           {news.map((item, index: number) => {
