@@ -17,3 +17,15 @@ export interface UserResponse {
 export interface ICategoryList {
   categories: string[];
 }
+
+export interface MentionUserData {
+  id: number;
+  username: string;
+}
+
+export interface GetUserListResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: MentionUserData[];
+}

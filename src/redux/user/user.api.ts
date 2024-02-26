@@ -1,5 +1,5 @@
 import { baseApi } from "../base-query/base-query.config";
-import { ICategoryList, UserResponse, UserUpdateResponse } from "./type";
+import { GetUserListResponse, ICategoryList, UserResponse, UserUpdateResponse } from "./type";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -23,7 +23,20 @@ export const userApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getUserForMention: builder.query<GetUserListResponse, string>({
+      query: username => ({
+        url: `v1/user/mention`,
+        method: "GET",
+        params: { username },
+      }),
+    }),
   }),
 });
 
-export const { useUpdateUserMutation, useAddUserCategoryPreferenceMutation, useDeleteUserMutation } = userApi;
+export const {
+  useUpdateUserMutation,
+  useAddUserCategoryPreferenceMutation,
+  useDeleteUserMutation,
+  useGetUserForMentionQuery,
+  useLazyGetUserForMentionQuery,
+} = userApi;

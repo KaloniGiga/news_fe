@@ -1,31 +1,40 @@
 /* eslint-disable react/display-name */
+import { useGetUserForMentionQuery } from "@/redux/user/user.api";
 import { Button, ButtonGroup, Stack, Text } from "@mantine/core";
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
 export default forwardRef((props: any, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const selectItem = (index: any) => {
-    const item = props.items[index];
+  const { isLoading, data: mentionData, isError } = useGetUserForMentionQuery(props.query);
 
-    if (item) {
-      props.command({ id: item });
+  const selectItem = (index: any) => {
+    if (mentionData && mentionData.data.length > 0) {
+      const item = mentionData.data[index];
+
+      if (item) {
+        props.command({ id: item.username });
+      }
     }
   };
 
   const upHandler = () => {
-    setSelectedIndex((selectedIndex + props.items.length - 1) % props.items.length);
+    if (mentionData && mentionData.data.length > 0) {
+      setSelectedIndex((selectedIndex + mentionData.data.length - 1) % mentionData.data.length);
+    }
   };
 
   const downHandler = () => {
-    setSelectedIndex((selectedIndex + 1) % props.items.length);
+    if (mentionData && mentionData.data.length > 0) {
+      setSelectedIndex((selectedIndex + 1) % mentionData.data.length);
+    }
   };
 
   const enterHandler = () => {
     selectItem(selectedIndex);
   };
 
-  useEffect(() => setSelectedIndex(0), [props.items]);
+  useEffect(() => setSelectedIndex(0), [mentionData]);
 
   useImperativeHandle(ref, () => ({
     onKeyDown: ({ event }: any) => {
@@ -50,19 +59,19 @@ export default forwardRef((props: any, ref) => {
 
   return (
     <div className="items">
-      {props.items.length ? (
-        props.items.map((item: any, index: any) => (
+      {isLoading && <div>Loading...</div>}
+      {isError && <div>Failed to load user.</div>}
+      {mentionData &&
+        mentionData?.data.length &&
+        mentionData?.data.map((item: any, index: any) => (
           <Stack
             className={`item ${index === selectedIndex ? "is-selected" : ""}`}
             key={index}
             onClick={() => selectItem(index)}
           >
-            <Text className="text-mantineText cursor-pointer">{item}</Text>
+            <Text className="text-mantineText cursor-pointer">{item.username}</Text>
           </Stack>
-        ))
-      ) : (
-        <div className="item">No result</div>
-      )}
+        ))}
     </div>
   );
 });
