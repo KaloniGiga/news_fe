@@ -1,10 +1,13 @@
+"use client";
 import { Link, RichTextEditor } from "@mantine/tiptap";
 import Highlight from "@tiptap/extension-highlight";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { FunctionComponent } from "react";
+import Mention from "@tiptap/extension-mention";
+import { FunctionComponent, useEffect } from "react";
+import suggestion from "../../utils/suggestion";
 
 interface ICommentEditor {
   placeholder: string;
@@ -22,12 +25,24 @@ const CommentEditor: FunctionComponent<ICommentEditor> = ({ placeholder, onChang
       Placeholder.configure({
         placeholder,
       }),
+      Mention.configure({
+        HTMLAttributes: {
+          class: "mention",
+        },
+        suggestion,
+      }),
     ],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor?.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (value) {
+      editor?.commands.setContent(value);
+    }
+  }, []);
 
   return (
     <RichTextEditor editor={editor}>

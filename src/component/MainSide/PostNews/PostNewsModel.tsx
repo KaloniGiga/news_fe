@@ -1,13 +1,15 @@
 import { Modal, Button } from "@mantine/core";
 import { FunctionComponent, SetStateAction } from "react";
 import PostNewsFormContainer from "./PostNewsFormContainer";
+import { GetPostData } from "@/redux/post/type";
+import React from "react";
 
 interface IPostNewsModel {
   opened: boolean;
   close: () => void;
   open: () => void;
   isEdit: boolean;
-  editData?: any;
+  editData?: GetPostData;
   createPost?: boolean;
   setCreatePost: React.Dispatch<SetStateAction<boolean>>;
 }

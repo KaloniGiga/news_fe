@@ -8,6 +8,8 @@ export const commentApi = baseApi.injectEndpoints({
         url: `v1/comment/${postId}`,
         method: "GET",
       }),
+      // providesTags: (result, error, args) => (result ? [{ type: "Comments", id: args }] : ["Comments"]),
+      providesTags: ["Comments"],
     }),
     createComment: builder.mutation<CommentResponse, CommentData>({
       query: commentDetails => ({
@@ -15,6 +17,8 @@ export const commentApi = baseApi.injectEndpoints({
         method: "POST",
         body: commentDetails,
       }),
+      invalidatesTags: ["Comments"],
+      // invalidatesTags: (result, error, args) => result ? [{ type: "Comments", id: args.postId }] : ["Comments"],
     }),
     updateComment: builder.mutation<CommentResponse, CommentData>({
       query: commentDetails => ({
@@ -22,12 +26,14 @@ export const commentApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: commentDetails,
       }),
+      invalidatesTags: ["Comments"],
     }),
     deleteComment: builder.mutation<CommentResponse, number>({
       query: id => ({
         url: `v1/comment/${id}`,
-        method: "DELETe",
+        method: "DELETE",
       }),
+      invalidatesTags: ["Comments"],
     }),
   }),
 });
@@ -37,4 +43,5 @@ export const {
   useUpdateCommentMutation,
   useGetCommentsByPostIdQuery,
   useDeleteCommentMutation,
+  useLazyGetCommentsByPostIdQuery,
 } = commentApi;

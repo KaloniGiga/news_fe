@@ -1,6 +1,7 @@
 import { PreviewData } from "next";
 import { IUser } from "../auth/type";
 import { IComment } from "../comment/type";
+import { IUpvoteUser } from "../upvote/type";
 
 export type TagType = {
   title: string;
@@ -42,11 +43,14 @@ export interface GetPostData {
   commentNum: number;
   comments?: IComment[];
   upvoteNum: number;
-  upvotes: any;
+  upvotes: IUpvoteUser[];
+  bookmarkNum: number;
   user: IUser;
   type: PostTypeEnum;
   createdAt: Date;
   updatedAt: Date;
+  hasUserUpvoted?: boolean;
+  hasUserBookmarked?: boolean;
 }
 
 export interface LinkPreviewData {

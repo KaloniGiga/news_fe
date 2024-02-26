@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 "use client";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";

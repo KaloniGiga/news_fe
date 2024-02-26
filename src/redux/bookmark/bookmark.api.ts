@@ -1,21 +1,48 @@
 import { baseApi } from "../base-query/base-query.config";
-import { BookmarkData, BookmarkResponse } from "./type";
+import { postApi } from "../post/post.api";
+import { BookmarkResponse } from "./type";
 
 export const bookmarkApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    addBookmark: builder.mutation<BookmarkResponse, BookmarkData>({
-      query: bookmarkDetails => ({
-        url: "v1/bookmark/add",
+    addBookmarkToAPost: builder.mutation<BookmarkResponse, number>({
+      query: postId => ({
+        url: `v1/bookmark/${postId}`,
         method: "POST",
-        body: bookmarkDetails,
       }),
+      invalidatesTags: ["SinglePost"],
+      async onQueryStarted(postId, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          postApi.util.updateQueryData("getPostByIdForAuthUser", postId, draft => {
+            draft.data.hasUserBookmarked = true;
+            draft.data.bookmarkNum += 1;
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
-    removeBookmark: builder.mutation<BookmarkResponse, BookmarkData>({
-      query: bookmarkDetails => ({
-        url: "v1/bookmark/remove",
-        method: "POST",
-        body: bookmarkDetails,
+    removeBookmarkFromAPost: builder.mutation<BookmarkResponse, number>({
+      query: postId => ({
+        url: `v1/bookmark/${postId}`,
+        method: "DELETE",
       }),
+      invalidatesTags: ["SinglePost"],
+      async onQueryStarted(postId, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          postApi.util.updateQueryData("getPostByIdForAuthUser", postId, draft => {
+            draft.data.hasUserBookmarked = false;
+            draft.data.bookmarkNum -= 1;
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
     getBookmarkPosts: builder.query<BookmarkResponse, number | any>({
       query: userId => ({
@@ -23,15 +50,15 @@ export const bookmarkApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    checkBookmark: builder.mutation<boolean, any>({
-      query: bookmarkedData => ({
-        url: `v1/bookmark/check`,
-        method: "POST",
-        body: bookmarkedData,
-      }),
-    }),
   }),
 });
 
-export const { useAddBookmarkMutation, useRemoveBookmarkMutation, useGetBookmarkPostsQuery, useCheckBookmarkMutation } =
+export const { useAddBookmarkToAPostMutation, useRemoveBookmarkFromAPostMutation, useGetBookmarkPostsQuery } =
   bookmarkApi;
+
+// getBookmarkPosts: builder.query<BookmarkResponse, number | any>({
+//   query: userId => ({
+//     url: `v1/bookmark?userId=${userId}`,
+//     method: "GET",
+//   }),
+// }),

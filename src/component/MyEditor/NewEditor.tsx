@@ -43,7 +43,6 @@ const NewEditor: FunctionComponent<INewEditor> = ({ placeholder, onChange, value
 
   return (
     <RichTextEditor editor={editor}>
-      <RichTextEditor.Content />
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
@@ -88,10 +87,7 @@ const NewEditor: FunctionComponent<INewEditor> = ({ placeholder, onChange, value
           <RichTextEditor.Redo />
         </RichTextEditor.ControlsGroup>
       </RichTextEditor.Toolbar>
-
-      <RichTextEditor.ControlsGroup>
-        <Button variant="default">Comment</Button>
-      </RichTextEditor.ControlsGroup>
+      <RichTextEditor.Content />
     </RichTextEditor>
   );
 };

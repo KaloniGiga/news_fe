@@ -1,9 +1,14 @@
 import { IUser } from "../auth/type";
+import { ICommentReply } from "../comment-reply/type";
 import { GetPostData } from "../post/type";
 
 export interface IComment {
   id: number;
   message: string;
+  commentRepliesNum: number;
+  commentLikesNum: number;
+  hasUserLiked: boolean;
+  commentReplies: ICommentReply[];
   user: IUser;
   post: GetPostData;
   createdAt: Date;

@@ -1,3 +1,4 @@
+"use client";
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IconButton } from "@mui/material";
@@ -6,10 +7,12 @@ import { FunctionComponent } from "react";
 import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
 import { Flex, Group, Stack, Text } from "@mantine/core";
 import moment from "moment";
+import { usePathname } from "next/navigation";
 interface INewsCardDesc {
   editData: GetPostData;
 }
 const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => {
+  const pathname = usePathname();
   return (
     <Flex justify={"space-between"} p={"md"}>
       <Group>
@@ -29,7 +32,7 @@ const NewsCardDescription: FunctionComponent<INewsCardDesc> = ({ editData }) => 
           </Text>
         </Stack>
       </Group>
-      <NewsCardOption isCreatePost={true} editData={editData} />
+      {pathname == "/user-info/post" && <NewsCardOption isCreatePost={true} editData={editData} />}
     </Flex>
   );
 };
