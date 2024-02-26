@@ -10,7 +10,7 @@ interface IFeedCardWrapper {
 
 const FeedPostWrapper: FunctionComponent<IFeedCardWrapper> = ({ feedData }) => {
   // const [opened, { open, close }] = useDisclosure(false);
-
+  console.log(feedData);
   return (
     <>
       <div className="cursor-pointer">

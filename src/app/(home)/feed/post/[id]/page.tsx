@@ -34,6 +34,7 @@ import { VscComment } from "react-icons/vsc";
 import { IComment } from "@/redux/comment/type";
 import PostToolButton from "@/component/PostToolButton/PostToolButton";
 import RecommendedPosts from "@/component/RecommendedPosts/RecommendedPosts";
+import SkeletonComponent from "@/component/Skeleton/Skeleton";
 
 const FeedPage = () => {
   const { id } = useParams();
@@ -55,7 +56,13 @@ const FeedPage = () => {
   console.log(feedData);
 
   return isLoading ? (
-    <div>Loading...</div>
+    <div className="w-full h-full">
+      <Card w={"95%"} mx={"auto"} withBorder p={"md"} my={"md"}>
+        <Card.Section className="p-4">
+          <SkeletonComponent />
+        </Card.Section>
+      </Card>
+    </div>
   ) : feedData ? (
     // <div className="w-[80%] mx-auto text-[var(--mantine-color-text)] bg-[var(--mantine-color-body)] mt-4 pb-8">
     <div className="w-full h-full">

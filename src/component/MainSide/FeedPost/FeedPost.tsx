@@ -75,17 +75,17 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData }) => {
       <Group mt={"lg"}>
         <Avatar
           src={
-            feedData && feedData.user.picture && feedData.user.picture.includes("https")
+            feedData && feedData?.user?.picture && feedData?.user?.picture.includes("https")
               ? feedData.user.picture
-              : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
+              : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user?.picture}`
           }
           size={24}
           radius="xl"
         >
-          {feedData && feedData.user.username[0]}
+          {feedData && feedData.user?.username[0]}
         </Avatar>
         <Text fz="sm" inline className="">
-          {feedData && feedData.user.username}
+          {feedData && feedData.user?.username}
         </Text>
       </Group>
 
