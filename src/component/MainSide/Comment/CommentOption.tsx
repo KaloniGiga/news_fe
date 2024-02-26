@@ -12,8 +12,9 @@ import { useDeleteCommentMutation } from "@/redux/comment/comment.api";
 
 interface ICommentOption {
   commentData: IComment;
+  handleEditToggle: () => void;
 }
-const CommentOption: FunctionComponent<ICommentOption> = ({ commentData }) => {
+const CommentOption: FunctionComponent<ICommentOption> = ({ commentData, handleEditToggle }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [deleteComment, { isLoading, data, isError }] = useDeleteCommentMutation();
   const user = useAppSelector(selectUser);
@@ -34,7 +35,9 @@ const CommentOption: FunctionComponent<ICommentOption> = ({ commentData }) => {
         <Menu.Dropdown>
           <>
             {user && commentData.user && user.id == commentData.user.id && (
-              <Menu.Item leftSection={<CiEdit />}>Edit</Menu.Item>
+              <Menu.Item onClick={handleEditToggle} leftSection={<CiEdit />}>
+                Edit
+              </Menu.Item>
             )}
             {user && commentData.user && user.id == commentData.user.id && (
               <Menu.Item onClick={handleDeleteCommentClick} leftSection={<MdOutlineDelete />}>

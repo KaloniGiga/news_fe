@@ -10,8 +10,9 @@ import { MdMoreVert, MdOutlineDelete, MdOutlineReportGmailerrorred } from "react
 
 interface ICommentReplyOption {
   commentData: ICommentReply;
+  handleEditToggle: () => void;
 }
-const CommentReplyOption: FunctionComponent<ICommentReplyOption> = ({ commentData }) => {
+const CommentReplyOption: FunctionComponent<ICommentReplyOption> = ({ commentData, handleEditToggle }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const user = useAppSelector(selectUser);
 
@@ -33,7 +34,9 @@ const CommentReplyOption: FunctionComponent<ICommentReplyOption> = ({ commentDat
         <Menu.Dropdown>
           <>
             {user && commentData.user && user.id == commentData.user.id && (
-              <Menu.Item leftSection={<CiEdit />}>Edit</Menu.Item>
+              <Menu.Item onClick={handleEditToggle} leftSection={<CiEdit />}>
+                Edit
+              </Menu.Item>
             )}
             {user && commentData.user && user.id == commentData.user.id && (
               <Menu.Item onClick={handleCommentReplyDelete} leftSection={<MdOutlineDelete />}>
