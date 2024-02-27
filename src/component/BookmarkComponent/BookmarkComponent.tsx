@@ -11,6 +11,7 @@ import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
 const BookmarkComponent: FunctionComponent = (): ReactElement => {
   const user = useAppSelector(selectUser);
   const [data, setData] = useState<any>();
+
   const { data: bookmarkedPosts, isLoading } = useGetBookmarkPostsQuery(user?.id, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {

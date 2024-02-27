@@ -7,6 +7,7 @@ import {
   ActionIconGroup,
   Box,
   Button,
+  ButtonGroup,
   Card,
   Chip,
   Group,
@@ -16,6 +17,7 @@ import {
   Text,
   Title,
   useMantineTheme,
+  Flex,
 } from "@mantine/core";
 import Link from "next/link";
 import { FunctionComponent, useEffect, useState } from "react";
@@ -25,7 +27,7 @@ import { TfiComment } from "react-icons/tfi";
 import { FaShare } from "react-icons/fa6";
 import { IoAlbumsSharp, IoBookmarkOutline } from "react-icons/io5";
 import moment from "moment";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   useGetPostByIdQuery,
   useLazyGetPostByIdForAuthUserQuery,
@@ -41,19 +43,31 @@ import PostToolButton from "@/component/PostToolButton/PostToolButton";
 import RecommendedPosts from "@/component/RecommendedPosts/RecommendedPosts";
 import SkeletonComponent from "@/component/Skeleton/Skeleton";
 import { useAppSelector } from "@/redux/hooks";
-import { selectAuthenticated } from "@/redux/auth/auth.selector";
+import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useGetCommentsByPostIdQuery, useLazyGetCommentsByPostIdQuery } from "@/redux/comment/comment.api";
+import {
+  useCheckFollowStatusQuery,
+  useFollowUnfollowUserMutation,
+  useLazyCheckFollowStatusQuery,
+} from "@/redux/follow/follow.api";
 
 const FeedPage = () => {
   const { id } = useParams();
   const theme = useMantineTheme();
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
-
+  const router = useRouter();
   const [getPostByIdForAuthUser, { isLoading: authUserPostLoading, data: feedData, isError }] =
     useLazyGetPostByIdForAuthUserQuery();
 
   const [getCommentsByPostId, { isLoading: commentLoading, data: comments, isError: commentError }] =
     useLazyGetCommentsByPostIdQuery();
+
+  const [followUser, { isLoading: followLoading, data: followData }] = useFollowUnfollowUserMutation();
+  const { data: followStatus, refetch: statusRefetch } = useCheckFollowStatusQuery(feedData?.data.user.id as any, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     getPostByIdForAuthUser(Number(id));
@@ -61,6 +75,7 @@ const FeedPage = () => {
   }, [isAuthenticatedUser, id]);
 
   const [tags, setTags] = useState<string[] | null>(null);
+  const [status, setStatus] = useState(false);
   // const {
   //   data: feedData,
   //   isLoading,
@@ -69,13 +84,29 @@ const FeedPage = () => {
   // } = useGetPostByIdQuery(Number(id), { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
+    statusRefetch();
+    if (followStatus?.data) {
+      setStatus(followStatus.data.followed);
+    }
+  }, [followStatus, followData]);
+
+  useEffect(() => {
     if (feedData?.data) {
       setTags(feedData.data.tags);
     }
-    console.log(tags);
   }, [feedData]);
-  // console.log(feedData);
 
+  const handleFollow = async () => {
+    if (feedData?.data) {
+      followUser(feedData?.data.user.id);
+    }
+  };
+
+  const handleNavigate = () => {
+    if (feedData?.data) {
+      router.push(`/${feedData.data.user.username}`);
+    }
+  };
   return (
     <div className="w-full h-full">
       <Card w={"95%"} mx={"auto"} mt={"md"} my={"xl"} withBorder>
@@ -92,22 +123,31 @@ const FeedPage = () => {
         {feedData && (
           <>
             <Card.Section>
-              <Group p={"md"}>
-                <MuiAvatar
-                  name={feedData?.data.user.username[0]}
-                  src={
-                    feedData && feedData.data.user.picture
-                      ? feedData.data.user.picture.includes("https")
-                        ? feedData.data.user.picture
-                        : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
-                      : ""
-                  }
-                />
-                <Stack gap={0}>
-                  <Text>{feedData && feedData.data.user.username}</Text>
-                  <Text>{feedData && feedData.data.user.email}</Text>
-                </Stack>
-              </Group>
+              <Flex
+                direction={{ base: "column", sm: "row" }}
+                gap={{ base: "sm", sm: "lg" }}
+                className=" items-center justify-between w-[95%]"
+              >
+                <Group onClick={handleNavigate} p={"md"} className=" cursor-pointer">
+                  <MuiAvatar
+                    name={feedData?.data.user.username[0]}
+                    src={
+                      feedData && feedData.data.user.picture
+                        ? feedData.data.user.picture.includes("https")
+                          ? feedData.data.user.picture
+                          : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
+                        : ""
+                    }
+                  />
+                  <Stack gap={0}>
+                    <Text>{feedData && feedData.data.user.username}</Text>
+                    <Text>{feedData && feedData.data.user.email}</Text>
+                  </Stack>
+                </Group>
+                {feedData.data.user.id !== user?.id && (
+                  <Button onClick={handleFollow}>{!status ? "Follow" : "Unfollow"}</Button>
+                )}
+              </Flex>
             </Card.Section>
             <Card.Section px={"md"} pt={"md"}>
               <Title order={3}>{feedData && feedData.data.title}</Title>

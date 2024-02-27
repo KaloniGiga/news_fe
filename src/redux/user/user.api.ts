@@ -10,6 +10,12 @@ export const userApi = baseApi.injectEndpoints({
         body: updateDetails,
       }),
     }),
+    getUserByUsername: builder.query<UserUpdateResponse, string>({
+      query: username => ({
+        url: `/v1/user/${username}`,
+        method: "GET",
+      }),
+    }),
     addUserCategoryPreference: builder.mutation<UserResponse, ICategoryList>({
       query: categoryList => ({
         url: `v1/user/category`,
@@ -39,4 +45,5 @@ export const {
   useDeleteUserMutation,
   useGetUserForMentionQuery,
   useLazyGetUserForMentionQuery,
+  useGetUserByUsernameQuery,
 } = userApi;

@@ -9,6 +9,12 @@ export const postApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPostByUser: builder.query<GetPostResponse, number>({
+      query: userId => ({
+        url: `v1/post/${userId}`,
+        method: "GET",
+      }),
+    }),
     getPostById: builder.query<PostResponse, number>({
       query: id => ({
         url: `v1/post/${id}`,
@@ -119,4 +125,5 @@ export const {
   useSearchCategoryFeedQuery,
   useLazyGetPostByIdForAuthUserQuery,
   useLazyGetPostByIdQuery,
+  useGetPostByUserQuery,
 } = postApi;
