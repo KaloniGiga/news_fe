@@ -17,6 +17,8 @@ export interface IUser {
   picture: string;
   categories: CategoryData[];
   isGoogleAuth: boolean;
+  followersCount: number;
+  followingCount: number;
 }
 
 export interface LoginResponse {
