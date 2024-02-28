@@ -29,7 +29,7 @@ const CommentEditor: FunctionComponent<ICommentEditor> = ({ placeholder, onChang
         HTMLAttributes: {
           class: "mention",
         },
-        suggestion,
+        // suggestion,
       }),
     ],
     content: value,

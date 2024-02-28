@@ -1,14 +1,19 @@
 "use client";
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
-import { Group, Stack, Text } from "@mantine/core";
+import { Group, Indicator, Stack, Text } from "@mantine/core";
+import { FunctionComponent } from "react";
 
-const NotificationItem = () => {
+interface INotificationItem {
+  id: number;
+  message: string;
+}
+const NotificationItem: FunctionComponent<INotificationItem> = ({ id, message }) => {
   const { data: user } = useGetUserQuery();
   return (
-    <Group w={"100%"}>
+    <Group w={"100%"} m={"md"} align="center" className="cursor-pointer text-mantineText">
       <MuiAvatar
-        size="small"
+        sx={{ width: 32, height: 32 }}
         name={user?.data.username[0]}
         src={
           user && user.data.picture
@@ -18,10 +23,13 @@ const NotificationItem = () => {
             : ""
         }
       />
-      <Stack gap={1}>
-        <Text>Patrick David commented on your Post.</Text>
-        <Text>3 hours ago</Text>
+      <Stack w="75%" gap={1}>
+        <Text size="md">{message}</Text>
+        <Text c={"blue"} fw="700" size="sm">
+          3 hours ago
+        </Text>
       </Stack>
+      <Indicator size={12} color="blue"></Indicator>
     </Group>
   );
 };

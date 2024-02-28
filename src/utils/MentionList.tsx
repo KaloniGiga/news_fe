@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { useGetUserForMentionQuery } from "@/redux/user/user.api";
-import { Button, ButtonGroup, Stack, Text } from "@mantine/core";
+import { Button, ButtonGroup, ScrollArea, Stack, Text } from "@mantine/core";
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
 export default forwardRef((props: any, ref) => {
@@ -58,20 +58,25 @@ export default forwardRef((props: any, ref) => {
   }));
 
   return (
-    <div className="items">
+    <div className="w-[200px] items flex flex-col">
       {isLoading && <div>Loading...</div>}
       {isError && <div>Failed to load user.</div>}
-      {mentionData &&
-        mentionData?.data.length &&
-        mentionData?.data.map((item: any, index: any) => (
-          <Stack
-            className={`item ${index === selectedIndex ? "is-selected" : ""}`}
-            key={index}
-            onClick={() => selectItem(index)}
-          >
-            <Text className="text-mantineText cursor-pointer">{item.username}</Text>
-          </Stack>
-        ))}
+      <ScrollArea.Autosize mah={150} scrollbars="y">
+        {mentionData &&
+          mentionData?.data.length &&
+          mentionData?.data.map((item: any, index: any) => (
+            <Button
+              variant="subtle"
+              color="gray"
+              className={`item ${index === selectedIndex ? "is-selected" : ""}`}
+              key={index}
+              onClick={() => selectItem(index)}
+              fullWidth
+            >
+              <Text className="text-mantineText cursor-pointer">{item.username}</Text>
+            </Button>
+          ))}
+      </ScrollArea.Autosize>
     </div>
   );
 });

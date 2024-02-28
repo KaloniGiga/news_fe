@@ -20,7 +20,7 @@ export interface ICategoryList {
 
 export interface MentionUserData {
   id: number;
-  username: string;
+  display: string;
 }
 
 export interface GetUserListResponse {
