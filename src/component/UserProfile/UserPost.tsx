@@ -2,7 +2,7 @@
 import { useGetUserCreatePostQuery } from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
 import { CircularProgress } from "@mui/material";
-import NewsContainer from "../MainSide/NewsContainer";
+import NewsContainer from "../MainSide/NewsCard/NewsContainer";
 
 const UserPost = () => {
   const { data: postData, isLoading: postIsLoading } = useGetUserCreatePostQuery(undefined, {

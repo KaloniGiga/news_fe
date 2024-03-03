@@ -3,7 +3,7 @@ import Image from "next/image";
 import MainTabs from "./MainTabs";
 import { Avatar, CircularProgress } from "@mui/material";
 import MainDescription from "./MainDescription";
-import NewsContainer from "./NewsContainer";
+import NewsContainer from "./NewsCard/NewsContainer";
 import { useGetAuthUserCreatePostQuery, useGetCreatePostQuery, useGetPostQuery } from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
 import { useAppSelector } from "@/redux/hooks";

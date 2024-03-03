@@ -5,12 +5,12 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import DeleteIcon from "@mui/icons-material/Delete";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import EditNews from "../EditNews/EditNews";
+import EditNews from "../../EditNews/EditNews";
 import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
 import { ActionIcon, Menu } from "@mantine/core";
 import { Edit } from "@mui/icons-material";
 import { useDisclosure } from "@mantine/hooks";
-import PostNewsModel from "../PostNews/PostNewsModel";
+import PostNewsModel from "../../PostNews/PostNewsModel";
 import { useLogoutMutation } from "@/redux/auth/auth.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { resetAuthUser } from "@/redux/auth/auth.slice";

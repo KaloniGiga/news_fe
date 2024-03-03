@@ -27,7 +27,7 @@ import { CiHeart } from "react-icons/ci";
 import { VscComment } from "react-icons/vsc";
 import { BsShare } from "react-icons/bs";
 import moment from "moment";
-import NewsCardOption from "../NewsCardDescription/NewsCardOption";
+import NewsCardOption from "../NewsCard/NewsCardDescription/NewsCardOption";
 import { userAgent } from "next/server";
 import { usePathname } from "next/navigation";
 import { GoHeartFill } from "react-icons/go";
