@@ -21,6 +21,18 @@ export const postApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getMostUpvotedPosts: builder.query<PostResponse, void>({
+      query: () => ({
+        url: "v1/post/upvotedPosts",
+        method: "GET",
+      }),
+    }),
+    getMostCommentedPosts: builder.query<PostResponse, void>({
+      query: () => ({
+        url: "v1/post/commentedPosts",
+        method: "GET",
+      }),
+    }),
     getPostByIdForAuthUser: builder.query<PostResponse, number>({
       query: id => ({
         url: `v1/post/auth/${id}`,
@@ -126,4 +138,6 @@ export const {
   useLazyGetPostByIdForAuthUserQuery,
   useLazyGetPostByIdQuery,
   useGetPostByUserQuery,
+  useGetMostCommentedPostsQuery,
+  useGetMostUpvotedPostsQuery,
 } = postApi;
