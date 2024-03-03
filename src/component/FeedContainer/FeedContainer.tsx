@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectUser } from "@/redux/auth/auth.selector";
 import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
+import FeedPostWrapperWithVirtualScroll from "../MainSide/FeedPost/FeedPostWrapperWithVirtualScroll";
 
 const FeedContainer = () => {
   const [shareLinkSkip, setShareLinkSkip] = useState(true);
@@ -91,16 +92,17 @@ const FeedContainer = () => {
       <CircularProgress />
     </Center>
   ) : data && data.length > 0 ? (
-    <Grid p={"md"} pl={"5%"} gutter={"md"}>
-      {data.map((item: any, index: number) => {
-        return (
-          <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-            <FeedPostWrapper feedData={item} />
-          </Grid.Col>
-        );
-      })}
-    </Grid>
+    <FeedPostWrapperWithVirtualScroll feedPostData={data} />
   ) : (
+    // <Grid p={"md"} pl={"5%"} gutter={"md"}>
+    //   {data.map((item: any, index: number) => {
+    //     return (
+    //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
+    //         <FeedPostWrapper feedData={item} />
+    //       </Grid.Col>
+    //     );
+    //   })}
+    // </Grid>
     <Center className="text-mantineText">
       <Text>No Data Found</Text>
     </Center>

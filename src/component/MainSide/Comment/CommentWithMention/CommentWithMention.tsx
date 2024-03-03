@@ -1,14 +1,15 @@
-import { useGetUserForMentionQuery } from "@/redux/user/user.api";
+import { useGetUserForMentionQuery, useLazyGetUserForMentionQuery } from "@/redux/user/user.api";
 import React, { FunctionComponent, useState } from "react";
 import { Mention, MentionsInput } from "react-mentions";
 import { mentionStyles } from "./mentionStyles";
 import { mentionStylesInput } from "./mentionStylesInput";
+import { debounce } from "lodash";
 
 interface ICommentWithMention {
   placeholder: string;
-  handleCommentChange: (e: any) => void;
+  handleCommentChange: any;
   value: string;
-  handleMentionAdd: (id: any, display: any) => void;
+  handleMentionAdd: (id: any, display: string) => void;
 }
 const CommentWithMention: FunctionComponent<ICommentWithMention> = ({
   placeholder,
@@ -16,7 +17,16 @@ const CommentWithMention: FunctionComponent<ICommentWithMention> = ({
   value,
   handleMentionAdd,
 }) => {
-  // const { isLoading, data: mentionData, isError } = useGetUserForMentionQuery("");
+  const [getUserForMention, { isLoading, data: mentionData, isError }] = useLazyGetUserForMentionQuery();
+
+  const fetchUserSuggestion = (query: any, callback: any) => {
+    getUserForMention(query)
+      .unwrap()
+      .then(payload => callback(payload.data))
+      .catch(error => console.log(error));
+  };
+  const debouncedGetUserForMention = debounce(fetchUserSuggestion, 500);
+
   const users = [
     {
       id: "isaac",
@@ -32,24 +42,29 @@ const CommentWithMention: FunctionComponent<ICommentWithMention> = ({
     },
   ];
 
-  // console.log(mentions, value);
   return (
-    <MentionsInput
-      placeholder={placeholder}
-      style={mentionStylesInput}
-      value={value}
-      onChange={handleCommentChange}
-      a11ySuggestionsListLabel={"Suggested JsonPlaceholder username for mention"}
-      allowSpaceInQuery
-    >
-      <Mention
-        appendSpaceOnAdd
-        onAdd={handleMentionAdd}
-        trigger="@"
-        data={users}
-        displayTransform={(id, display) => `@${display}`}
-      />
-    </MentionsInput>
+    <>
+      <MentionsInput
+        placeholder={placeholder}
+        style={mentionStylesInput}
+        value={value}
+        onChange={handleCommentChange}
+        a11ySuggestionsListLabel={"Mention users."}
+        allowSpaceInQuery
+      >
+        <Mention
+          appendSpaceOnAdd
+          trigger="@"
+          data={(search, callback) => {
+            debouncedGetUserForMention(search, callback);
+          }}
+          displayTransform={(id, display) => `@${display}`}
+          onAdd={handleMentionAdd}
+          // markup="@[__display__](__id__)"
+          style={mentionStyles}
+        />
+      </MentionsInput>
+    </>
   );
 };
 

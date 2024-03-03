@@ -33,6 +33,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   editData,
 }) => {
   const [mentions, setMentions] = useState<string[]>([]);
+  const [rawComment, setRawComment] = useState<string>("");
   const form = useForm({
     initialValues: {
       comment: "",
@@ -77,37 +78,38 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
 
   const handleCommentSubmit = () => {
     console.log(form.values.comment, mentions);
-    // if (isEdit) {
-    //   if (isCommentReply && commentId) {
-    //     updateCommentReply({
-    //       id: commentReplyId,
-    //       message: form.values.comment,
-    //       commentId: commentId,
-    //     });
-    //   } else if (postId && commentId) {
-    //     updateComment({
-    //       message: form.values.comment,
-    //       postId: postId,
-    //       id: commentId,
-    //     });
-    //   }
-    // } else {
-    //   if (isCommentReply && commentId) {
-    //     createCommentReply({
-    //       message: form.values.comment,
-    //       commentId: commentId,
-    //     });
-    //   } else if (postId) {
-    //     createComment({
-    //       message: form.values.comment,
-    //       postId: postId,
-    //     });
-    //   }
-    // }
+    if (isEdit) {
+      if (isCommentReply && commentId) {
+        updateCommentReply({
+          id: commentReplyId,
+          message: form.values.comment,
+          commentId: commentId,
+        });
+      } else if (postId && commentId) {
+        // updateComment({
+        //   message: form.values.comment,
+        //   postId: postId,
+        //   id: commentId,
+        //   rawMessage: rawComment,
+        //   mentions: mentions,
+        // });
+      }
+    } else {
+      if (isCommentReply && commentId) {
+        createCommentReply({
+          message: form.values.comment,
+          commentId: commentId,
+        });
+      } else if (postId) {
+        createComment({
+          message: form.values.comment,
+          postId: postId,
+          rawMessage: rawComment,
+          mentions: mentions,
+        });
+      }
+    }
   };
-
-  console.log(form.values.comment, mentions);
-
   return (
     <Stack gap={0} px={"md"}>
       {/* <CommentEditor
@@ -117,9 +119,15 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
       /> */}
       <CommentWithMention
         placeholder={placeholder ? placeholder : "Share your thoughts"}
-        handleCommentChange={e => form.setFieldValue("comment", e.target.value)}
+        handleCommentChange={(_: any, newValue: any, newPlainTextValue: any) => {
+          setRawComment(newValue);
+          // const result = [...newValue.matchAll(/@\[(.*?)]\((\d+)\)/g)];
+          // const res = result.map(res => parseInt(res[2]));
+          // console.log(newValue, res, newPlainTextValue);
+          form.setFieldValue("comment", newPlainTextValue);
+        }}
         value={form.values.comment}
-        handleMentionAdd={(id: any, display: any) => setMentions(prev => [...prev, id])}
+        handleMentionAdd={(id: any, display: string) => setMentions(prev => [...prev, id])}
       />
       <div className="w-full flex gap-x-2 justify-end p-2 bg-mantineBody">
         <Button variant="outline" onClick={toggleComment}>

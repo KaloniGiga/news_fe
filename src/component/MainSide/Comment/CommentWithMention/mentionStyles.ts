@@ -1,3 +1,3 @@
 export const mentionStyles = {
-  backgroundColor: "var(--mantine-color-body)",
+  backgroundColor: "blue",
 };

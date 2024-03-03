@@ -5,7 +5,7 @@ import NotificationItem from "./NotificationItem";
 import { useGetNotificationsQuery } from "@/redux/notification/notification.api";
 
 const NotificationIcon = () => {
-  const { isLoading, data, isError } = useGetNotificationsQuery();
+  const { isLoading, data, isError } = useGetNotificationsQuery(undefined, { refetchOnMountOrArgChange: true });
   const notificationData = [
     {
       id: 1,
@@ -44,14 +44,14 @@ const NotificationIcon = () => {
       message: "Simon comment on your post,",
     },
   ];
-
+  console.log(data);
   return (
     <Menu openDelay={100} position="bottom">
       <Menu.Target>
         <Box pos={"relative"}>
           <Box style={{ zIndex: "100" }} component="div" pos={"absolute"} top={-10} right={-10}>
             <Badge variant="gradient" gradient={{ from: "red", to: "orange", deg: 90 }} size="lg" circle>
-              3
+              {data ? data.data.length : 0}
             </Badge>
           </Box>
           <ActionIcon color="gray" size={"lg"} variant="danger">
@@ -72,14 +72,16 @@ const NotificationIcon = () => {
         <div className="w-[400px] flex flex-col">
           <ScrollArea.Autosize mah={500} scrollbars="y">
             {isLoading && <div>Loading...</div>}
-            {notificationData && notificationData.length > 0 ? (
+            {data && data.data.length > 0 ? (
               <>
-                {notificationData.map((notif, index) => {
-                  return <NotificationItem key={index} id={notif.id} message={notif.message} />;
+                {data.data.map((notif, index) => {
+                  return <NotificationItem key={index} notificationDetail={notif} />;
                 })}
               </>
             ) : (
-              <div>No noficication</div>
+              <div className="w-full flex justify-center items-center text-[var(--mantine-color-text)] py-2">
+                No notification
+              </div>
             )}
           </ScrollArea.Autosize>
         </div>

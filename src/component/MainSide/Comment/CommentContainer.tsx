@@ -48,7 +48,6 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
     if (!isAuthenticatedUser) return;
     setIsEditComment(prev => !prev);
   };
-
   return (
     <Stack gap={"xs"} px={"md"} my={"sm"}>
       <div className="w-full flex gap-x-2 justify-start ">
@@ -80,7 +79,7 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
             <WriteComment
               toggleComment={handleEditToggle}
               isEdit={true}
-              editData={comment.message}
+              editData={comment.rawMessage}
               buttonLabel="Edit"
               commentId={comment.id}
               postId={postId}
