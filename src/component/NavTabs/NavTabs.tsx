@@ -26,10 +26,10 @@ const NavTabs = () => {
         <Tabs.Tab value="/post" leftSection={<FaRegNewspaper size={22} color={theme.colors.yellow[6]} />}>
           Post
         </Tabs.Tab>
-        <Tabs.Tab value="/mostupvoted" leftSection={<FaFireAlt color={theme.colors.red[6]} size={25} />}>
+        <Tabs.Tab value="/upvote" leftSection={<FaFireAlt color={theme.colors.red[6]} size={25} />}>
           Most upvoted
         </Tabs.Tab>
-        <Tabs.Tab value="/mostdiscussed" leftSection={<GoCommentDiscussion size={25} color={theme.colors.blue[6]} />}>
+        <Tabs.Tab value="/discussed" leftSection={<GoCommentDiscussion size={25} color={theme.colors.blue[6]} />}>
           Most discussed
         </Tabs.Tab>
       </Tabs.List>
