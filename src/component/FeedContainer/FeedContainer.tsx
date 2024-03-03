@@ -1,111 +1,103 @@
 "use client";
-
-import { useGetAuthUserShareLinkQuery, useGetPostQuery, useGetShareLinkQuery } from "@/redux/post/post.api";
+import {
+  useGetAuthUserShareLinkQuery,
+  useGetPostQuery,
+  useGetShareLinkQuery,
+  useLazyGetAuthUserShareLinkQuery,
+  useLazyGetShareLinkQuery,
+} from "@/redux/post/post.api";
 import { CircularProgress } from "@mui/material";
 import { Center, Grid, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { selectUser } from "@/redux/auth/auth.selector";
+import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
-import FeedPostWrapperWithVirtualScroll from "../MainSide/FeedPost/FeedPostWrapperWithVirtualScroll";
+import FeedPostWrapperWithVirtualScroll from "../MainSide/FeedPost/FeedPostLIst";
+import { GetPostData } from "@/redux/post/type";
+import "react-virtualized/styles.css";
+import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
 
 const FeedContainer = () => {
-  const [shareLinkSkip, setShareLinkSkip] = useState(true);
-  const [authShareLinkSkip, setAuthShareLinkSkip] = useState(true);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<GetPostData[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMoreData, setHasMoreData] = useState(true);
 
-  const user = useAppSelector(selectUser);
-  const { data: shareLinkData, isLoading: shareLinkIsLoading } = useGetShareLinkQuery(undefined, {
-    skip: shareLinkSkip,
-    refetchOnMountOrArgChange: true,
-  });
-  const { data: authShareLinkData, isLoading: authShareLinkIsLoading } = useGetAuthUserShareLinkQuery(undefined, {
-    skip: authShareLinkSkip,
-    refetchOnMountOrArgChange: true,
-  });
+  const isAuthenticated = useAppSelector(selectAuthenticated);
 
+  const [getShareLink, { isFetching: shareLinkFetching }] = useLazyGetShareLinkQuery();
+  const [getAuthShareLink, { isFetching: authShareLinkFetching }] = useLazyGetAuthUserShareLinkQuery();
+
+  // load data after component mount
   useEffect(() => {
-    if (user) {
-      setAuthShareLinkSkip(false);
-      setShareLinkSkip(true);
+    if (isAuthenticated) {
+      getAuthShareLink(page)
+        .unwrap()
+        .then(result => {
+          if (result.data.length < 5) {
+            setHasMoreData(false);
+          }
+          if (result.data.length != 0) {
+            setData(prev => [...prev, ...result.data]);
+          }
+        });
     } else {
-      setAuthShareLinkSkip(true);
-      setShareLinkSkip(false);
+      getShareLink(page)
+        .unwrap()
+        .then(result => {
+          if (result.data.length < 5) {
+            setHasMoreData(false);
+          }
+          if (result.data.length != 0) {
+            setData(prev => [...prev, ...result.data]);
+          }
+        });
     }
-  }, [user]);
+  }, [isAuthenticated]);
 
-  useEffect(() => {
-    if (shareLinkData) {
-      setData(shareLinkData.data);
+  // load more data function
+  const loadMoreData = async (params: any) => {
+    if (!shareLinkFetching && !authShareLinkFetching && hasMoreData) {
+      if (isAuthenticated) {
+        setPage(prev => prev + 1);
+        return getAuthShareLink(page + 1)
+          .unwrap()
+          .then(result => {
+            if (result.data.length < 5) {
+              setHasMoreData(false);
+            }
+            if (result.data.length != 0) {
+              setData(prev => [...prev, ...result.data]);
+            }
+          });
+      } else {
+        setPage(prev => prev + 1);
+        return getAuthShareLink(page + 1)
+          .unwrap()
+          .then(result => {
+            if (result.data.length < 5) {
+              setHasMoreData(false);
+            }
+            if (result.data.length != 0) {
+              setData(prev => [...prev, ...result.data]);
+            }
+          });
+      }
     }
+  };
 
-    if (authShareLinkData) {
-      setData(authShareLinkData.data);
-    }
-  }, [shareLinkData, authShareLinkData]);
-
-  const newsData = [
-    {
-      title: "State of Gaming Industry",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#gamedev", "#webdev", "#beginners", "#homeworld"],
-      coverImage: "/profileuser.jpg",
-      upvote: 200,
-      comments: 12,
-      links: "",
-    },
-    {
-      title: "How to do Open Source Contribution?",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#opensource", "#software development", "#engineering"],
-      coverImage: "/profileuser1.jpg",
-      upvote: 120,
-      comments: 20,
-      links: "",
-    },
-    {
-      title: "What is a Vector Database?",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#ai", "#opensource", "#database", "#tutorial"],
-      coverImage: "/loginnews1.jpg",
-      upvote: 12,
-      comments: 50,
-      links: "",
-    },
-    {
-      title: "JWT vs Session Authentication",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#jwt", "#authjs", "#javascript", "#security"],
-      coverImage: "/loginnewspaper.jpg",
-      upvote: 198,
-      comments: 4,
-      links: "",
-    },
-  ];
-
-  return authShareLinkIsLoading || shareLinkIsLoading ? (
-    <Center className="text-mantineText">
-      <CircularProgress />
-    </Center>
-  ) : data && data.length > 0 ? (
-    <FeedPostWrapperWithVirtualScroll feedPostData={data} />
-  ) : (
-    // <Grid p={"md"} pl={"5%"} gutter={"md"}>
-    //   {data.map((item: any, index: number) => {
-    //     return (
-    //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-    //         <FeedPostWrapper feedData={item} />
-    //       </Grid.Col>
-    //     );
-    //   })}
-    // </Grid>
-    <Center className="text-mantineText">
-      <Text>No Data Found</Text>
-    </Center>
+  return (
+    data && (
+      <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />
+      // <Grid p={"md"} pl={"5%"} gutter={"md"}>
+      //   {data.map((item: any, index: number) => {
+      //     return (
+      //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
+      //         <FeedPostWrapper feedData={item} />
+      //       </Grid.Col>
+      //     );
+      //   })}
+      // </Grid>
+    )
   );
 };
 

@@ -22,40 +22,46 @@ export const postApi = baseApi.injectEndpoints({
       }),
       providesTags: ["SinglePost"],
     }),
-    getAuthUserShareLink: builder.query<GetPostResponse, void>({
-      query: () => ({
+    getAuthUserShareLink: builder.query<GetPostResponse, number>({
+      query: (page = 1) => ({
         url: `v1/post/auth/link`,
         method: "GET",
+        params: { page },
       }),
     }),
-    getUserShareLink: builder.query<GetPostResponse, void>({
-      query: () => ({
+    getUserShareLink: builder.query<GetPostResponse, number>({
+      query: (page = 1) => ({
         url: `v1/post/user/link`,
         method: "GET",
+        params: { page },
       }),
     }),
-    getShareLink: builder.query<GetPostResponse, void>({
-      query: () => ({
+    getShareLink: builder.query<GetPostResponse, number>({
+      query: (page = 1) => ({
         url: `v1/post/link`,
         method: "GET",
+        params: { page },
       }),
     }),
-    getAuthUserCreatePost: builder.query<GetPostResponse, void>({
-      query: () => ({
+    getAuthUserCreatePost: builder.query<GetPostResponse, number>({
+      query: (page = 1) => ({
         url: `v1/post/auth/create-post`,
         method: "GET",
+        params: { page },
       }),
     }),
-    getUserCreatePost: builder.query<GetPostResponse, void>({
-      query: () => ({
+    getUserCreatePost: builder.query<GetPostResponse, number>({
+      query: (page = 1) => ({
         url: `v1/post/user/create-post`,
         method: "GET",
+        params: { page },
       }),
     }),
-    getCreatePost: builder.query<GetPostResponse, void>({
-      query: () => ({
+    getCreatePost: builder.query<GetPostResponse, number>({
+      query: (page = 1) => ({
         url: `v1/post/create-post`,
         method: "GET",
+        params: { page },
       }),
     }),
     addPost: builder.mutation<PostResponse, any>({
@@ -91,6 +97,7 @@ export const {
   useGetShareLinkQuery,
   useGetUserCreatePostQuery,
   useGetUserShareLinkQuery,
+  useLazyGetShareLinkQuery,
   useAddPostMutation,
   usePutPostMutation,
   useDeletePostMutation,
