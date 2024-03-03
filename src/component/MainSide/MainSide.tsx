@@ -4,98 +4,94 @@ import MainTabs from "./MainTabs";
 import { Avatar, CircularProgress } from "@mui/material";
 import MainDescription from "./MainDescription";
 import NewsContainer from "./NewsCard/NewsContainer";
-import { useGetAuthUserCreatePostQuery, useGetCreatePostQuery, useGetPostQuery } from "@/redux/post/post.api";
+import {
+  useGetAuthUserCreatePostQuery,
+  useGetCreatePostQuery,
+  useGetPostQuery,
+  useLazyGetAuthUserCreatePostQuery,
+  useLazyGetCreatePostQuery,
+} from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
 import { useAppSelector } from "@/redux/hooks";
-import { selectUser } from "@/redux/auth/auth.selector";
+import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useEffect, useState } from "react";
+import { GetPostData } from "@/redux/post/type";
+import NewsCardList from "./NewsCard/NewsCardList";
 
 const MainSide = () => {
-  const [createPostSkip, setCreatePostSkip] = useState(true);
-  const [authCreatePostSkip, setAuthCreatePostSkip] = useState(true);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<GetPostData[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMoreData, setHasMoreData] = useState(true);
 
-  const user = useAppSelector(selectUser);
-  const { data: postData, isLoading: postIsLoading } = useGetCreatePostQuery(undefined, {
-    skip: createPostSkip,
-    refetchOnMountOrArgChange: true,
-  });
-  const { data: authPostData, isLoading: authPostIsLoading } = useGetAuthUserCreatePostQuery(undefined, {
-    skip: authCreatePostSkip,
-    refetchOnMountOrArgChange: true,
-  });
+  const isAuthenticated = useAppSelector(selectAuthenticated);
+
+  const [getCreatePost, { isFetching: createPostFetching }] = useLazyGetCreatePostQuery();
+  const [getAuthCreatePost, { isFetching: authCreatePostFetching }] = useLazyGetAuthUserCreatePostQuery();
 
   useEffect(() => {
-    if (user) {
-      setAuthCreatePostSkip(false);
-      setCreatePostSkip(true);
+    if (isAuthenticated) {
+      getAuthCreatePost(page)
+        .unwrap()
+        .then(result => {
+          if (result && result.data.length < 5) {
+            setHasMoreData(false);
+          }
+
+          if (result && result.data.length != 0) {
+            setData(prev => [...prev, ...result.data]);
+          }
+        });
     } else {
-      setAuthCreatePostSkip(true);
-      setCreatePostSkip(false);
+      getCreatePost(page)
+        .unwrap()
+        .then(result => {
+          if (result && result.data.length < 5) {
+            setHasMoreData(false);
+          }
+          if (result && result.data.length != 0) {
+            setData(prev => [...prev, ...result.data]);
+          }
+        });
     }
-  }, [user]);
+  }, [isAuthenticated]);
 
-  useEffect(() => {
-    if (postData) {
-      setData(postData.data);
+  const loadMoreData = async (params: any) => {
+    if (!createPostFetching && !authCreatePostFetching) {
+      if (isAuthenticated) {
+        setPage(prev => prev + 1);
+        return getAuthCreatePost(page + 1)
+          .unwrap()
+          .then(result => {
+            if (result.data.length < 5) {
+              setHasMoreData(false);
+            }
+            if (result.data.length != 0) {
+              setData(prev => [...prev, ...result.data]);
+            }
+          });
+      } else {
+        setPage(prev => prev + 1);
+        return getCreatePost(page + 1)
+          .unwrap()
+          .then(result => {
+            if (result.data.length < 5) {
+              setHasMoreData(false);
+            }
+
+            if (result.data.length != 0) {
+              setData(prev => [...prev, ...result.data]);
+            }
+          });
+      }
     }
+  };
 
-    if (authPostData) {
-      setData(authPostData.data);
-    }
-  }, [postData, authPostData]);
-
-  const newsData = [
-    {
-      title: "State of Gaming Industry",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#gamedev", "#webdev", "#beginners", "#homeworld"],
-      coverImage: "/profileuser.jpg",
-      upvote: 200,
-      comments: 12,
-    },
-    {
-      title: "How to do Open Source Contribution?",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#opensource", "#software development", "#engineering"],
-      coverImage: "/profileuser1.jpg",
-      upvote: 120,
-      comments: 20,
-    },
-    {
-      title: "What is a Vector Database?",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#ai", "#opensource", "#database", "#tutorial"],
-      coverImage: "/loginnews1.jpg",
-      upvote: 12,
-      comments: 50,
-    },
-    {
-      title: "JWT vs Session Authentication",
-      description:
-        "A vector is a quantity or phenomenon that has two independent properties: magnitude and direction. The term also denotes the mathematical or geometrical representation of such a quantity. Examples of vectors in nature are velocity, momentum, force, electromagnetic fields and weight.",
-      tags: ["#jwt", "#authjs", "#javascript", "#security"],
-      coverImage: "/loginnewspaper.jpg",
-      upvote: 198,
-      comments: 4,
-    },
-  ];
-
-  return postIsLoading || authPostIsLoading ? (
-    <Center className="text-mantineText">
-      <CircularProgress />
-    </Center>
-  ) : data && data.length > 0 ? (
-    <Box component="div" className="w-full h-full text-mantineText">
-      <NewsContainer news={data} />
-    </Box>
-  ) : (
-    <Center className="text-mantineText">
-      <Text>No Data Found</Text>
-    </Center>
+  return (
+    data && (
+      <Box component="div" className="w-full h-full text-mantineText">
+        <NewsCardList newsPostData={data} hasMoreData={hasMoreData} loadMoreData={loadMoreData} />
+      </Box>
+    )
   );
 };
 

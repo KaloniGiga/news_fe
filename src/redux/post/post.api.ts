@@ -94,6 +94,7 @@ export const {
   useLazyGetAuthUserShareLinkQuery,
   useGetAuthUserShareLinkQuery,
   useGetCreatePostQuery,
+  useLazyGetCreatePostQuery,
   useGetShareLinkQuery,
   useGetUserCreatePostQuery,
   useGetUserShareLinkQuery,

@@ -1,18 +1,17 @@
 import { GetPostData } from "@/redux/post/type";
-import React, { FunctionComponent, useRef, useState } from "react";
-import AutoSizer from "react-virtualized-auto-sizer";
-import FeedPost from "./FeedPost";
-import { Grid, SimpleGrid, Text, useMantineTheme } from "@mantine/core";
-import { InfiniteLoader, List, WindowScroller } from "react-virtualized";
+import { Text } from "@mantine/core";
+import React, { FunctionComponent, useRef } from "react";
+import { AutoSizer, InfiniteLoader, List, WindowScroller } from "react-virtualized";
+import NewsCard from "./NewsCard";
 
-export interface IFeedPostList {
-  feedPostData: GetPostData[];
+interface INewsCardList {
+  newsPostData: GetPostData[];
   hasMoreData: boolean;
   loadMoreData: (param: any) => Promise<any>;
 }
 
-const ITEM_WIDTH = 300;
-const ITEM_HEIGHT = 440;
+const ITEM_WIDTH = 800;
+const ITEM_HEIGHT = 300;
 
 const generateIndexesForRow = (rowIndex: number, maxItemsPerRow: number, itemsAmount: number) => {
   const result = [];
@@ -34,23 +33,16 @@ const getRowsAmount = (width: number, itemsAmount: number, hasMore: boolean) => 
   return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
 };
 
-const RowItem = React.memo(function RowItem({ feedPost }: { feedPost: GetPostData }) {
-  return <FeedPost style={{ width: ITEM_WIDTH, margin: "10px" }} feedData={feedPost} />;
+const RowItem = React.memo(function RowItem({ newsPost }: { newsPost: GetPostData }) {
+  return <NewsCard style={{ width: ITEM_WIDTH, margin: "10px" }} editData={newsPost} />;
 });
 
-const FeedPostList: FunctionComponent<IFeedPostList> = ({ feedPostData, hasMoreData, loadMoreData }) => {
-  // const [data, setData] = useState(() => Array.from({ length: 20 }, () => Array.from({ length: 3 }, feedPostData)));
-  const theme = useMantineTheme();
+const NewsCardList: FunctionComponent<INewsCardList> = ({ newsPostData, hasMoreData, loadMoreData }) => {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
-
-  // const loadMoreItems = async (params: any) => {
-  //   console.log("load more items", params);
-  //   return await [];
-  // };
 
   const noRowsRendered = () => (
     <div className="w-full h-full flex justify-center text-mantineText">
-      <Text>Not post found.</Text>
+      <Text>No post found.</Text>
     </div>
   );
 
@@ -59,32 +51,32 @@ const FeedPostList: FunctionComponent<IFeedPostList> = ({ feedPostData, hasMoreD
       {({ height, isScrolling, scrollTop }) => (
         <AutoSizer disableHeight>
           {({ width }) => {
-            const rowCount = getRowsAmount(width, feedPostData.length, hasMoreData);
+            const rowCount = getRowsAmount(width, newsPostData.length, hasMoreData);
             const rowRenderer = ({ index, style }: any) => {
               const maxItemsPerRow = getMaxItemsAmountPerRow(width);
-              const postIds = generateIndexesForRow(index, maxItemsPerRow, feedPostData.length).map(
-                postIndex => feedPostData[postIndex]
+              const newsPostIds = generateIndexesForRow(index, maxItemsPerRow, newsPostData.length).map(
+                newPostIndex => newsPostData[newPostIndex]
               );
 
               return (
-                <div style={style} className="flex justify-start pl-10">
-                  {postIds.map((feedPost, index) => (
-                    <RowItem key={index} feedPost={feedPost} />
+                <div style={style} className="pl-20">
+                  {newsPostIds.map((newsPost, index) => (
+                    <RowItem key={index} newsPost={newsPost} />
                   ))}
                 </div>
               );
             };
+
             return (
               <InfiniteLoader
                 ref={infiniteLoaderRef}
                 rowCount={rowCount}
                 isRowLoaded={({ index }) => {
                   const maxItemsPerRow = getMaxItemsAmountPerRow(width);
-                  const allItemLoaded = generateIndexesForRow(index, maxItemsPerRow, feedPostData.length).length > 0;
+                  const allItemLoaded = generateIndexesForRow(index, maxItemsPerRow, newsPostData.length).length > 0;
                   return !hasMoreData || allItemLoaded;
                 }}
                 loadMoreRows={loadMoreData}
-                // threshold={10}
               >
                 {({ onRowsRendered, registerChild }) => (
                   <section>
@@ -112,4 +104,4 @@ const FeedPostList: FunctionComponent<IFeedPostList> = ({ feedPostData, hasMoreD
   );
 };
 
-export default FeedPostList;
+export default NewsCardList;

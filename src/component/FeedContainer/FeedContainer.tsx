@@ -71,7 +71,7 @@ const FeedContainer = () => {
           });
       } else {
         setPage(prev => prev + 1);
-        return getAuthShareLink(page + 1)
+        return getShareLink(page + 1)
           .unwrap()
           .then(result => {
             if (result.data.length < 5) {

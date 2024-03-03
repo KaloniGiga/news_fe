@@ -8,11 +8,12 @@ import { FunctionComponent } from "react";
 
 interface INotificationItem {
   notificationDetail: INotification;
+  style: any;
 }
-const NotificationItem: FunctionComponent<INotificationItem> = ({ notificationDetail }) => {
+const NotificationItem: FunctionComponent<INotificationItem> = ({ notificationDetail, style }) => {
   // const { data: user } = useGetUserQuery();
   return (
-    <Group w={"100%"} m={"md"} align="center" className="cursor-pointer text-mantineText">
+    <Group w={"100%"} m={"md"} align="center" style={style} className="cursor-pointer text-mantineText">
       <MuiAvatar
         sx={{ width: 32, height: 32 }}
         name={notificationDetail.senderUsername}
