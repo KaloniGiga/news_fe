@@ -2,7 +2,7 @@
 import { useLazyGetUserCreatePostQuery } from "@/redux/post/post.api";
 import { useEffect, useState } from "react";
 import { GetPostData } from "@/redux/post/type";
-import NewsCardList from "../MainSide/NewsCard/NewsCardList";
+import CreatePostList from "../MainSide/NewsCard/CreatePostList";
 
 const UserPost = () => {
   const [data, setData] = useState<GetPostData[]>([]);
@@ -40,7 +40,7 @@ const UserPost = () => {
         });
     }
   };
-  return data && <NewsCardList loadMoreData={loadMoreData} hasMoreData={hasMoreData} newsPostData={data} />;
+  return data && <CreatePostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} newsPostData={data} />;
 };
 
 export default UserPost;
