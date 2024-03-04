@@ -16,8 +16,8 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
-      styles={{ main: { backgroundColor: "var(--mantine-color-body)" } }}
+      navbar={{ width: 220, breakpoint: "sm", collapsed: { mobile: !opened } }}
+      styles={{ main: { backgroundColor: "var(--mantine-color-body)", minHeight: "100vh" } }}
     >
       <AppShell.Header>
         <Header toggle={toggle} />

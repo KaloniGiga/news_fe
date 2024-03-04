@@ -10,7 +10,7 @@ interface IAvatar {
 const MuiAvatar: FunctionComponent<IAvatar> = ({ sx, src, name, size }) => {
   return (
     <Avatar sx={sx} alt="Remy Sharp" sizes={size ? size : "large"} src={src}>
-      {name}
+      {name && name[0]}
     </Avatar>
   );
 };

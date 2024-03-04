@@ -5,7 +5,7 @@ import SearchInput from "./SearchInput";
 import MuiAvatar from "../Avatar/MuiAvatar";
 import { useRouter, usePathname } from "next/navigation";
 import AuthButtonContainer from "./AuthButtonContainer";
-import NotificationIcon from "./NotificationIcon";
+import NotificationIcon from "./Notification/NotificationIcon";
 import DarkLightMode from "../DarkLightMode/DarkLightMode";
 import Bookmark from "./Bookmark/Bookmark";
 import MenuIcon from "@mui/icons-material/Menu";

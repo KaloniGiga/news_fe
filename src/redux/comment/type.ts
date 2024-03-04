@@ -5,6 +5,7 @@ import { GetPostData } from "../post/type";
 export interface IComment {
   id: number;
   message: string;
+  rawMessage: string;
   commentRepliesNum: number;
   commentLikesNum: number;
   hasUserLiked: boolean;
@@ -18,7 +19,9 @@ export interface IComment {
 export interface CommentData {
   id?: number;
   message: string;
+  rawMessage: string;
   postId: number;
+  mentions: string[];
 }
 
 export interface GetCommentResponse {

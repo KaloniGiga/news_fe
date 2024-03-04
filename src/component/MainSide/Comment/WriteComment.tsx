@@ -5,9 +5,10 @@ import {
   useUpdateCommentReplyMutation,
 } from "@/redux/comment-reply/comment-reply.api";
 import { useCreateCommentMutation, useUpdateCommentMutation } from "@/redux/comment/comment.api";
-import { Button } from "@mantine/core";
+import { Button, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
+import CommentWithMention from "./CommentWithMention/CommentWithMention";
 
 interface IWriteComment {
   toggleComment?: () => void;
@@ -31,6 +32,8 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   isEdit,
   editData,
 }) => {
+  const [mentions, setMentions] = useState<string[]>([]);
+  const [rawComment, setRawComment] = useState<string>("");
   const form = useForm({
     initialValues: {
       comment: "",
@@ -74,6 +77,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   }, [commentData, commentReplyData, updateCommentData, updateCommentReplyData]);
 
   const handleCommentSubmit = () => {
+    console.log(form.values.comment, mentions);
     if (isEdit) {
       if (isCommentReply && commentId) {
         updateCommentReply({
@@ -82,11 +86,13 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
           commentId: commentId,
         });
       } else if (postId && commentId) {
-        updateComment({
-          message: form.values.comment,
-          postId: postId,
-          id: commentId,
-        });
+        // updateComment({
+        //   message: form.values.comment,
+        //   postId: postId,
+        //   id: commentId,
+        //   rawMessage: rawComment,
+        //   mentions: mentions,
+        // });
       }
     } else {
       if (isCommentReply && commentId) {
@@ -98,19 +104,32 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
         createComment({
           message: form.values.comment,
           postId: postId,
+          rawMessage: rawComment,
+          mentions: mentions,
         });
       }
     }
   };
-
   return (
-    <div>
-      <CommentEditor
+    <Stack gap={0} px={"md"}>
+      {/* <CommentEditor
         placeholder={placeholder ? placeholder : "Share your thoughts"}
         onChange={val => form.setFieldValue("comment", val)}
         value={form.values.comment}
+      /> */}
+      <CommentWithMention
+        placeholder={placeholder ? placeholder : "Share your thoughts"}
+        handleCommentChange={(_: any, newValue: any, newPlainTextValue: any) => {
+          setRawComment(newValue);
+          // const result = [...newValue.matchAll(/@\[(.*?)]\((\d+)\)/g)];
+          // const res = result.map(res => parseInt(res[2]));
+          // console.log(newValue, res, newPlainTextValue);
+          form.setFieldValue("comment", newPlainTextValue);
+        }}
+        value={form.values.comment}
+        handleMentionAdd={(id: any, display: string) => setMentions(prev => [...prev, id])}
       />
-      <div className="w-full flex gap-x-2 justify-end p-1 pt-2 bg-mantineBody">
+      <div className="w-full flex gap-x-2 justify-end p-2 bg-mantineBody">
         <Button variant="outline" onClick={toggleComment}>
           {"Cancel"}
         </Button>
@@ -121,7 +140,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
           {buttonLabel ? buttonLabel : "Comment"}
         </Button>
       </div>
-    </div>
+    </Stack>
   );
 };
 
