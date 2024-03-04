@@ -21,16 +21,18 @@ export const postApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getMostUpvotedPosts: builder.query<PostResponse, void>({
-      query: () => ({
+    getMostUpvotedPosts: builder.query<GetPostResponse, number>({
+      query: page => ({
         url: "v1/post/upvotedPosts",
         method: "GET",
+        params: { page },
       }),
     }),
-    getMostCommentedPosts: builder.query<PostResponse, void>({
-      query: () => ({
+    getMostCommentedPosts: builder.query<GetPostResponse, number>({
+      query: page => ({
         url: "v1/post/commentedPosts",
         method: "GET",
+        params: { page },
       }),
     }),
     getPostByIdForAuthUser: builder.query<PostResponse, number>({
@@ -151,4 +153,8 @@ export const {
   useGetPostByUserQuery,
   useGetMostCommentedPostsQuery,
   useGetMostUpvotedPostsQuery,
+  useLazyGetMostCommentedPostsQuery,
+  useLazyGetMostUpvotedPostsQuery,
+  useLazyGetUserShareLinkQuery,
+  useLazyGetUserCreatePostQuery,
 } = postApi;

@@ -1,8 +1,6 @@
 import React, { FunctionComponent, ReactElement, useEffect, useState } from "react";
-import NewsContainer from "../MainSide/NewsContainer";
 import { useSearchPostQuery } from "@/redux/post/post.api";
 import { Card, Grid } from "@mantine/core";
-import NewsCard from "../MainSide/NewsCard";
 import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
 
 interface IRecommendedPosts {

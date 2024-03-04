@@ -17,7 +17,6 @@ import {
   TagOutlined,
 } from "@mui/icons-material";
 import MuiAvatar from "../Avatar/MuiAvatar";
-import PostEditNewsDialog from "../MainSide/PostNews/PostEditNewsDialog";
 import PostNewsModel from "../MainSide/PostNews/PostNewsModel";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
@@ -54,7 +53,6 @@ import { usePathname, useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const { data, isLoading, error } = useGetCategoryQuery();
-  const isAuthenticated = useAppSelector(selectAuthenticated);
   const [active, setActive] = useState<string>("My Feed");
   const [opened, { open, close }] = useDisclosure(false);
   const path = usePathname();

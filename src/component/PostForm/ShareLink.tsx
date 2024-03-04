@@ -3,7 +3,7 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { RichTextEditorProvider, RichTextField } from "mui-tiptap";
+import { RichTextEditor } from "@mantine/tiptap";
 import { FunctionComponent, useState } from "react";
 import LinkPreview from "./LinkPreview";
 
@@ -47,9 +47,9 @@ const ShareLink: FunctionComponent<IShareLink> = ({ onChange, value }) => {
   });
   return (
     <div className="shareLinkContainer">
-      <RichTextEditorProvider editor={editor}>
-        <RichTextField></RichTextField>
-      </RichTextEditorProvider>
+      <RichTextEditor editor={editor}>
+        <RichTextEditor.Content />
+      </RichTextEditor>
       {
         <div>
           <LinkPreview url={linkToPreview} />

@@ -2,7 +2,7 @@
 import { ListItemIcon, ListItemText } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { FunctionComponent, useState } from "react";
-import PostEditNewsDialog from "../PostNews/PostEditNewsDialog";
+// import PostEditNewsDialog from "../PostNews/PostEditNewsDialog";
 import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
 import { useDisclosure } from "@mantine/hooks";
 import PostNewsModel from "../PostNews/PostNewsModel";

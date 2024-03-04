@@ -1,7 +1,7 @@
 import DiscussedContainer from "@/component/DiscussedContainer/DiscussedContainer";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <DiscussedContainer />
@@ -9,4 +9,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

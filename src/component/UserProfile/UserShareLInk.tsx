@@ -2,31 +2,48 @@
 import { Center, Grid, Text } from "@mantine/core";
 import { CircularProgress } from "@mui/material";
 import FeedPost from "../MainSide/FeedPost/FeedPost";
-import { useGetUserShareLinkQuery } from "@/redux/post/post.api";
+import { useGetUserShareLinkQuery, useLazyGetUserShareLinkQuery } from "@/redux/post/post.api";
+import { useEffect, useState } from "react";
+import { GetPostData } from "@/redux/post/type";
+import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
 
 const UserShareLink = () => {
-  const { data: shareLinkData, isLoading: shareLinkIsLoading } = useGetUserShareLinkQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-  return shareLinkIsLoading ? (
-    <Center className="text-mantineText">
-      <CircularProgress />
-    </Center>
-  ) : shareLinkData && shareLinkData.data && shareLinkData.data.length > 0 ? (
-    <Grid p={"md"} pl={"5%"} gutter={"md"}>
-      {shareLinkData.data.map((item: any, index: number) => {
-        return (
-          <Grid.Col key={index} span={{ base: 12, md: 6, lg: 6 }}>
-            <FeedPost feedData={item} />
-          </Grid.Col>
-        );
-      })}
-    </Grid>
-  ) : (
-    <Center className="text-mantineText">
-      <Text>No Shared Link Found</Text>
-    </Center>
-  );
+  const [data, setData] = useState<GetPostData[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMoreData, setHasMoreData] = useState(true);
+
+  const [getUserShareLink, { isFetching }] = useLazyGetUserShareLinkQuery();
+  useEffect(() => {
+    getUserShareLink(page)
+      .unwrap()
+      .then(result => {
+        if (result && result.data.length < 5) {
+          setHasMoreData(false);
+        }
+
+        if (result && result.data.length != 0) {
+          setData([...result.data]);
+        }
+      });
+  }, []);
+
+  const loadMoreData = async (params: any) => {
+    if (!isFetching) {
+      setPage(prev => prev + 1);
+      return getUserShareLink(page + 1)
+        .unwrap()
+        .then(result => {
+          if (result.data.length < 5) {
+            setHasMoreData(false);
+          }
+
+          if (result.data.length != 0) {
+            setData(prev => [...prev, ...result.data]);
+          }
+        });
+    }
+  };
+  return data && <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />;
 };
 
 export default UserShareLink;

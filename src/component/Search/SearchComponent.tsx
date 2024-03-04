@@ -3,15 +3,14 @@ import React, { FunctionComponent, ReactElement, useEffect, useState } from "rea
 import Header from "../Navbar/Header";
 import { useSearchPostQuery } from "@/redux/post/post.api";
 import { Box } from "@mantine/core";
-import NewsContainer from "../MainSide/NewsContainer";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
+import NewsContainer from "../MainSide/NewsCard/NewsContainer";
 
 const SearchComponent: FunctionComponent = (): ReactElement => {
   const [data, setData] = useState<any>("");
   const search = useSearchParams();
   const searchVal = search.getAll("q");
-  console.log(searchVal);
   const { data: searchData, isLoading } = useSearchPostQuery(searchVal ? searchVal : []);
   useEffect(() => {
     if (searchData) {

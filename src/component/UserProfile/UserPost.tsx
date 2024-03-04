@@ -1,27 +1,46 @@
 "use client";
-import { useGetUserCreatePostQuery } from "@/redux/post/post.api";
-import { Box, Center, Text } from "@mantine/core";
-import { CircularProgress } from "@mui/material";
-import NewsContainer from "../MainSide/NewsCard/NewsContainer";
+import { useLazyGetUserCreatePostQuery } from "@/redux/post/post.api";
+import { useEffect, useState } from "react";
+import { GetPostData } from "@/redux/post/type";
+import NewsCardList from "../MainSide/NewsCard/NewsCardList";
 
 const UserPost = () => {
-  const { data: postData, isLoading: postIsLoading } = useGetUserCreatePostQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const [data, setData] = useState<GetPostData[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMoreData, setHasMoreData] = useState(true);
+  const [getUserCreatePost, { isFetching }] = useLazyGetUserCreatePostQuery();
 
-  return postIsLoading ? (
-    <Center className="text-mantineText">
-      <CircularProgress />
-    </Center>
-  ) : postData && postData.data.length > 0 ? (
-    <Box component="div" className="w-full h-full text-mantineText">
-      <NewsContainer news={postData.data} />
-    </Box>
-  ) : (
-    <Center className="text-mantineText">
-      <Text>No Post Found</Text>
-    </Center>
-  );
+  useEffect(() => {
+    getUserCreatePost(page)
+      .unwrap()
+      .then(result => {
+        if (result && result.data.length < 5) {
+          setHasMoreData(false);
+        }
+
+        if (result && result.data.length != 0) {
+          setData([...result.data]);
+        }
+      });
+  }, []);
+
+  const loadMoreData = async (params: any) => {
+    if (!isFetching) {
+      setPage(prev => prev + 1);
+      return getUserCreatePost(page + 1)
+        .unwrap()
+        .then(result => {
+          if (result.data.length < 5) {
+            setHasMoreData(false);
+          }
+
+          if (result.data.length != 0) {
+            setData(prev => [...prev, ...result.data]);
+          }
+        });
+    }
+  };
+  return data && <NewsCardList loadMoreData={loadMoreData} hasMoreData={hasMoreData} newsPostData={data} />;
 };
 
 export default UserPost;

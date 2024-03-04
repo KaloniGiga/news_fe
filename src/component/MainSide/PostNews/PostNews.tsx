@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import MuiButton from "../../ui/MuiButton/MuiButton";
-import PostEditNewsDialog from "./PostEditNewsDialog";
+// import PostEditNewsDialog from "./PostEditNewsDialog";
 import PostNewsModel from "./PostNewsModel";
 
 const PostNews = () => {
@@ -18,7 +18,7 @@ const PostNews = () => {
   return (
     <div className="w-full flex justify-end">
       <MuiButton label="Post News" variant="outlined" onClick={handleClickOpen} />
-      <PostEditNewsDialog isEdit={false} handleClose={handleClose} open={open} />
+      {/* <PostEditNewsDialog isEdit={false} handleClose={handleClose} open={open} /> */}
     </div>
   );
 };
