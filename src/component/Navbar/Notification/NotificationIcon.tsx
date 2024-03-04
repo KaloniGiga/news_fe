@@ -27,7 +27,7 @@ const NotificationIcon = () => {
             setHasMoreData(false);
           }
           if (result && result.data.length != 0) {
-            setData(prev => [...prev, ...result.data]);
+            setData([...result.data]);
           }
         });
     }
