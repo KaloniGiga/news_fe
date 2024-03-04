@@ -6,6 +6,5 @@ export const baseApi = createApi({
   reducerPath: BASE_API_SLICE,
   tagTypes: ["SinglePost", "Post", "Comments"],
   baseQuery: baseQueryWithReauth,
-  refetchOnMountOrArgChange: true,
   endpoints: () => ({}),
 });

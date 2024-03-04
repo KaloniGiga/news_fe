@@ -11,7 +11,7 @@ export const postApi = baseApi.injectEndpoints({
     }),
     getPostByUser: builder.query<GetPostResponse, number>({
       query: userId => ({
-        url: `v1/post/${userId}`,
+        url: `v1/post/user/${userId}`,
         method: "GET",
       }),
     }),
@@ -105,20 +105,23 @@ export const postApi = baseApi.injectEndpoints({
     }),
     searchPost: builder.query<GetPostResponse, string[]>({
       query: searchVal => ({
-        url: `v1/post/search?searchVal=${searchVal}`,
+        url: `v1/post/search`,
         method: "GET",
+        params: { searchVal },
       }),
     }),
     searchCategory: builder.query<GetPostResponse, string>({
       query: val => ({
-        url: `v1/post/catSearch?cat=${val}`,
+        url: `v1/post/catSearch`,
         method: "GET",
+        params: { cat: val },
       }),
     }),
     searchCategoryFeed: builder.query<GetPostResponse, string>({
       query: val => ({
-        url: `v1/post/catSearchFeed?cat=${val}`,
+        url: `v1/post/catSearchFeed`,
         method: "GET",
+        params: { cat: val },
       }),
     }),
   }),

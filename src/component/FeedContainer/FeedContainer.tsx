@@ -32,7 +32,6 @@ const FeedContainer = () => {
   const search = useSearchParams();
   const searchVal = search.get("category");
   const user = useAppSelector(selectUser);
-
   const { data: catPostData, isLoading: catPostLoading } = useSearchCategoryFeedQuery(searchVal ? searchVal : "");
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const FeedContainer = () => {
               setHasMoreData(false);
             }
             if (result.data.length != 0) {
-              setData(prev => [...prev, ...result.data]);
+              setData([...result.data]);
             }
           });
       } else {
@@ -56,7 +55,7 @@ const FeedContainer = () => {
               setHasMoreData(false);
             }
             if (result.data.length != 0) {
-              setData(prev => [...prev, ...result.data]);
+              setData(prev => [...result.data]);
             }
           });
       }
