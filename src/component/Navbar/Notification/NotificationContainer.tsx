@@ -11,7 +11,7 @@ export interface INotificationContainer {
 }
 
 const ITEM_WIDTH = 400;
-const ITEM_HEIGHT = 100;
+const ITEM_HEIGHT = 70;
 
 const generateIndexesForRow = (rowIndex: number, maxItemsPerRow: number, itemsAmount: number) => {
   const result = [];
@@ -34,7 +34,7 @@ const getRowsAmount = (width: number, itemsAmount: number, hasMore: boolean) => 
 };
 
 const RowItem = React.memo(function RowItem({ notification }: { notification: INotification }) {
-  return <NotificationItem style={{ width: ITEM_WIDTH, margin: "10px" }} notificationDetail={notification} />;
+  return <NotificationItem style={{}} notificationDetail={notification} />;
 });
 
 const NotificationContainer: FunctionComponent<INotificationContainer> = ({
@@ -51,7 +51,7 @@ const NotificationContainer: FunctionComponent<INotificationContainer> = ({
   );
 
   return (
-    <AutoSizer disableHeight>
+    <AutoSizer>
       {({ width, height }) => {
         const rowCount = getRowsAmount(width, notificationData.length, hasMoreData);
         const rowRenderer = ({ index, style }: any) => {
@@ -61,7 +61,7 @@ const NotificationContainer: FunctionComponent<INotificationContainer> = ({
           );
 
           return (
-            <div style={style} className="flex justify-start pl-10">
+            <div style={style} className="w-full h-full">
               {notificationIds.map((notification, index) => (
                 <RowItem key={index} notification={notification} />
               ))}

@@ -10,7 +10,6 @@ import DarkLightMode from "../DarkLightMode/DarkLightMode";
 import Bookmark from "./Bookmark/Bookmark";
 
 const Header = () => {
-  const router = useRouter();
   return (
     <Box className="w-[80%] mx-auto h-full flex justify-between py-2">
       <Group w={"40%"} justify="flex-start" wrap="nowrap">
