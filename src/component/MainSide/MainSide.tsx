@@ -3,13 +3,13 @@ import Image from "next/image";
 import MainTabs from "./MainTabs";
 import { Avatar, CircularProgress } from "@mui/material";
 import MainDescription from "./MainDescription";
-import NewsContainer from "./NewsCard/NewsContainer";
 import {
   useGetAuthUserCreatePostQuery,
   useGetCreatePostQuery,
   useGetPostQuery,
   useLazyGetAuthUserCreatePostQuery,
   useLazyGetCreatePostQuery,
+  useSearchCategoryQuery,
 } from "@/redux/post/post.api";
 import { Box, Center, Text } from "@mantine/core";
 import { useAppSelector } from "@/redux/hooks";
@@ -17,6 +17,7 @@ import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useEffect, useState } from "react";
 import { GetPostData } from "@/redux/post/type";
 import NewsCardList from "./NewsCard/NewsCardList";
+import { useSearchParams } from "next/navigation";
 
 const MainSide = () => {
   const [data, setData] = useState<GetPostData[]>([]);
@@ -27,6 +28,12 @@ const MainSide = () => {
 
   const [getCreatePost, { isFetching: createPostFetching }] = useLazyGetCreatePostQuery();
   const [getAuthCreatePost, { isFetching: authCreatePostFetching }] = useLazyGetAuthUserCreatePostQuery();
+
+  const search = useSearchParams();
+  const searchVal = search.get("category");
+  const user = useAppSelector(selectUser);
+
+  const { data: catPostData, isLoading: catPostLoading } = useSearchCategoryQuery(searchVal ? searchVal : "");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -54,6 +61,12 @@ const MainSide = () => {
         });
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (searchVal && catPostData) {
+      setData(catPostData?.data);
+    }
+  }, [searchVal, catPostData]);
 
   const loadMoreData = async (params: any) => {
     if (!createPostFetching && !authCreatePostFetching) {

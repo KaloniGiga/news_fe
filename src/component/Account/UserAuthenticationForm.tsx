@@ -73,8 +73,8 @@ const UserLoginForm = () => {
 
   return (
     <div className="w-full h-screen flex items-center overflow-hidden">
-      <div className="w-[60%] h-full bg-[url('/loginnews1.jpg')] bg-cover bg-center"></div>
-      <Card className="w-[40%]" p="xl">
+      <div className="w-[60%] h-full bg-[url('/loginnews1.jpg')] bg-cover bg-center lg:block hidden"></div>
+      <Card className="lg:w-[40%] w-full" p="xl">
         <Title order={2} ta="center" mt="md" mb="md">
           Welcome back to News Portal!
         </Title>

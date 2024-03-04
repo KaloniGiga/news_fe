@@ -20,7 +20,7 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
       styles={{ main: { backgroundColor: "var(--mantine-color-body)", minHeight: "100vh" } }}
     >
       <AppShell.Header>
-        <Header />
+        <Header toggle={toggle} />
       </AppShell.Header>
       <AppShell.Navbar>
         <AppShell.Section grow component={ScrollArea}>

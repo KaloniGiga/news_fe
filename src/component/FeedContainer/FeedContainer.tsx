@@ -5,6 +5,7 @@ import {
   useGetShareLinkQuery,
   useLazyGetAuthUserShareLinkQuery,
   useLazyGetShareLinkQuery,
+  useSearchCategoryFeedQuery,
 } from "@/redux/post/post.api";
 import { CircularProgress } from "@mui/material";
 import { Center, Grid, Text } from "@mantine/core";
@@ -16,6 +17,8 @@ import FeedPostWrapperWithVirtualScroll from "../MainSide/FeedPost/FeedPostLIst"
 import { GetPostData } from "@/redux/post/type";
 import "react-virtualized/styles.css";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
+// load data after component mount
+import { useSearchParams } from "next/navigation";
 
 const FeedContainer = () => {
   const [data, setData] = useState<GetPostData[]>([]);
@@ -26,33 +29,45 @@ const FeedContainer = () => {
 
   const [getShareLink, { isFetching: shareLinkFetching }] = useLazyGetShareLinkQuery();
   const [getAuthShareLink, { isFetching: authShareLinkFetching }] = useLazyGetAuthUserShareLinkQuery();
+  const search = useSearchParams();
+  const searchVal = search.get("category");
+  const user = useAppSelector(selectUser);
 
-  // load data after component mount
+  const { data: catPostData, isLoading: catPostLoading } = useSearchCategoryFeedQuery(searchVal ? searchVal : "");
+
   useEffect(() => {
-    if (isAuthenticated) {
-      getAuthShareLink(page)
-        .unwrap()
-        .then(result => {
-          if (result.data.length < 5) {
-            setHasMoreData(false);
-          }
-          if (result.data.length != 0) {
-            setData(prev => [...prev, ...result.data]);
-          }
-        });
-    } else {
-      getShareLink(page)
-        .unwrap()
-        .then(result => {
-          if (result.data.length < 5) {
-            setHasMoreData(false);
-          }
-          if (result.data.length != 0) {
-            setData(prev => [...prev, ...result.data]);
-          }
-        });
+    if (!searchVal) {
+      if (isAuthenticated) {
+        getAuthShareLink(page)
+          .unwrap()
+          .then(result => {
+            if (result.data.length < 5) {
+              setHasMoreData(false);
+            }
+            if (result.data.length != 0) {
+              setData(prev => [...prev, ...result.data]);
+            }
+          });
+      } else {
+        getShareLink(page)
+          .unwrap()
+          .then(result => {
+            if (result.data.length < 5) {
+              setHasMoreData(false);
+            }
+            if (result.data.length != 0) {
+              setData(prev => [...prev, ...result.data]);
+            }
+          });
+      }
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (searchVal && catPostData) {
+      setData(catPostData?.data);
+    }
+  }, [searchVal, catPostData]);
 
   // load more data function
   const loadMoreData = async (params: any) => {
@@ -85,20 +100,7 @@ const FeedContainer = () => {
     }
   };
 
-  return (
-    data && (
-      <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />
-      // <Grid p={"md"} pl={"5%"} gutter={"md"}>
-      //   {data.map((item: any, index: number) => {
-      //     return (
-      //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-      //         <FeedPostWrapper feedData={item} />
-      //       </Grid.Col>
-      //     );
-      //   })}
-      // </Grid>
-    )
-  );
+  return data && <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />;
 };
 
 export default FeedContainer;
