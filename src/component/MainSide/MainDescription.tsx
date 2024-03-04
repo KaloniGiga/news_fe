@@ -4,7 +4,6 @@ import { IoCreateOutline } from "react-icons/io5";
 import { FaBullseye, FaRegShareSquare } from "react-icons/fa";
 import NavTabs from "../NavTabs/NavTabs";
 import { FunctionComponent, useState } from "react";
-import { IUser } from "@/redux/auth/type";
 import PostNewsModel from "./PostNews/PostNewsModel";
 import { useDisclosure } from "@mantine/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
@@ -12,7 +11,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import MuiAvatar from "../Avatar/MuiAvatar";
 
-const MainDescription = () => {
+const MainDescription: FunctionComponent = () => {
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 

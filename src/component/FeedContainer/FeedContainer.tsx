@@ -19,6 +19,7 @@ import "react-virtualized/styles.css";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
 // load data after component mount
 import { useSearchParams } from "next/navigation";
+import ShareLinkSkeletonContainer from "../Skeleton/ShareLinkSkeleton/ShareLinkSkeletonContainer";
 
 const FeedContainer = () => {
   const [data, setData] = useState<GetPostData[]>([]);
@@ -27,8 +28,12 @@ const FeedContainer = () => {
 
   const isAuthenticated = useAppSelector(selectAuthenticated);
 
-  const [getShareLink, { isFetching: shareLinkFetching }] = useLazyGetShareLinkQuery();
-  const [getAuthShareLink, { isFetching: authShareLinkFetching }] = useLazyGetAuthUserShareLinkQuery();
+  const [getShareLink, { isLoading: shareLinkLoading, isFetching: shareLinkFetching, isSuccess: shareLinkSuccess }] =
+    useLazyGetShareLinkQuery();
+  const [
+    getAuthShareLink,
+    { isLoading: authShareLinkLoading, isFetching: authShareLinkFetching, isSuccess: authShareLinkSuccess },
+  ] = useLazyGetAuthUserShareLinkQuery();
   const search = useSearchParams();
   const searchVal = search.get("category");
   const user = useAppSelector(selectUser);
@@ -99,7 +104,13 @@ const FeedContainer = () => {
     }
   };
 
-  return data && <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />;
+  if (shareLinkLoading || authShareLinkLoading) {
+    return <ShareLinkSkeletonContainer />;
+  }
+
+  if (shareLinkSuccess || authShareLinkSuccess) {
+    return data && <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />;
+  }
 };
 
 export default FeedContainer;
