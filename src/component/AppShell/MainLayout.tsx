@@ -1,5 +1,5 @@
 "use client";
-import { AppShell, ScrollArea } from "@mantine/core";
+import { AppShell, ScrollArea, useComputedColorScheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FunctionComponent, ReactNode } from "react";
 import Header from "../Navbar/Header";
@@ -17,7 +17,11 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 220, breakpoint: "sm", collapsed: { mobile: !opened } }}
-      styles={{ main: { backgroundColor: "var(--mantine-color-body)", minHeight: "100vh" } }}
+      styles={{
+        main: {
+          minHeight: "100vh",
+        },
+      }}
     >
       <AppShell.Header>
         <Header toggle={toggle} />
@@ -28,9 +32,10 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <MainDescription />
-        {/* <NavTabs /> */}
-        {children}
+        <div className="w-full h-full p-1 toggleBodyColor">
+          <MainDescription />
+          {children}
+        </div>
       </AppShell.Main>
     </AppShell>
   );

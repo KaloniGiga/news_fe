@@ -56,7 +56,7 @@ const FeedPage = () => {
   const theme = useMantineTheme();
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
   const router = useRouter();
-  const [getPostByIdForAuthUser, { isLoading: authUserPostLoading, data: feedData, isError }] =
+  const [getPostByIdForAuthUser, { isLoading: authUserPostLoading, data: feedData, isError, isSuccess: postSuccess }] =
     useLazyGetPostByIdForAuthUserQuery();
 
   const [getCommentsByPostId, { isLoading: commentLoading, data: comments, isError: commentError }] =
@@ -107,32 +107,33 @@ const FeedPage = () => {
       router.push(`/${feedData.data.user.username}`);
     }
   };
-  return (
-    <div className="w-full h-full">
-      <Card w={"95%"} mx={"auto"} mt={"md"} my={"xl"} withBorder>
-        {authUserPostLoading && (
-          <div className="w-full h-full">
-            <Card w={"95%"} mx={"auto"} withBorder p={"md"} my={"md"}>
-              <Card.Section className="p-4">
-                <SkeletonComponent />
-              </Card.Section>
-            </Card>
-          </div>
-        )}
-        {isError && <div>Failed to load data.</div>}
-        {feedData && (
-          <>
-            <Card.Section>
-              <Flex
-                direction={{ base: "column", sm: "row" }}
-                gap={{ base: "sm", sm: "lg" }}
-                className=" items-center justify-between w-[95%]"
-              >
-                <Group onClick={handleNavigate} p={"md"} className=" cursor-pointer">
+
+  if (authUserPostLoading) {
+    return (
+      <Card mx={"auto"} mt={"md"} my={"xl"} withBorder className="w-[95%] lg:w-[80%]">
+        <div className="w-full h-full">
+          <SkeletonComponent />
+        </div>
+      </Card>
+    );
+  }
+
+  if (postSuccess && feedData) {
+    return (
+      <div className="w-full h-full">
+        <Card mx={"auto"} mt={"md"} my={"xl"} withBorder className="w-[95%] lg:w-[80%]">
+          <Card.Section>
+            <Flex
+              direction={{ base: "column", sm: "row" }}
+              gap={{ base: "sm", sm: "lg" }}
+              className=" items-center justify-between w-[95%]"
+            >
+              <Link href={`/${feedData.data.user.username}`}>
+                <Group p={"md"} className=" cursor-pointer">
                   <MuiAvatar
-                    name={feedData?.data.user.username[0]}
+                    name={feedData.data.user.username[0]}
                     src={
-                      feedData && feedData.data.user.picture
+                      feedData.data.user.picture
                         ? feedData.data.user.picture.includes("https")
                           ? feedData.data.user.picture
                           : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.data.user.picture}`
@@ -140,84 +141,84 @@ const FeedPage = () => {
                     }
                   />
                   <Stack gap={0}>
-                    <Text>{feedData && feedData.data.user.username}</Text>
-                    <Text>{feedData && feedData.data.user.email}</Text>
+                    <Text>{feedData.data.user.username}</Text>
+                    <Text>{feedData.data.user.email}</Text>
                   </Stack>
                 </Group>
-                {feedData.data.user.id !== user?.id && (
-                  <Button onClick={handleFollow}>{!status ? "Follow" : "Unfollow"}</Button>
-                )}
-              </Flex>
-            </Card.Section>
-            <Card.Section px={"md"} pt={"md"}>
-              <Title order={3}>{feedData && feedData.data.title}</Title>
-            </Card.Section>
-            {feedData && feedData.data.description && (
-              <Card.Section p={"md"}>
-                <form className="">
-                  <div
-                    className="text-[16px] font-regular line-clamp-2"
-                    dangerouslySetInnerHTML={{ __html: feedData.data.description }}
-                  />
-                </form>
-              </Card.Section>
-            )}
-            <Card.Section px={"md"}>
-              {feedData && feedData.data.tags && feedData.data.tags.length > 0 && (
-                <Group mb={"sm"}>
-                  {feedData.data.tags.map((item: string, index: number) => {
-                    return <Box key={index}>{`#${item}`}</Box>;
-                  })}
-                </Group>
+              </Link>
+              {feedData.data.user.id !== user?.id && (
+                <Button onClick={handleFollow}>{!status ? "Follow" : "Unfollow"}</Button>
               )}
-              <Text fz={"sm"} c={"dimmed"}>
-                {moment(feedData && feedData.data.createdAt, "YYYYMMDD").fromNow()}
-              </Text>
-            </Card.Section>
-            {feedData && feedData.data.coverImage && (
-              <Card.Section p={"md"}>
-                <a>
-                  <Image
-                    src={
-                      feedData.data.coverImage.includes("https")
-                        ? feedData.data.coverImage
-                        : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
-                    }
-                    alt=""
-                    fit="cover"
-                    h={200}
-                    fallbackSrc="/loginnewspaper.jpg"
-                  />
-                </a>
-              </Card.Section>
-            )}
+            </Flex>
+          </Card.Section>
+          <Card.Section px={"md"} pt={"md"}>
+            <Title order={3}>{feedData.data.title}</Title>
+          </Card.Section>
+          {feedData.data.description && (
             <Card.Section p={"md"}>
-              {feedData && feedData.data.links && (
-                <Link target="blank" href={feedData.data.links}>
-                  <Text c={theme.colors.blue[6]}>{feedData.data.links}</Text>
-                </Link>
-              )}
+              <form className="">
+                <div
+                  className="text-[16px] font-regular line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: feedData.data.description }}
+                />
+              </form>
             </Card.Section>
-
-            <Card.Section p={"md"}>
-              <PostToolButton feedData={feedData.data} postId={Number(id)} />
-            </Card.Section>
-            <Card.Section p={"md"}>
-              {comments &&
-                comments?.data.map((comment: IComment, index: number) => {
-                  return <CommentContainer postId={Number(id)} comment={comment} key={index} />;
+          )}
+          <Card.Section px={"md"}>
+            {feedData.data.tags && feedData.data.tags.length > 0 && (
+              <Group mb={"sm"}>
+                {feedData.data.tags.map((item: string, index: number) => {
+                  return <Box key={index}>{`#${item}`}</Box>;
                 })}
+              </Group>
+            )}
+            <Text fz={"sm"} c={"dimmed"}>
+              {moment(feedData.data.createdAt, "YYYYMMDD").fromNow()}
+            </Text>
+          </Card.Section>
+          {feedData.data.coverImage && (
+            <Card.Section p={"md"}>
+              <a>
+                <Image
+                  src={
+                    feedData.data.coverImage.includes("https")
+                      ? feedData.data.coverImage
+                      : `${process.env.NEXT_PUBLIC_SERVER_URL}/coverImage/${feedData?.data.coverImage}`
+                  }
+                  alt=""
+                  fit="cover"
+                  h={200}
+                  fallbackSrc="/loginnewspaper.jpg"
+                />
+              </a>
             </Card.Section>
-          </>
+          )}
+          <Card.Section p={"md"}>
+            {feedData.data.links && (
+              <Link target="blank" href={feedData.data.links}>
+                <Text c={theme.colors.blue[6]}>{feedData.data.links}</Text>
+              </Link>
+            )}
+          </Card.Section>
+
+          <Card.Section p={"md"}>
+            <PostToolButton feedData={feedData.data} postId={Number(id)} />
+          </Card.Section>
+          <Card.Section p={"md"}>
+            {comments &&
+              comments?.data.map((comment: IComment, index: number) => {
+                return <CommentContainer postId={Number(id)} comment={comment} key={index} />;
+              })}
+          </Card.Section>
+        </Card>
+        {tags && (
+          <div className="w-[95%] mx-auto mt-4">
+            <RecommendedPosts tags={tags} id={Number(id)} />
+          </div>
         )}
-      </Card>
-      {tags && (
-        <div className="w-[95%] mx-auto mt-4">
-          <RecommendedPosts tags={tags} id={Number(id)} />
-        </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 export default FeedPage;

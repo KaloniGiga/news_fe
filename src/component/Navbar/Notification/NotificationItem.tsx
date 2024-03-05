@@ -13,7 +13,13 @@ interface INotificationItem {
 const NotificationItem: FunctionComponent<INotificationItem> = ({ notificationDetail, style }) => {
   // const { data: user } = useGetUserQuery();
   return (
-    <Group m={"sm"} justify="center" align="center" style={style} className="cursor-pointer text-mantineText">
+    <Group
+      m={"sm"}
+      justify="center"
+      align="center"
+      style={style}
+      className="cursor-pointer text-mantineText rrounded-lg"
+    >
       <MuiAvatar
         sx={{ width: 32, height: 32 }}
         name={notificationDetail.senderUsername}

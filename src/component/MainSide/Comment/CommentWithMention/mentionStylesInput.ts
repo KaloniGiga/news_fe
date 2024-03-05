@@ -1,7 +1,7 @@
 export const mentionStylesInput = {
   "&multiLine": {
     control: {
-      backgroundColor: "var(--mantine-color-body)",
+      // background: "var(--mantine-color-body)",
       minHeight: 80,
     },
     input: {
@@ -17,7 +17,9 @@ export const mentionStylesInput = {
   suggestions: {
     list: {
       backgroundColor: "var(--mantine-color-body)",
-      border: "1px solid light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-8))",
+      borderWidth: "1px",
+      borderStyle: "solid",
+      borderColor: "light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-8))",
       fontSize: 16,
     },
     item: {

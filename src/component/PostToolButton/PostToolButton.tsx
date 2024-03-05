@@ -115,10 +115,15 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
         <Text>{`${feedData && feedData.bookmarkNum ? feedData.bookmarkNum : 0} Bookmarks`}</Text>
       </Group>
       <Group
+        style={{
+          borderWidth: "1px",
+          borderStyle: "solid",
+          borderColor: "light-dark(var(--mantine-color-dark-3), var(--mantine-color-gray-3))",
+        }}
         m={"md"}
         p={"sm"}
         justify="space-between"
-        className="rounded-xl border-[2px] border-[rgba(255,255,255,0.5)]"
+        className="rounded-xl"
       >
         <Button
           onClick={handleUpvoteToggle}

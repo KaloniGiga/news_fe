@@ -38,7 +38,7 @@ const CommentReply: FunctionComponent<ICommentReplyData> = ({ commentReply, comm
           }
         />
       </div>
-      <div className="w-full flex flex-col gap-y-4 px-4 py-4 rounded-xl bg-mantineBody">
+      <div className="w-full flex flex-col gap-y-4 px-4 py-4 rounded-xl toggleBodyColor">
         <div className="w-full flex justify-between">
           <div className="flex gap-x-4 items-center">
             <span className="font-semibold">{commentReply.user.username}</span>

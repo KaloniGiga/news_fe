@@ -56,7 +56,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData, style }) => {
         />
       </Card.Section>
 
-      {feedData && feedData.categories && feedData.categories.length > 0 && (
+      {feedData.categories && feedData.categories.length > 0 && (
         <Badge
           className={"absolute top-2 right-2 pointer-events-none"}
           variant="gradient"
@@ -66,9 +66,9 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData, style }) => {
         </Badge>
       )}
 
-      <Link href={`/feed/post/${feedData && feedData.id}`}>
+      <Link href={`/feed/post/${feedData.id}`}>
         <Text mt={"xs"} fw={700} fz={"lg"}>
-          <span className="line-clamp-2">{feedData && feedData.title}</span>
+          <span className="line-clamp-2">{feedData.title}</span>
         </Text>
       </Link>
       <Text fz="xs" c="dimmed" mt={"sm"}>
@@ -77,17 +77,17 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData, style }) => {
       <Group mt={"lg"}>
         <Avatar
           src={
-            feedData && feedData.user.picture && feedData.user.picture.includes("https")
+            feedData.user?.picture && feedData.user.picture.includes("https")
               ? feedData.user.picture
-              : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user.picture}`
+              : `${process.env.NEXT_PUBLIC_SERVER_URL}/avatar/${feedData.user?.picture}`
           }
           size={24}
           radius="xl"
         >
-          {feedData && feedData.user.username[0]}
+          {feedData.user.username[0]}
         </Avatar>
         <Text fz="sm" inline className="">
-          {feedData && feedData.user.username}
+          {feedData.user.username}
         </Text>
       </Group>
 
@@ -104,7 +104,7 @@ const FeedPost: FunctionComponent<IFeedCard> = ({ feedData, style }) => {
               root: { background: "light-dark(var(--mantine-color-gray-0), var(--maintine-color-dark-6))" },
             }}
           >
-            {feedData && feedData.hasUserUpvoted ? (
+            {feedData.hasUserUpvoted ? (
               <GoHeartFill size={28} color={theme.colors.red[6]} />
             ) : (
               <CiHeart size={28} color={theme.colors.red[6]} />

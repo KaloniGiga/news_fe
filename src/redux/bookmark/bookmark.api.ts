@@ -53,8 +53,12 @@ export const bookmarkApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useAddBookmarkToAPostMutation, useRemoveBookmarkFromAPostMutation, useGetBookmarkPostsQuery } =
-  bookmarkApi;
+export const {
+  useAddBookmarkToAPostMutation,
+  useRemoveBookmarkFromAPostMutation,
+  useGetBookmarkPostsQuery,
+  useLazyGetBookmarkPostsQuery,
+} = bookmarkApi;
 
 // getBookmarkPosts: builder.query<BookmarkResponse, number | any>({
 //   query: userId => ({
