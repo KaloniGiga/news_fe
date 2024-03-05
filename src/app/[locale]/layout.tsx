@@ -1,13 +1,13 @@
+import { defaultLocale, supportedLocales } from "@/utils/i18n";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import React from "react";
+import { notFound } from "next/navigation";
+import { ReactNode } from "react";
 import "./globals.css";
-import ThemeRegistry from "@/utils/ThemeRegistry";
-import theme from "@/utils/theme";
-import { Providers } from "@/redux/provider";
 import { PersistGates } from "@/redux/persistGate";
-import { ColorSchemeScript } from "@mantine/core";
+import { Providers } from "@/redux/provider";
 import MantineRegistry from "@/utils/MantineProvider";
+import ThemeRegistry from "@/utils/ThemeRegistry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,9 +30,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: ReactNode;
+  params: { locale: string };
+}
+
+export default function RootLayout(props: Props) {
+  const { children, params } = props;
+
+  if (!supportedLocales.includes(params.locale)) notFound();
+
   return (
-    <html lang="en">
+    <html lang={params.locale || defaultLocale}>
       <body className={inter.className}>
         <Providers>
           <PersistGates>
