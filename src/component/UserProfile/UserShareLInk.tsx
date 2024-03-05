@@ -6,13 +6,14 @@ import { useGetUserShareLinkQuery, useLazyGetUserShareLinkQuery } from "@/redux/
 import { useEffect, useState } from "react";
 import { GetPostData } from "@/redux/post/type";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
+import ShareLinkSkeletonContainer from "../Skeleton/ShareLinkSkeleton/ShareLinkSkeletonContainer";
 
 const UserShareLink = () => {
   const [data, setData] = useState<GetPostData[]>([]);
   const [page, setPage] = useState(1);
   const [hasMoreData, setHasMoreData] = useState(true);
 
-  const [getUserShareLink, { isFetching }] = useLazyGetUserShareLinkQuery();
+  const [getUserShareLink, { isFetching, isLoading, isSuccess }] = useLazyGetUserShareLinkQuery();
   useEffect(() => {
     getUserShareLink(page)
       .unwrap()
@@ -43,7 +44,14 @@ const UserShareLink = () => {
         });
     }
   };
-  return data && <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />;
+
+  if (isLoading) {
+    return <ShareLinkSkeletonContainer />;
+  }
+
+  if (isSuccess) {
+    return data && <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />;
+  }
 };
 
 export default UserShareLink;

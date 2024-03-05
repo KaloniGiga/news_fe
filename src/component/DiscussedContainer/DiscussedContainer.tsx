@@ -7,12 +7,13 @@ import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
 import { useGetMostCommentedPostsQuery, useLazyGetMostCommentedPostsQuery } from "@/redux/post/post.api";
 import { GetPostData } from "@/redux/post/type";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
-const DiscussedContainer: FunctionComponent = (): ReactElement => {
+import ShareLinkSkeletonContainer from "../Skeleton/ShareLinkSkeleton/ShareLinkSkeletonContainer";
+const DiscussedContainer: FunctionComponent = () => {
   const [data, setData] = useState<GetPostData[]>([]);
   const [page, setPage] = useState(1);
   const [hasMoreData, setHasMoreData] = useState(true);
 
-  const [getMostCommentedPost, { isFetching }] = useLazyGetMostCommentedPostsQuery();
+  const [getMostCommentedPost, { isFetching, isLoading, isSuccess }] = useLazyGetMostCommentedPostsQuery();
 
   useEffect(() => {
     getMostCommentedPost(page)
@@ -45,20 +46,26 @@ const DiscussedContainer: FunctionComponent = (): ReactElement => {
     }
   };
 
-  return (
-    data && (
-      <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />
-      // <Grid p={"md"} pl={"5%"} gutter={"md"}>
-      //   {data.map((item: any, index: number) => {
-      //     return (
-      //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-      //         <FeedPostWrapper feedData={item} />
-      //       </Grid.Col>
-      //     );
-      //   })}
-      // </Grid>
-    )
-  );
+  if (isLoading) {
+    return <ShareLinkSkeletonContainer />;
+  }
+
+  if (isSuccess) {
+    return (
+      data && (
+        <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />
+        // <Grid p={"md"} pl={"5%"} gutter={"md"}>
+        //   {data.map((item: any, index: number) => {
+        //     return (
+        //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
+        //         <FeedPostWrapper feedData={item} />
+        //       </Grid.Col>
+        //     );
+        //   })}
+        // </Grid>
+      )
+    );
+  }
 };
 
 export default DiscussedContainer;

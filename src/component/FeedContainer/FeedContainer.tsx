@@ -105,7 +105,7 @@ const FeedContainer = () => {
   };
 
   if (shareLinkLoading || authShareLinkLoading) {
-    return <ShareLinkSkeletonContainer />;
+    return <ShareLinkSkeletonContainer cardWidth="w-[300px]" />;
   }
 
   if (shareLinkSuccess || authShareLinkSuccess) {

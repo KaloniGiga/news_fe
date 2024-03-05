@@ -3,21 +3,18 @@ import { FunctionComponent } from "react";
 
 const CreatePostSkeleton: FunctionComponent = () => {
   return (
-    <Card w={750} h={300} withBorder radius={"md"}>
-      <Flex justify={"space-between"} p={"md"}>
-        <Group w={"70%"}>
-          <Skeleton w={40} h={40} circle />
-          <Stack>
-            <Skeleton w={"30%"} h={10} />
-            <Skeleton w={"15%"} h={10} />
-          </Stack>
-        </Group>
-        <Skeleton w={30} h={30} />
-      </Flex>
+    <Card w={800} h={300} withBorder radius={"md"}>
+      <Group w={"100%"} mb={"md"}>
+        <Skeleton w={40} h={40} circle />
+        <Stack w={"60%"}>
+          <Skeleton w={"30%"} h={10} />
+          <Skeleton w={"15%"} h={10} />
+        </Stack>
+      </Group>
       <Stack>
         <Skeleton h={10} w={"100%"} />
         <Skeleton h={10} w={"100%"} />
-        <Skeleton h={10} w={"100%"} />
+        <Skeleton h={10} w={"80%"} />
         <Skeleton h={10} w={"40%"} />
       </Stack>
 
@@ -29,7 +26,7 @@ const CreatePostSkeleton: FunctionComponent = () => {
         </Group>
 
         <Group>
-          <Skeleton w={"30%"} h={20} />
+          <Skeleton w={"30%"} h={10} />
         </Group>
       </Flex>
     </Card>

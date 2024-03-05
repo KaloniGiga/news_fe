@@ -111,14 +111,13 @@ const MainSide = () => {
   }
 
   if (createPostSuccess || authCreatePostSuccess) {
-    return <CreatePostSkeletonContainer />;
-    // return (
-    //   data && (
-    //     <Box component="div" className="w-full h-full text-mantineText">
-    //       <NewsCardList newsPostData={data} hasMoreData={hasMoreData} loadMoreData={loadMoreData} />
-    //     </Box>
-    //   )
-    // );
+    return (
+      data && (
+        <Box component="div" className="w-full h-full text-mantineText">
+          <NewsCardList newsPostData={data} hasMoreData={hasMoreData} loadMoreData={loadMoreData} />
+        </Box>
+      )
+    );
   }
 };
 

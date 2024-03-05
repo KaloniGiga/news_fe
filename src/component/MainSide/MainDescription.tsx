@@ -10,22 +10,26 @@ import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import MuiAvatar from "../Avatar/MuiAvatar";
+import MainDescriptionSkeleton from "../Skeleton/MainDescriptionSkeletion/MainDescriptionSkeleton";
 
 const MainDescription: FunctionComponent = () => {
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const { data: user } = useGetUserQuery();
-  const isAuthenticatedUser = useAppSelector(selectAuthenticated);
+  const { data: user, isLoading } = useGetUserQuery();
+  const isAuthenticated = useAppSelector(selectAuthenticated);
 
   const setOpen = (createPost: boolean) => {
     setCreatePost(createPost);
     open();
   };
 
+  if (isLoading) {
+    return <MainDescriptionSkeleton />;
+  }
   return (
     <Card withBorder radius={"md"} className="lg:w-[80%] w-[90%] ml-[5%] my-8">
-      {isAuthenticatedUser && (
+      {isAuthenticated && user && (
         <Flex className="flex lg:flex-row flex-col gap-5 justify-between">
           <Group>
             <MuiAvatar
