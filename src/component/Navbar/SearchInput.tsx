@@ -1,10 +1,12 @@
 import { Box, TextInput } from "@mantine/core";
 import SearchIcon from "@mui/icons-material/Search";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 const SearchInput = () => {
   const [searchVal, setSearchVal] = useState("");
   const router = useRouter();
+  const t = useTranslations();
 
   const handleSearch = () => {
     const searchParams = searchVal.split(" ").filter(item => item !== "");
@@ -22,7 +24,7 @@ const SearchInput = () => {
         value={searchVal}
         onChange={e => setSearchVal(e.target.value)}
         size="md"
-        placeholder="Search"
+        placeholder={t("Header.search")}
         rightSection={<SearchIcon />}
       />
     </Box>

@@ -31,7 +31,11 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef<"button">) {
+interface IGoogleButton {
+  props?: ButtonProps & React.ComponentPropsWithoutRef<"button">;
+  label: string;
+}
+export function GoogleButton({ props, label }: IGoogleButton) {
   return (
     <Button
       component={Link}
@@ -41,7 +45,7 @@ export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef
       // onClick={e => e.preventDefault()}
       radius={"xl"}
     >
-      Continue with Google
+      {label}
     </Button>
   );
 }

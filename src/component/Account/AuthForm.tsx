@@ -34,9 +34,11 @@ import { UserData } from "@/redux/auth/type";
 import { useCreateUserMutation, useLazyGoogleAuthQuery, useReadLoginMutation } from "@/redux/auth/auth.api";
 import React from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useTranslations } from "next-intl";
 
 const AuthForm = () => {
-  const [type, toggle] = useToggle(["Login", "Sign up"]);
+  const t = useTranslations();
+  const [type, toggle] = useToggle([t("Login.loginButton"), t("Login.signUpButton")]);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -75,7 +77,7 @@ const AuthForm = () => {
   }, [readLoginData, dispatch, router]);
 
   const handleFormSubmit: SubmitHandler<UserData> = values => {
-    if (type == "Login") {
+    if (type == t("Login.loginButton")) {
       readLogin(values);
     }
   };
@@ -85,17 +87,17 @@ const AuthForm = () => {
     <div className="w-full h-[90vh] flex justify-center items-center">
       <Card withBorder className="lg:w-[40%] w-full">
         <Title order={2} ta="center" mt="md" mb="xl">
-          Welcome back to News Portal!
+          {t("Login.title")}
         </Title>
         <Text ta={"center"} size="xs" c="red">
           {error && (error as FetchBaseQueryError).data && ((error as FetchBaseQueryError).data as any).message}
         </Text>
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
-            {type === "Sign up" && (
+            {type === t("Login.signUpButton") && (
               <TextInput
                 required
-                label="Username"
+                label={t("Login.username")}
                 placeholder="Your username"
                 size="md"
                 value={form.values.username}
@@ -107,7 +109,7 @@ const AuthForm = () => {
 
             <TextInput
               required
-              label="Email"
+              label={t("Login.email")}
               size="md"
               placeholder="hello@gmail.com"
               value={form.values.email}
@@ -118,7 +120,7 @@ const AuthForm = () => {
 
             <PasswordInput
               required
-              label="Password"
+              label={t("Login.password")}
               placeholder="Your password"
               size="md"
               value={form.values.password}
@@ -127,26 +129,26 @@ const AuthForm = () => {
               leftSection={<LockOpenIcon />}
             />
 
-            {type === "Sign up" && (
+            {type === t("Login.signUpButton") && (
               <Checkbox
                 labelPosition="right"
-                label="I accept terms and conditions"
+                label={t("Login.accessTerms")}
                 checked={form.values.terms}
                 onChange={event => form.setFieldValue("terms", event.currentTarget.checked)}
               />
             )}
           </Stack>
 
-          {type == "Login" && (
+          {type == t("Login.loginButton") && (
             <Group justify="space-between" mt="lg">
               <Checkbox
                 labelPosition="right"
-                label="Keep me logged in"
+                label={t("Login.keepLogged")}
                 checked={form.values.keepLoggedIn}
                 onChange={event => form.setFieldValue("keepLoggedIn", event.currentTarget.checked)}
               />
               <Anchor component="button" size="sm">
-                Forgot password?
+                {t("Login.forgetPassword")}
               </Anchor>
             </Group>
           )}
@@ -160,7 +162,7 @@ const AuthForm = () => {
               onClick={() => router.push("/auth")}
               size="xs"
             >
-              {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
+              {type === t("Login.signupButton") ? t("Login.loginLink") : t("Login.registerLink")}
             </Anchor>
             <Button loading={loginLoading} fullWidth type="submit" radius="sm">
               {upperFirst(type)}
@@ -170,7 +172,7 @@ const AuthForm = () => {
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
         <Group grow mb={"md"} mt="md">
-          <GoogleButton />
+          <GoogleButton label={t("Login.continueWithGoogle")} />
           {/* <FacebookButton radius={"xl"}>Continue with Facebook</FacebookButton> */}
         </Group>
       </Card>

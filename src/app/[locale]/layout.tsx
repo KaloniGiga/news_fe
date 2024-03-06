@@ -1,13 +1,14 @@
-import { defaultLocale, supportedLocales } from "@/utils/i18n";
+import { defaultLocale, supportedLocales } from "@/i18n";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
-import "./globals.css";
+import "../globals.css";
 import { PersistGates } from "@/redux/persistGate";
 import { Providers } from "@/redux/provider";
 import MantineRegistry from "@/utils/MantineProvider";
 import ThemeRegistry from "@/utils/ThemeRegistry";
+import NextIntlProvider from "@/utils/NextIntlProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,16 +38,15 @@ interface Props {
 
 export default function RootLayout(props: Props) {
   const { children, params } = props;
-
-  if (!supportedLocales.includes(params.locale)) notFound();
-
   return (
     <html lang={params.locale || defaultLocale}>
       <body className={inter.className}>
         <Providers>
           <PersistGates>
             <ThemeRegistry options={{ key: "mui" }}>
-              <MantineRegistry>{children}</MantineRegistry>
+              <MantineRegistry>
+                <NextIntlProvider params={params}>{children}</NextIntlProvider>
+              </MantineRegistry>
             </ThemeRegistry>
           </PersistGates>
         </Providers>

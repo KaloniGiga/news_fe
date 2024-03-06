@@ -1,0 +1,44 @@
+{
+  "Login": {
+    "title": "Welcome to News Portal",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+     "loginButton": "Login",
+     "signUpButton": "Sign up",
+     "forgetPassword": "Forget Password?",
+     "continueWithGoogle": "Continue with Google",
+     "registerLink": "Don't have an account? Register",
+     "loginLink": "Already have an account? Login",
+     "contineuWithEmail": "Or continue with Email",
+     "accessTerms": "I accept terms and conditions",
+     "keepLogged": "Keep me logged in"
+  },
+  "Header": {
+    "login": "Login",
+    "search": "Search"
+  },
+  "Sidebar": {
+    "category": "Category"
+  },
+  "Home": {
+    "mainDesc": {
+        "shareNews": "Share News",
+        "createPost": "Create Post",
+        "firstTab": "My feed",
+        "secondTab": "Post",
+        "mostDiscussed": "Most upvoted",
+        "mostUpvoted": "Most discussed"
+    }
+ },
+  "TargetPost": {
+   "Follow": "Follow",
+   "unFollow": "UnFollow",
+   "Upvote": "Upvote",
+   "Comment": "Comment",
+   "Bookmark": "Bookmark",
+   "Share": "Share",
+   "morePost": "More Posts like this",
+   "shareTitle": "Share this post"
+ }
+}

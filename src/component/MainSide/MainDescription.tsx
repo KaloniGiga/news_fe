@@ -11,8 +11,10 @@ import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import MuiAvatar from "../Avatar/MuiAvatar";
 import MainDescriptionSkeleton from "../Skeleton/MainDescriptionSkeletion/MainDescriptionSkeleton";
+import { useTranslations } from "next-intl";
 
 const MainDescription: FunctionComponent = () => {
+  const t = useTranslations();
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -50,10 +52,10 @@ const MainDescription: FunctionComponent = () => {
 
           <Group>
             <Button variant="default" leftSection={<FaRegShareSquare />} onClick={() => setOpen(false)}>
-              Share News
+              {t("Home.mainDesc.shareNews")}
             </Button>
             <Button leftSection={<IoCreateOutline />} onClick={() => setOpen(true)}>
-              Create Post
+              {t("Home.mainDesc.createPost")}
             </Button>
             <PostNewsModel
               setCreatePost={setCreatePost}

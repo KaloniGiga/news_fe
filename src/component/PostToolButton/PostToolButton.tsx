@@ -13,6 +13,7 @@ import ShareButton from "./ShareButton";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useAddBookmarkToAPostMutation, useRemoveBookmarkFromAPostMutation } from "@/redux/bookmark/bookmark.api";
+import { useTranslations } from "next-intl";
 
 interface IPostToolButton {
   feedData?: GetPostData;
@@ -20,6 +21,7 @@ interface IPostToolButton {
 }
 
 const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }) => {
+  const t = useTranslations();
   const theme = useMantineTheme();
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
   const [isCommentClicked, setIsCommentClicked] = useState(false);
@@ -110,9 +112,9 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
   return (
     <>
       <Group p={"md"}>
-        <Text>{`${feedData && feedData.upvoteNum ? feedData.upvoteNum : 0} Upvotes`}</Text>
-        <Text>{`${feedData && feedData.commentNum ? feedData.commentNum : 0} Comments`}</Text>
-        <Text>{`${feedData && feedData.bookmarkNum ? feedData.bookmarkNum : 0} Bookmarks`}</Text>
+        <Text>{`${feedData && feedData.upvoteNum ? feedData.upvoteNum : 0} ${t("TargetPost.Upvote")}`}</Text>
+        <Text>{`${feedData && feedData.commentNum ? feedData.commentNum : 0} ${t("TargetPost.Comment")}`}</Text>
+        <Text>{`${feedData && feedData.bookmarkNum ? feedData.bookmarkNum : 0} ${t("TargetPost.Bookmark")}`}</Text>
       </Group>
       <Group
         style={{
@@ -137,7 +139,7 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
             )
           }
         >
-          Upvote
+          {t("TargetPost.Upvote")}
         </Button>
 
         <Button
@@ -146,7 +148,7 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
           variant="subtle"
           leftSection={<VscComment size={22} color={theme.colors.yellow[7]} />}
         >
-          Comment
+          {t("TargetPost.Comment")}
         </Button>
 
         <Button
@@ -161,10 +163,10 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
             )
           }
         >
-          Bookmark
+          {t("TargetPost.Bookmark")}
         </Button>
 
-        <ShareButton />
+        <ShareButton shareTitle={t("TargetPost.shareTitle")} label={t("TargetPost.Share")} />
       </Group>
       {isCommentClicked && <WriteComment toggleComment={handleCommentToggle} postId={postId} />}
     </>
@@ -172,6 +174,3 @@ const PostToolButton: FunctionComponent<IPostToolButton> = ({ feedData, postId }
 };
 
 export default PostToolButton;
-function useRemoveBookmarkMutation(): [any, { data: any; isLoading: any }] {
-  throw new Error("Function not implemented.");
-}

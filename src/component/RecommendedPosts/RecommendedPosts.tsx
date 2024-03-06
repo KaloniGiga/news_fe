@@ -8,8 +8,9 @@ import FeedPost from "../MainSide/FeedPost/FeedPost";
 interface IRecommendedPosts {
   tags: string[] | any;
   id: number;
+  label?: string;
 }
-const RecommendedPosts: FunctionComponent<IRecommendedPosts> = ({ tags, id }) => {
+const RecommendedPosts: FunctionComponent<IRecommendedPosts> = ({ label, tags, id }) => {
   const { data: searchData, isLoading, isSuccess, isError } = useSearchPostQuery(tags);
   const [data, setData] = useState<any[]>();
   useEffect(() => {
@@ -32,7 +33,7 @@ const RecommendedPosts: FunctionComponent<IRecommendedPosts> = ({ tags, id }) =>
         {data.length > 0 && (
           <>
             <Text fw={700} size="xl" my={"md"}>
-              More Post like this
+              {label ? label : "More Post like this"}
             </Text>
             <div className="flex flex-wrap gap-5 mb-4">
               {data.slice(0, 2).map((item: any, index: number) => {

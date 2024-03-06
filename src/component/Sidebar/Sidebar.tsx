@@ -29,6 +29,7 @@ import { useGetCategoryQuery } from "../../redux/category/category.api";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import CategorySkeleton from "../Skeleton/CategorySkeleton";
+import { useTranslations } from "next-intl";
 
 // const data = [
 //   {
@@ -56,6 +57,7 @@ const Sidebar = () => {
   const { data: categoryData, isLoading, isError, isSuccess } = useGetCategoryQuery();
   const path = usePathname();
   const router = useRouter();
+  const t = useTranslations();
 
   const handleClick = (title: string) => {
     if (path === "/") {
@@ -67,7 +69,7 @@ const Sidebar = () => {
   const links = () => (
     <Stack pb={"sm"}>
       <Group>
-        <Text size="md">{"Category"}</Text>
+        <Text size="md">{t("Sidebar.category")}</Text>
       </Group>
       {categoryData?.data?.map((item, index) => {
         return (

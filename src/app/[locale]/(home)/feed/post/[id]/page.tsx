@@ -50,8 +50,10 @@ import {
   useFollowUnfollowUserMutation,
   useLazyCheckFollowStatusQuery,
 } from "@/redux/follow/follow.api";
+import { useTranslations } from "next-intl";
 
 const FeedPage = () => {
+  const t = useTranslations();
   const { id } = useParams();
   const theme = useMantineTheme();
   const isAuthenticatedUser = useAppSelector(selectAuthenticated);
@@ -147,7 +149,7 @@ const FeedPage = () => {
                 </Group>
               </Link>
               {feedData.data.user.id !== user?.id && (
-                <Button onClick={handleFollow}>{!status ? "Follow" : "Unfollow"}</Button>
+                <Button onClick={handleFollow}>{!status ? t("TargetPost.Follow") : t("TargetPost.unFollow")}</Button>
               )}
             </Flex>
           </Card.Section>
@@ -213,7 +215,7 @@ const FeedPage = () => {
         </Card>
         {tags && (
           <div className="w-[95%] mx-auto mt-4">
-            <RecommendedPosts tags={tags} id={Number(id)} />
+            <RecommendedPosts label={t("TargetPost.morePost")} tags={tags} id={Number(id)} />
           </div>
         )}
       </div>

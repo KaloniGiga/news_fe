@@ -1,0 +1,44 @@
+{
+  "Login": {
+    "title": "समाचार पोर्टलमा स्वागत छ",
+    "username": "प्रयोगकर्ता नाम",
+    "email": "इमेल",
+    "password": "पासवर्ड",
+     "loginButton": "लग इन",
+     "signUpButton": "साइन अप",
+     "forgetPassword": "पासवर्ड बिर्सनुहोस्",
+     "continueWithGoogle": "Google को साथ जारी राख्नुहोस्",
+     "registerLink": "खाता छैन? दर्ता गर्नुहोस्",
+     "loginLink": "पहिले नै खाता छ? लग-इन",
+     "contineuWithEmail": "वा इमेल जारी राख्नुहोस्",
+     "accessTerms": "म नियम र सर्तहरू स्वीकार गर्दछु",
+     "keepLogged": "मलाई लगइन अवस्था मै राख्नुहोस्"
+  },
+  "Header": {
+    "login": "लग इन",
+    "search": "खोज"
+  },
+  "Sidebar": {
+    "category": "वर्ग"
+  },
+  "Home": {
+    "mainDesc": {
+        "shareNews": "समाचार साझा गर्नुहोस्",
+        "createPost": "पोस्ट सिर्जना गर्नुहोस्",
+        "firstTab": "मेरो फिड",
+        "secondTab": "पोस्ट",
+        "mostDiscussed": "बढी चर्चा भयेको",
+        "mostUpvoted": "बढी मत पाएको"
+    }
+  },
+  "TargetPost": {
+   "Follow": "फलो",
+   "unFollow": "अनफलो गर्नुहोस्",
+   "Upvote": "समर्थन",
+   "Comment": "टिप्पणी",
+   "Bookmark": "बुकमार्क",
+   "Share": "शेयर ",
+   "morePost": "यस्तै थप पोस्टहरू",
+   "shareTitle": "यो पोस्ट साझा गर्नुहोस्"
+ }
+}
