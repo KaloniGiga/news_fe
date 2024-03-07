@@ -32,7 +32,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   isEdit,
   editData,
 }) => {
-  const [mentions, setMentions] = useState<string[]>([]);
+  // const [mentions, setMentions] = useState<string[]>([]);
   const [rawComment, setRawComment] = useState<string>("");
   const form = useForm({
     initialValues: {
@@ -76,8 +76,9 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
     }
   }, [commentData, commentReplyData, updateCommentData, updateCommentReplyData]);
 
+  const parse = Range.prototype.createContextualFragment.bind(document.createRange());
+
   const handleCommentSubmit = () => {
-    console.log(form.values.comment, mentions);
     if (isEdit) {
       if (isCommentReply && commentId) {
         updateCommentReply({
@@ -101,6 +102,16 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
           commentId: commentId,
         });
       } else if (postId) {
+        const mentions: string[] = [];
+        const elements = parse(form.values.comment).querySelectorAll(".mention");
+        if (elements) {
+          elements.forEach(element => {
+            const id = element.getAttribute("data-id");
+            if (id) {
+              mentions.push(id);
+            }
+          });
+        }
         createComment({
           message: form.values.comment,
           postId: postId,
@@ -112,12 +123,12 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   };
   return (
     <Stack gap={0} px={"md"}>
-      {/* <CommentEditor
+      <CommentEditor
         placeholder={placeholder ? placeholder : "Share your thoughts"}
         onChange={val => form.setFieldValue("comment", val)}
         value={form.values.comment}
-      /> */}
-      <CommentWithMention
+      />
+      {/* <CommentWithMention
         placeholder={placeholder ? placeholder : "Share your thoughts"}
         handleCommentChange={(_: any, newValue: any, newPlainTextValue: any) => {
           setRawComment(newValue);
@@ -128,7 +139,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
         }}
         value={form.values.comment}
         handleMentionAdd={(id: any, display: string) => setMentions(prev => [...prev, id])}
-      />
+      /> */}
       <div className="w-full flex gap-x-2 justify-end p-2 bg-mantineBody">
         <Button variant="outline" onClick={toggleComment}>
           {"Cancel"}

@@ -26,10 +26,14 @@ const CommentEditor: FunctionComponent<ICommentEditor> = ({ placeholder, onChang
         placeholder,
       }),
       Mention.configure({
-        HTMLAttributes: {
-          class: "mention",
+        renderHTML({ options, node }) {
+          return [
+            "a",
+            { href: `/${node.attrs.label}`, target: "_blank", class: "mention", "data-id": node.attrs.id },
+            `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+          ];
         },
-        // suggestion,
+        suggestion,
       }),
     ],
     content: value,

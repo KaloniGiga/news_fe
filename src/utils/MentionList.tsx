@@ -13,7 +13,7 @@ export default forwardRef((props: any, ref) => {
       const item = mentionData.data[index];
 
       if (item) {
-        props.command({ id: item.username });
+        props.command({ id: item.id, label: item.display });
       }
     }
   };
@@ -34,7 +34,7 @@ export default forwardRef((props: any, ref) => {
     selectItem(selectedIndex);
   };
 
-  useEffect(() => setSelectedIndex(0), [mentionData]);
+  useEffect(() => setSelectedIndex(0), [mentionData?.data]);
 
   useImperativeHandle(ref, () => ({
     onKeyDown: ({ event }: any) => {
@@ -60,11 +60,10 @@ export default forwardRef((props: any, ref) => {
   return (
     <div className="w-[200px] items flex flex-col">
       {isLoading && <div>Loading...</div>}
-      {isError && <div>Failed to load user.</div>}
+      {isError && <div>Failed to load user</div>}
       <ScrollArea.Autosize mah={150} scrollbars="y">
-        {mentionData &&
-          mentionData?.data.length &&
-          mentionData?.data.map((item: any, index: any) => (
+        {mentionData && mentionData?.data.length ? (
+          mentionData?.data.map((item, index: any) => (
             <Button
               variant="subtle"
               color="gray"
@@ -73,9 +72,12 @@ export default forwardRef((props: any, ref) => {
               onClick={() => selectItem(index)}
               fullWidth
             >
-              <Text className="text-mantineText cursor-pointer">{item.username}</Text>
+              <Text className="text-mantineText cursor-pointer">{item.display}</Text>
             </Button>
-          ))}
+          ))
+        ) : (
+          <div>{!isLoading && "No user found"}</div>
+        )}
       </ScrollArea.Autosize>
     </div>
   );
