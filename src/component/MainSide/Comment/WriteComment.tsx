@@ -102,7 +102,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
           commentId: commentId,
         });
       } else if (postId) {
-        const mentions: string[] = [];
+        let mentions: string[] = [];
         const elements = parse(form.values.comment).querySelectorAll(".mention");
         if (elements) {
           elements.forEach(element => {
@@ -111,6 +111,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
               mentions.push(id);
             }
           });
+          mentions = Array.from(new Set(mentions));
         }
         createComment({
           message: form.values.comment,
