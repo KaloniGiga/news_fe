@@ -1,10 +1,9 @@
 "use client";
 import Header from "@/component/Navbar/Header";
-import { AppShell, ScrollArea, useComputedColorScheme } from "@mantine/core";
-import { ReactNode, useState } from "react";
+import { AppShell } from "@mantine/core";
+import { ReactNode } from "react";
 import ShareContainer from "../PostToolButton/ShareContainer";
 import { useDisclosure } from "@mantine/hooks";
-import RecommendedPosts from "../RecommendedPosts/RecommendedPosts";
 
 export default function TargetPostsLayout({ children }: { children: ReactNode }) {
   const [opened, { toggle }] = useDisclosure();

@@ -1,4 +1,8 @@
 {
+  "Lang": {
+    "title": "भाषा",
+     "locale": "{locale, select, np {नेपाली} en {English} other {Unknown}}"
+  },
   "Login": {
     "title": "समाचार पोर्टलमा स्वागत छ",
     "username": "प्रयोगकर्ता नाम",
@@ -13,6 +17,13 @@
      "contineuWithEmail": "वा इमेल जारी राख्नुहोस्",
      "accessTerms": "म नियम र सर्तहरू स्वीकार गर्दछु",
      "keepLogged": "मलाई लगइन अवस्था मै राख्नुहोस्"
+  },
+  "ChooseCategory": {
+     "title": "तपाइलाई के मा रुचि छ?",
+     "desc": "3 वा बढी श्रेणी छान्नुहोस्"
+  },
+  "Bookmarks": {
+    "title": "तपाईंको बुकमार्कहरू"
   },
   "Header": {
     "login": "लग इन",
@@ -40,5 +51,62 @@
    "Share": "शेयर ",
    "morePost": "यस्तै थप पोस्टहरू",
    "shareTitle": "यो पोस्ट साझा गर्नुहोस्"
- }
+ },
+ "PostNewsModel": {
+    "title": {
+       "createPost": "पोस्ट सिर्जना गर्नुहोस्",
+       "shareLink": "समाचार साझा गर्नुहोस्"
+    },
+    "placeholder": {
+       "shareLink": "आफ्नो लिङ्क साझा गर्नुहोस्...",
+       "postTitle": "नयाँ पोस्ट शीर्षक यहाँ ...",
+       "tags": "4 ट्यागहरू सम्म थप्नुहोस्",
+       "category": "Category थप्नुहोस्",
+       "description": "विवरण लेख्नुहोस्",
+       "addCoverImage": "Image यहाँ तान्नुहोस् वा फाइलहरू चयन गर्न क्लिक गर्नुहोस्",
+       "coverImageDescription": "तपाईलाई मनपर्ने धेरै फाइलहरू संलग्न गर्नुहोस्, प्रत्येक फाइल 5mb भन्दा बढी हुनु हुँदैन"
+    },
+    "button": {
+       "save": "Save गर्नुहोस्",
+       "publish": "प्रकाशित गर्नुहोस्"
+    }
+  },
+  "UserInfo": {
+    "tabs": {
+     "profile": "प्रोफाइल",
+     "post": "पोस्टहरू",
+     "news": "समाचार"
+     },
+     "profileInfo": {
+       "title": "प्रोफाइल जानकारी",
+        "fullname": "पुरा नाम",
+        "username":  "प्रयोगकर्ता नाम",
+        "email": "इमेल",
+        "avatar": {
+           "title": "अवतार अपलोड गर्नुहोस्",
+           "description": "अपलोड गर्न यहाँ फाइलहरू तान्नुहोस्। हामी .png, .jpg, .webp, .avif फाइलहरू मात्र स्वीकार गर्न सक्छौं जुन आकारमा 10mb भन्दा कम छ।"
+        },
+        "profileButton": "Save गर्नुहोस्"
+     },
+     "changePassword": {
+       "title": "पासवर्ड परिवर्तन गर्नुहोस्",
+       "oldPassword": "पुरानो पासवर्ड",
+       "newPassword":  "नया पासवर्ड",
+       "confirmPassword": "पासवर्ड सुनिश्चित गर्नुहोस",
+       "passwordButton": "पासवर्ड परिवर्तन गर्नुहोस्"
+     },
+     "categoryPreference": {
+      "title": "श्रेणी प्राथमिकता परिवर्तन गर्नुहोस्",
+       "categoryButton": "श्रेणी प्राथमिकता परिवर्तन गर्नुहोस्"
+     },
+     "deleteAccount": {
+      "header": "खतरा क्षेत्र",
+       "title": "खाता मेटाउनुहोस्",
+       "description": "आफ्नो पोस्ट र साझा समाचार संग आफ्नो प्रोफाइल मेटाउनुहोस्।",
+       "deleteButton": "खाता मेटाउनुहोस्",
+       "confirmDeleteDesc": "के तपाइँ निश्चित हुनुहुन्छ, तपाइँ खाता र यसको सबै डाटा मेटाउन चाहनुहुन्छ।",
+       "confirmButton": "पुष्टि गर्नुहोस्",
+       "cancelButton": "रद्द गर्नुहोस्"
+     }
+   }
 }

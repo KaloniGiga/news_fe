@@ -4,11 +4,13 @@ import { SlFeed } from "react-icons/sl";
 import { FaRegNewspaper } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const ProfileTabs = () => {
   const router = useRouter();
   const pathname = usePathname();
   const theme = useMantineTheme();
+  const t = useTranslations("UserInfo.tabs");
   return (
     <Tabs
       defaultValue={pathname}
@@ -20,13 +22,13 @@ const ProfileTabs = () => {
     >
       <Tabs.List className="before:hidden">
         <Tabs.Tab value="/user-info" leftSection={<CgProfile size={20} color={theme.colors.orange[6]} />}>
-          Profile
+          {t("profile")}
         </Tabs.Tab>
         <Tabs.Tab value="/user-info/post" leftSection={<FaRegNewspaper size={22} color={theme.colors.yellow[6]} />}>
-          Posts
+          {t("post")}
         </Tabs.Tab>
         <Tabs.Tab value="/user-info/share-link" leftSection={<SlFeed size={20} color={theme.colors.yellow[6]} />}>
-          Links
+          {t("news")}
         </Tabs.Tab>
       </Tabs.List>
     </Tabs>

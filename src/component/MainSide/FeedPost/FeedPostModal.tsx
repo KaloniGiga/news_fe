@@ -1,28 +1,13 @@
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
 import { GetPostData } from "@/redux/post/type";
-import {
-  ActionIcon,
-  ActionIconGroup,
-  Box,
-  Button,
-  Card,
-  Chip,
-  Group,
-  Image,
-  Modal,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { ActionIcon, Box, Button, Card, Group, Image, Modal, Stack, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { FunctionComponent } from "react";
 import { BiUpvote } from "react-icons/bi";
 import { BiDownvote } from "react-icons/bi";
 import { TfiComment } from "react-icons/tfi";
 import { FaShare } from "react-icons/fa6";
-import { IoAlbumsSharp, IoBookmarkOutline } from "react-icons/io5";
-import CommentContainer from "../Comment/CommentContainer";
-import WriteComment from "../Comment/WriteComment";
+import { IoBookmarkOutline } from "react-icons/io5";
 import moment from "moment";
 
 interface IFeedPostModal {

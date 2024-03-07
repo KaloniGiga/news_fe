@@ -1,34 +1,13 @@
 "use client";
 import { GetPostData } from "@/redux/post/type";
-import {
-  ActionIcon,
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  Card,
-  Center,
-  Group,
-  Image,
-  Text,
-  rem,
-  useMantineTheme,
-} from "@mantine/core";
-import { Share, ThumbUpAltOutlined } from "@mui/icons-material";
+import { ActionIcon, Avatar, Badge, Card, Group, Image, Text, useMantineTheme } from "@mantine/core";
 import Link from "next/link";
 import { FunctionComponent } from "react";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import FeedPostDescription from "@/component/FeedContainer/FeedPostDesc";
-import { FaShare } from "react-icons/fa";
-import { FaRegComment } from "react-icons/fa";
-import { BiUpvote } from "react-icons/bi";
-import { PiShareFatLight } from "react-icons/pi";
 import { CiHeart } from "react-icons/ci";
 import { VscComment } from "react-icons/vsc";
 import { BsShare } from "react-icons/bs";
 import moment from "moment";
 import NewsCardOption from "../NewsCard/NewsCardDescription/NewsCardOption";
-import { userAgent } from "next/server";
 import { usePathname } from "next/navigation";
 import { GoHeartFill } from "react-icons/go";
 

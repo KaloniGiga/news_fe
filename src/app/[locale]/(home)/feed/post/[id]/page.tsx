@@ -1,55 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
-import { GetPostData } from "@/redux/post/type";
-import {
-  ActionIcon,
-  ActionIconGroup,
-  Box,
-  Button,
-  ButtonGroup,
-  Card,
-  Chip,
-  Group,
-  Image,
-  Modal,
-  Stack,
-  Text,
-  Title,
-  useMantineTheme,
-  Flex,
-} from "@mantine/core";
+import { Box, Button, Card, Group, Image, Stack, Text, Title, useMantineTheme, Flex } from "@mantine/core";
 import Link from "next/link";
-import { FunctionComponent, useEffect, useState } from "react";
-import { BiUpvote } from "react-icons/bi";
-import { BiDownvote } from "react-icons/bi";
-import { TfiComment } from "react-icons/tfi";
-import { FaShare } from "react-icons/fa6";
-import { IoAlbumsSharp, IoBookmarkOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useParams, useRouter } from "next/navigation";
-import {
-  useGetPostByIdQuery,
-  useLazyGetPostByIdForAuthUserQuery,
-  useLazyGetPostByIdQuery,
-} from "@/redux/post/post.api";
-import WriteComment from "@/component/MainSide/Comment/WriteComment";
+import { useLazyGetPostByIdForAuthUserQuery } from "@/redux/post/post.api";
 import CommentContainer from "@/component/MainSide/Comment/CommentContainer";
-import { CiHeart } from "react-icons/ci";
-import { BsShare } from "react-icons/bs";
-import { VscComment } from "react-icons/vsc";
 import { IComment } from "@/redux/comment/type";
 import PostToolButton from "@/component/PostToolButton/PostToolButton";
 import RecommendedPosts from "@/component/RecommendedPosts/RecommendedPosts";
 import SkeletonComponent from "@/component/Skeleton/Skeleton";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
-import { useGetCommentsByPostIdQuery, useLazyGetCommentsByPostIdQuery } from "@/redux/comment/comment.api";
-import {
-  useCheckFollowStatusQuery,
-  useFollowUnfollowUserMutation,
-  useLazyCheckFollowStatusQuery,
-} from "@/redux/follow/follow.api";
+import { useLazyGetCommentsByPostIdQuery } from "@/redux/comment/comment.api";
+import { useCheckFollowStatusQuery, useFollowUnfollowUserMutation } from "@/redux/follow/follow.api";
 import { useTranslations } from "next-intl";
 
 const FeedPage = () => {

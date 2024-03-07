@@ -1,9 +1,8 @@
 import React from "react";
-import FillUserInfo from "../../../component/UserProfile/FillUserInfo";
 import DeleteProfile from "@/component/UserProfile/DeleteProfile";
-import AccountSettingsContainer from "@/component/UserProfile/AccountSettingsContainer";
 import AccountSettings from "@/component/UserProfile/AccountSettings";
 import ChangeCategoryPreference from "@/component/UserProfile/ChangeCategoryPreference";
+import FillUserInfo from "@/component/UserProfile/FillUserInfo";
 
 const UserInfoPage = () => {
   return (

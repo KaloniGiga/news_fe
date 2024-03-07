@@ -1,10 +1,6 @@
-import MuiAvatar from "@/component/Avatar/MuiAvatar";
-import { selectUser } from "@/redux/auth/auth.selector";
-import { useAppSelector } from "@/redux/hooks";
-import { Button, Group, TagsInput, Text, TextInput, Textarea } from "@mantine/core";
+import { Button, TagsInput, TextInput } from "@mantine/core";
 import { FunctionComponent, useEffect, useState } from "react";
-import PostNewsUserInfo from "./PostNewsUserInfo";
-import { Controller, SubmitHandler } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { useForm } from "@mantine/form";
 import DropzoneComp from "@/component/ui/FileUpload/DropzoneComp";
 import NewEditor from "@/component/MyEditor/NewEditor";
@@ -12,6 +8,7 @@ import LinkPreview from "@/component/PostForm/LinkPreview";
 import { useAddPostMutation, usePutPostMutation } from "@/redux/post/post.api";
 import { PostData, PostTypeEnum } from "@/redux/post/type";
 import { useGetCategoryQuery } from "../../../redux/category/category.api";
+import { useTranslations } from "next-intl";
 
 interface IPostNewsForm {
   isEdit: boolean;
@@ -37,7 +34,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
   const [addPost, { isLoading: postLoading, data: postData }] = useAddPostMutation();
   const [putPost, { isLoading: editLoading, data: editPostData }] = usePutPostMutation();
   const { data: categoryData } = useGetCategoryQuery();
-
+  const t = useTranslations("PostNewsModel");
   const [showEditor, setShowEditor] = useState(false);
   const form = useForm<PostData>({
     initialValues: {
@@ -118,7 +115,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
                 styles={{ input: { border: "none" } }}
                 required
                 multiple={true}
-                placeholder="Share your link."
+                placeholder={t("placeholder.shareLink")}
                 size="md"
                 value={form.values.links}
                 onChange={event => form.setFieldValue("links", event.currentTarget.value)}
@@ -134,7 +131,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
             styles={{ input: { border: "none" } }}
             required
             size="md"
-            placeholder="New post title here..."
+            placeholder={t("placeholder.postTitle")}
             value={form.values.title}
             onChange={event => form.setFieldValue("title", event.currentTarget.value)}
             error={form.errors.title && "Invalid title"}
@@ -145,7 +142,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
             required
             data={tagsData}
             size="md"
-            placeholder="Add up to 4 tags"
+            placeholder={t("placeholder.tags")}
             maxTags={4}
             // maxDropdownHeight={500}
             withScrollArea={true}
@@ -159,7 +156,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
             required
             data={categoryData ? categoryData.data.map(item => item.title) : []}
             size="md"
-            placeholder="Add Category"
+            placeholder={t("placeholder.category")}
             maxTags={1}
             // maxDropdownHeight={300}
             onChange={value => form.setFieldValue("category", value)}
@@ -180,7 +177,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
 
           {createPost && showEditor ? (
             <NewEditor
-              placeholder="Write description"
+              placeholder={t("placeholder.description")}
               onChange={val => form.setFieldValue("description", val)}
               value={form.values.description}
             />
@@ -192,10 +189,12 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
             isEdit={isEdit}
             onChange={value => form.setFieldValue("coverImage", value)}
             value={form.values.coverImage}
+            title={t("placeholder.addCoverImage")}
+            description={t("placeholder.coverImageDescription")}
           />
 
           <Button loading={editLoading || postLoading} fullWidth type="submit" radius={"sm"}>
-            {!isEdit ? "Publish" : "Save"}
+            {!isEdit ? t("button.publish") : t("button.save")}
           </Button>
         </div>
       </form>

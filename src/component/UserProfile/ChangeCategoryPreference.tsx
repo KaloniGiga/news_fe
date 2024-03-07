@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import { useGetCategoryQuery } from "@/redux/category/category.api";
 import { useAddUserCategoryPreferenceMutation } from "@/redux/user/user.api";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
+import { useTranslations } from "next-intl";
 
 const ChangeCategoryPreference = () => {
   const [choosenCategory, setChoosenCategory] = useState<string[]>([]);
+  const t = useTranslations("UserInfo.categoryPreference");
   const { data: user, refetch } = useGetUserQuery();
   const [addUserCategoryPreference, { isLoading: categoryPreferenceIsLoading, data: categoryPreferenceData }] =
     useAddUserCategoryPreferenceMutation();
@@ -38,7 +40,7 @@ const ChangeCategoryPreference = () => {
     <Card withBorder radius={"md"} p={"lg"} className="w-full mb-8">
       <Stack pb={"md"}>
         <Text size="lg" fw={700}>
-          Change Category Preference
+          {t("title")}
         </Text>
 
         <Chip.Group multiple value={choosenCategory} onChange={setChoosenCategory}>
@@ -53,7 +55,7 @@ const ChangeCategoryPreference = () => {
 
         {/* <Group> */}
         <Button loading={categoryPreferenceIsLoading} onClick={handleCategorySubmit}>
-          Change Category Preference
+          {t("categoryButton")}
         </Button>
         {/* </Group> */}
       </Stack>

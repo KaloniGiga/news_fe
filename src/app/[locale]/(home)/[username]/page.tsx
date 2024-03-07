@@ -1,14 +1,9 @@
-import UserInfoLayout from "@/component/AppShell/UserInfoLayout";
 import ProfileComponent from "@/component/Profile/ProfileComponent";
 import { NextPage } from "next";
 import React, { ReactElement } from "react";
 
-const page: NextPage = (): ReactElement => {
-  return (
-    <UserInfoLayout>
-      <ProfileComponent />
-    </UserInfoLayout>
-  );
+const Page: NextPage = (): ReactElement => {
+  return <ProfileComponent />;
 };
 
-export default page;
+export default Page;

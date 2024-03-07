@@ -1,10 +1,6 @@
 import { FunctionComponent } from "react";
-import MuiAvatar from "../Avatar/MuiAvatar";
 import { GetPostData } from "@/redux/post/type";
-import FeedPostOption from "./FeedPostOption";
-import { Badge, Button, Text } from "@mantine/core";
-import { ReadMoreOutlined } from "@mui/icons-material";
-import Link from "next/link";
+import { Badge, Text } from "@mantine/core";
 
 interface IFeedCardDesc {
   feedData: GetPostData;

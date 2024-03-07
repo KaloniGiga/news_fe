@@ -1,10 +1,7 @@
 "use client";
 
-import { Center, Grid, Text } from "@mantine/core";
-import { CircularProgress } from "@mui/material";
-import React, { FunctionComponent, ReactElement, useEffect, useState } from "react";
-import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
-import { useGetMostCommentedPostsQuery, useLazyGetMostCommentedPostsQuery } from "@/redux/post/post.api";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { useLazyGetMostCommentedPostsQuery } from "@/redux/post/post.api";
 import { GetPostData } from "@/redux/post/type";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
 import ShareLinkSkeletonContainer from "../Skeleton/ShareLinkSkeleton/ShareLinkSkeletonContainer";

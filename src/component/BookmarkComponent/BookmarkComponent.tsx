@@ -1,16 +1,14 @@
 "use client";
-import React, { FunctionComponent, ReactElement, useEffect, useState } from "react";
-import Header from "../Navbar/Header";
-import { useAppSelector } from "@/redux/hooks";
-import { selectUser } from "@/redux/auth/auth.selector";
-import { useGetBookmarkPostsQuery, useLazyGetBookmarkPostsQuery } from "@/redux/bookmark/bookmark.api";
+import React, { FunctionComponent, useEffect } from "react";
+import { useLazyGetBookmarkPostsQuery } from "@/redux/bookmark/bookmark.api";
 import { Box, Center, Grid, Text } from "@mantine/core";
-import { CircularProgress } from "@mui/material";
 import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import ShareLinkSkeletonContainer from "../Skeleton/ShareLinkSkeleton/ShareLinkSkeletonContainer";
+import { useTranslations } from "next-intl";
 
 const BookmarkComponent: FunctionComponent = () => {
+  const t = useTranslations("Bookmarks");
   const { data: user, isSuccess: isUserSuccess, isError: errorUser } = useGetUserQuery();
   const [getBookmarkPosts, { isLoading, isSuccess: isPostSuccess, data: bookmarkedPosts }] =
     useLazyGetBookmarkPostsQuery();
@@ -33,7 +31,7 @@ const BookmarkComponent: FunctionComponent = () => {
     return (
       <div className="w-full text-mantineText  flex flex-col items-center justify-center">
         <div className="mt-10 text-[30px] font-[700] w-[90%]">
-          <h1>Your Bookmarks</h1>
+          <h1>{t("title")}</h1>
         </div>
         <Box component="div" className="w-full h-full text-mantineText">
           {bookmarkedPosts.data.length > 0 ? (

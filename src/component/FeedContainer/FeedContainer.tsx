@@ -1,19 +1,12 @@
 "use client";
 import {
-  useGetAuthUserShareLinkQuery,
-  useGetPostQuery,
-  useGetShareLinkQuery,
   useLazyGetAuthUserShareLinkQuery,
   useLazyGetShareLinkQuery,
   useSearchCategoryFeedQuery,
 } from "@/redux/post/post.api";
-import { CircularProgress } from "@mui/material";
-import { Center, Grid, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
-import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
-import FeedPostWrapperWithVirtualScroll from "../MainSide/FeedPost/FeedPostLIst";
 import { GetPostData } from "@/redux/post/type";
 import "react-virtualized/styles.css";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
@@ -45,10 +38,10 @@ const FeedContainer = () => {
         getAuthShareLink(page)
           .unwrap()
           .then(result => {
-            if (result.data.length < 5) {
+            if (result && result.data.length < 5) {
               setHasMoreData(false);
             }
-            if (result.data.length != 0) {
+            if (result && result.data.length != 0) {
               setData([...result.data]);
             }
           });
@@ -56,11 +49,11 @@ const FeedContainer = () => {
         getShareLink(page)
           .unwrap()
           .then(result => {
-            if (result.data.length < 5) {
+            if (result && result.data.length < 5) {
               setHasMoreData(false);
             }
-            if (result.data.length != 0) {
-              setData(prev => [...result.data]);
+            if (result && result.data.length != 0) {
+              setData([...result.data]);
             }
           });
       }
@@ -81,10 +74,10 @@ const FeedContainer = () => {
         return getAuthShareLink(page + 1)
           .unwrap()
           .then(result => {
-            if (result.data.length < 5) {
+            if (result && result.data.length < 5) {
               setHasMoreData(false);
             }
-            if (result.data.length != 0) {
+            if (result && result.data.length != 0) {
               setData(prev => [...prev, ...result.data]);
             }
           });
@@ -93,10 +86,10 @@ const FeedContainer = () => {
         return getShareLink(page + 1)
           .unwrap()
           .then(result => {
-            if (result.data.length < 5) {
+            if (result && result.data.length < 5) {
               setHasMoreData(false);
             }
-            if (result.data.length != 0) {
+            if (result && result.data.length != 0) {
               setData(prev => [...prev, ...result.data]);
             }
           });

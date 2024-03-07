@@ -1,11 +1,6 @@
-import CommentEditor from "@/component/MyEditor/CommentEditor";
-import {
-  useCreateCommentReplyMutation,
-  useGetCommentReplyByCommentIdQuery,
-  useUpdateCommentReplyMutation,
-} from "@/redux/comment-reply/comment-reply.api";
+import { useCreateCommentReplyMutation, useUpdateCommentReplyMutation } from "@/redux/comment-reply/comment-reply.api";
 import { useCreateCommentMutation, useUpdateCommentMutation } from "@/redux/comment/comment.api";
-import { Button, Stack, useComputedColorScheme } from "@mantine/core";
+import { Button, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FunctionComponent, useEffect, useState } from "react";
 import CommentWithMention from "./CommentWithMention/CommentWithMention";

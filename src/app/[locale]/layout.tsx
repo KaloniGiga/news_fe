@@ -1,7 +1,5 @@
-import { defaultLocale, supportedLocales } from "@/i18n";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import "../globals.css";
 import { PersistGates } from "@/redux/persistGate";
@@ -36,10 +34,14 @@ interface Props {
   params: { locale: string };
 }
 
+export function generateStaticParams() {
+  return [{ locale: "en" }, { locale: "np" }];
+}
+
 export default function RootLayout(props: Props) {
   const { children, params } = props;
   return (
-    <html lang={params.locale || defaultLocale}>
+    <html lang={params.locale || "en"}>
       <body className={inter.className}>
         <Providers>
           <PersistGates>

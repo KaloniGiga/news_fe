@@ -1,10 +1,8 @@
 "use client";
 import MuiAvatar from "@/component/Avatar/MuiAvatar";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { IconButton } from "@mui/material";
 import NewsCardOption from "./NewsCardOption";
 import { FunctionComponent } from "react";
-import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
+import { GetPostData } from "@/redux/post/type";
 import { Flex, Group, Stack, Text } from "@mantine/core";
 import moment from "moment";
 import { usePathname } from "next/navigation";

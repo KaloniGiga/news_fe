@@ -1,4 +1,3 @@
-import ProfileLayout from "@/component/AppShell/ProfileLayout";
 import TargetPostsLayout from "@/component/AppShell/TargetPostsLayout";
 import { ReactNode } from "react";
 

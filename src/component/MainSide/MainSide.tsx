@@ -1,17 +1,10 @@
 "use client";
-import Image from "next/image";
-import MainTabs from "./MainTabs";
-import { Avatar, CircularProgress } from "@mui/material";
-import MainDescription from "./MainDescription";
 import {
-  useGetAuthUserCreatePostQuery,
-  useGetCreatePostQuery,
-  useGetPostQuery,
   useLazyGetAuthUserCreatePostQuery,
   useLazyGetCreatePostQuery,
   useSearchCategoryQuery,
 } from "@/redux/post/post.api";
-import { Box, Center, Text } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
 import { useEffect, useState } from "react";

@@ -7,10 +7,12 @@ import { useChangePasswordMutation, useGetUserQuery } from "@/redux/auth/auth.ap
 import { SubmitHandler } from "react-hook-form";
 import { PasswordDetail } from "@/redux/auth/type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useTranslations } from "next-intl";
 
 const AccountSettings = () => {
   const theme = useMantineTheme();
   const router = useRouter();
+  const t = useTranslations("UserInfo.changePassword");
   const { data: user } = useGetUserQuery();
   const [changePassword, { isLoading, data, error }] = useChangePasswordMutation();
   const form = useForm({
@@ -33,12 +35,12 @@ const AccountSettings = () => {
       <Card withBorder radius={"md"} p={"lg"} className="w-full">
         <Stack pb={"md"} className="w-full">
           <Text size="lg" fw={700}>
-            Change Password
+            {t("title")}
           </Text>
           <PasswordInput
             // styles={{ input: { border: "none" } }}
             required
-            label="Old Password"
+            label={t("oldPassword")}
             placeholder="Enter old password"
             size="md"
             value={form.values.oldPassword}
@@ -48,7 +50,7 @@ const AccountSettings = () => {
           <PasswordInput
             // styles={{ input: { border: "none" } }}
             required
-            label="New Password"
+            label={t("newPassword")}
             placeholder="Enter new password"
             size="md"
             value={form.values.newPassword}
@@ -58,8 +60,8 @@ const AccountSettings = () => {
           <PasswordInput
             // styles={{ input: { border: "none" } }}
             required
-            label="Confirm password"
-            placeholder="Confirm old password"
+            label={t("confirmPassword")}
+            placeholder="Confirm new password"
             size="md"
             value={form.values.confirmPassword}
             onChange={event => form.setFieldValue("confirmPassword", event.currentTarget.value)}
@@ -70,7 +72,7 @@ const AccountSettings = () => {
             {error && ((error as FetchBaseQueryError).data as any).message}
           </Text>
           <Button loading={isLoading} type="submit" leftSection={<MdOutlineChangeCircle />}>
-            Change Password
+            {t("passwordButton")}
           </Button>
         </Stack>
       </Card>

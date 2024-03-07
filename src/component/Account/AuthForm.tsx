@@ -2,14 +2,11 @@
 "use client";
 import {
   Anchor,
-  Box,
   Button,
   Card,
   Checkbox,
   Divider,
   Group,
-  Paper,
-  PaperProps,
   PasswordInput,
   Stack,
   Text,
@@ -19,9 +16,7 @@ import {
 import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { GoogleButton } from "./GoogleButton";
-import { FacebookButton } from "./FacebookButton";
-import { FunctionComponent, useEffect } from "react";
-import LockIcon from "@mui/icons-material/Lock";
+import { useEffect } from "react";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -31,7 +26,7 @@ import { setAuthUser } from "@/redux/auth/auth.slice";
 import { notifications } from "@mantine/notifications";
 import { SubmitHandler } from "react-hook-form";
 import { UserData } from "@/redux/auth/type";
-import { useCreateUserMutation, useLazyGoogleAuthQuery, useReadLoginMutation } from "@/redux/auth/auth.api";
+import { useLazyGoogleAuthQuery, useReadLoginMutation } from "@/redux/auth/auth.api";
 import React from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useTranslations } from "next-intl";

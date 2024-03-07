@@ -1,16 +1,9 @@
 "use client";
-import Image from "next/image";
 import { FunctionComponent } from "react";
-import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import NewsCardDescription from "./NewsCardDescription/NewsCardDescription";
-import { ThumbUpAltOutlined } from "@mui/icons-material";
-import MuiAvatar from "../../Avatar/MuiAvatar";
-import CommentContainer from "../Comment/CommentContainer";
-import { IUser } from "@/redux/auth/type";
 import { GetPostData } from "@/redux/post/type";
 import Link from "next/link";
-import { ActionIcon, Avatar, Box, Button, Card, Flex, Group, Stack, Text, useMantineTheme } from "@mantine/core";
+import { ActionIcon, Avatar, Box, Card, Flex, Group, Stack, Text, useMantineTheme } from "@mantine/core";
 import { IoChatboxOutline } from "react-icons/io5";
 
 interface INewsCard {

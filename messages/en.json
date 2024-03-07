@@ -1,4 +1,8 @@
 {
+  "Lang": {
+    "title": "Lang",
+    "locale": "{locale, select, np {Nepali} en {English} other {Unknown}}"   
+  },
   "Login": {
     "title": "Welcome to News Portal",
     "username": "Username",
@@ -13,6 +17,13 @@
      "contineuWithEmail": "Or continue with Email",
      "accessTerms": "I accept terms and conditions",
      "keepLogged": "Keep me logged in"
+  },
+  "ChooseCategory": {
+     "title": "What are you interested in?",
+     "desc": "Choose 3 or more category"
+  },
+  "Bookmarks": {
+    "title": "Your Bookmarks"
   },
   "Header": {
     "login": "Login",
@@ -40,5 +51,62 @@
    "Share": "Share",
    "morePost": "More Posts like this",
    "shareTitle": "Share this post"
- }
+ },
+ "PostNewsModel": {
+    "title": {
+       "createPost": "Create Post",
+       "shareLink": "Share Link"
+    },
+    "placeholder": {
+       "shareLink": "Share your Link",
+       "postTitle": "New post title here...",
+       "tags": "Add up to 4 tags",
+       "category": "Add Category",
+       "description": "Write Description",
+       "addCoverImage": "Drag images here or click to select files",
+       "coverImageDescription": "Attach as many files as you like, each file should not exceed 5mb"
+    },
+    "button": {
+       "save": "Save",
+       "publish": "Publish"
+    }
+ },
+ "UserInfo": {
+    "tabs": {
+     "profile": "Profile",
+     "post": "Posts",
+     "news": "News"
+     },
+     "profileInfo": {
+       "title": "Profile Info",
+        "fullname": "Fullname",
+        "username":  "Username",
+        "email": "Email",
+        "avatar": {
+           "title": "Upload Avatar",
+           "description": "Drag'n'drop files here to upload. We can accept only .png, .jpg, .webp, .avif files that are less than 10mb in size."
+        },
+        "profileButton": "Save"
+     },
+     "changePassword": {
+       "title": "Change Password",
+       "oldPassword": "Old Password",
+       "newPassword":  "New Password",
+       "confirmPassword": "Confirm Password",
+       "passwordButton": "Change Password"
+     },
+     "categoryPreference": {
+      "title": "Change Category Preference",
+       "categoryButton": "Change Category Preference"
+     },
+     "deleteAccount": {
+      "header": "Danger Zone",
+       "title": "Delete Account",
+       "description": "Delete your profile, along with your post and shared news.",
+       "deleteButton": "Delete Account",
+       "confirmDeleteDesc": "Are you sure, you want to delete the account and all its data.",
+       "confirmButton": "Confirm",
+       "cancelButton": "Cancel"
+     }
+   }
 }

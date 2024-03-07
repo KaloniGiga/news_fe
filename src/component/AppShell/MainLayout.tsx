@@ -1,10 +1,9 @@
 "use client";
-import { AppShell, ScrollArea, useComputedColorScheme } from "@mantine/core";
+import { AppShell, ScrollArea } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FunctionComponent, ReactNode } from "react";
 import Header from "../Navbar/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import NavTabs from "../NavTabs/NavTabs";
 import MainDescription from "../MainSide/MainDescription";
 
 interface IMainLayout {

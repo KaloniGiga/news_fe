@@ -1,12 +1,12 @@
 "use client";
-import { Avatar, Button, Card, Flex, Group, Stack, Text } from "@mantine/core";
+import { Button, Card, Flex, Group, Stack, Text } from "@mantine/core";
 import { IoCreateOutline } from "react-icons/io5";
-import { FaBullseye, FaRegShareSquare } from "react-icons/fa";
+import { FaRegShareSquare } from "react-icons/fa";
 import NavTabs from "../NavTabs/NavTabs";
 import { FunctionComponent, useState } from "react";
 import PostNewsModel from "./PostNews/PostNewsModel";
 import { useDisclosure } from "@mantine/hooks";
-import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
+import { selectAuthenticated } from "@/redux/auth/auth.selector";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import MuiAvatar from "../Avatar/MuiAvatar";
