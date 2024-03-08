@@ -193,7 +193,7 @@ const PostNewsForm: FunctionComponent<IPostNewsForm> = ({ close, isEdit, editDat
             description={t("placeholder.coverImageDescription")}
           />
 
-          <Button loading={editLoading || postLoading} fullWidth type="submit" radius={"sm"}>
+          <Button variant="filled" loading={editLoading || postLoading} fullWidth type="submit" radius={"sm"}>
             {!isEdit ? t("button.publish") : t("button.save")}
           </Button>
         </div>

@@ -1,8 +1,9 @@
 import SearchComponent from "@/component/Search/SearchComponent";
 import { NextPage } from "next";
 import React, { ReactElement } from "react";
-
-const page: NextPage = (): ReactElement => {
+import { unstable_setRequestLocale } from "next-intl/server";
+const Page = ({ params }: { params: { locale: string } }): ReactElement => {
+  unstable_setRequestLocale(params.locale);
   return (
     <div>
       <SearchComponent />
@@ -10,4 +11,4 @@ const page: NextPage = (): ReactElement => {
   );
 };
 
-export default page;
+export default Page;

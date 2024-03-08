@@ -7,6 +7,7 @@ import { Providers } from "@/redux/provider";
 import MantineRegistry from "@/utils/MantineProvider";
 import ThemeRegistry from "@/utils/ThemeRegistry";
 import NextIntlProvider from "@/utils/NextIntlProvider";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,6 +41,7 @@ export function generateStaticParams() {
 
 export default function RootLayout(props: Props) {
   const { children, params } = props;
+  unstable_setRequestLocale(params.locale);
   return (
     <html lang={params.locale || "en"}>
       <body className={inter.className}>

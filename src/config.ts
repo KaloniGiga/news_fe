@@ -4,18 +4,12 @@ export const locales = ["en", "np"] as const;
 
 export const pathnames = {
   "/": "/",
-  "/auth": {
-    en: "/auth",
-    np: "/auth",
-  },
-  "/login": {
-    en: "/login",
-    np: "/login",
-  },
+  "/auth": "/auth",
+  "/login": "/login",
   "/discussed": "/discussed",
   "/post": "/post",
   "/upvote": "upvote",
-  "[username]": "[username]",
+  "/[username]": "/[username]",
   "/bookmarks": "/bookmarks",
   "/choose-category": "/choose-category",
   "/feed": "/feed",

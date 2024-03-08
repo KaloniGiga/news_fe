@@ -31,7 +31,7 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <div className="w-full h-full p-1 toggleBodyColor">
+        <div className="w-full min-h-screen p-1 toggleBodyColor">
           <MainDescription />
           {children}
         </div>

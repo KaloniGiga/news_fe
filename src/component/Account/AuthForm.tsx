@@ -159,7 +159,7 @@ const AuthForm = () => {
             >
               {type === t("Login.signupButton") ? t("Login.loginLink") : t("Login.registerLink")}
             </Anchor>
-            <Button loading={loginLoading} fullWidth type="submit" radius="sm">
+            <Button variant="filled" loading={loginLoading} fullWidth type="submit" radius="sm">
               {upperFirst(type)}
             </Button>
           </Stack>
