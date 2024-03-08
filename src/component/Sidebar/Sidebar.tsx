@@ -17,7 +17,6 @@ import {
   TagOutlined,
 } from "@mui/icons-material";
 import MuiAvatar from "../Avatar/MuiAvatar";
-import PostEditNewsDialog from "../MainSide/PostNews/PostEditNewsDialog";
 import PostNewsModel from "../MainSide/PostNews/PostNewsModel";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
@@ -29,6 +28,8 @@ import { BiCategory } from "react-icons/bi";
 import { useGetCategoryQuery } from "../../redux/category/category.api";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
+import CategorySkeleton from "../Skeleton/CategorySkeleton";
+import { useTranslations } from "next-intl";
 
 // const data = [
 //   {
@@ -53,12 +54,11 @@ import { usePathname, useRouter } from "next/navigation";
 // ];
 
 const Sidebar = () => {
-  const { data, isLoading, error } = useGetCategoryQuery();
-  const isAuthenticated = useAppSelector(selectAuthenticated);
-  const [active, setActive] = useState<string>("My Feed");
-  const [opened, { open, close }] = useDisclosure(false);
+  const { data: categoryData, isLoading, isError, isSuccess } = useGetCategoryQuery();
   const path = usePathname();
   const router = useRouter();
+  const t = useTranslations();
+
   const handleClick = (title: string) => {
     if (path === "/") {
       router.replace(`?category=${title}`);
@@ -69,9 +69,9 @@ const Sidebar = () => {
   const links = () => (
     <Stack pb={"sm"}>
       <Group>
-        <Text size="md">{"Category"}</Text>
+        <Text size="md">{t("Sidebar.category")}</Text>
       </Group>
-      {data?.data?.map((item, index) => {
+      {categoryData?.data?.map((item, index) => {
         return (
           <div className=" cursor-pointer" onClick={() => handleClick(item.title)} key={index}>
             <Group className={`pl-8 hover:bg-[light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6))]`}>
@@ -83,7 +83,21 @@ const Sidebar = () => {
     </Stack>
   );
 
-  return data && <div className="px-4 py-4 flex flex-col text-mantineText">{links()}</div>;
+  if (isLoading) {
+    return (
+      <div className="px-4 py-4">
+        <CategorySkeleton />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div>Failed to load.</div>;
+  }
+
+  if (isSuccess) {
+    return <div className="px-4 py-4 flex flex-col text-mantineText">{links()}</div>;
+  }
 };
 
 export default Sidebar;

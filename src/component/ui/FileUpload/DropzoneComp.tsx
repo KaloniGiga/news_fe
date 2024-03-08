@@ -10,8 +10,10 @@ interface IDropzone {
   onChange: (value: any) => void;
   value: string;
   isEdit: boolean;
+  title?: string;
+  description?: string;
 }
-const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value }) => {
+const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value, title, description }) => {
   const [file, setFile] = useState<FileWithPath | null>(null);
   const [image, setImage] = useState("");
   const [isSelected, setIsSelected] = useState(false);
@@ -71,10 +73,10 @@ const DropzoneComp: FunctionComponent<IDropzone> = ({ isEdit, onChange, value })
 
           <div>
             <Text size="xl" inline>
-              Drag images here or click to select files
+              {title ? title : "Drag images here or click to select files"}
             </Text>
             <Text size="sm" c="dimmed" inline mt={4}>
-              Attach as many files as you like, each file should not exceed 5mb
+              {description ? description : "Attach as many files as you like, each file should not exceed 5mb"}
             </Text>
           </div>
         </Group>

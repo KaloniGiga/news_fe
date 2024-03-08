@@ -2,6 +2,7 @@
 import { Button, Card, Modal, SimpleGrid, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { usePathname } from "next/navigation";
+import { FunctionComponent } from "react";
 import { BsShare } from "react-icons/bs";
 import {
   FacebookShareButton,
@@ -25,7 +26,11 @@ import {
   FacebookShareCount,
 } from "react-share";
 
-const ShareButton = () => {
+interface IShareButton {
+  label?: string;
+  shareTitle?: string;
+}
+const ShareButton: FunctionComponent<IShareButton> = ({ label, shareTitle }) => {
   const theme = useMantineTheme();
   const [opened, { toggle, close }] = useDisclosure(false);
   const pathname = usePathname();
@@ -39,7 +44,7 @@ const ShareButton = () => {
         variant="subtle"
         leftSection={<BsShare size={20} color={theme.colors.blue[6]} />}
       >
-        Share
+        {label ? label : "Share"}
       </Button>
 
       <Modal
@@ -49,7 +54,7 @@ const ShareButton = () => {
         opened={opened}
         onClose={close}
         withCloseButton={true}
-        title="Share this post"
+        title={shareTitle ? shareTitle : "Share this post"}
         centered
       >
         {/* <Card p={"md"} withBorder> */}

@@ -3,24 +3,22 @@ import React, { FunctionComponent, ReactElement, useEffect, useState } from "rea
 import Header from "../Navbar/Header";
 import { useSearchPostQuery } from "@/redux/post/post.api";
 import { Box } from "@mantine/core";
-import NewsContainer from "../MainSide/NewsContainer";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
+import NewsContainer from "../MainSide/NewsCard/NewsContainer";
 
 const SearchComponent: FunctionComponent = (): ReactElement => {
   const [data, setData] = useState<any>("");
   const search = useSearchParams();
   const searchVal = search.getAll("q");
-  console.log(searchVal);
   const { data: searchData, isLoading } = useSearchPostQuery(searchVal ? searchVal : []);
   useEffect(() => {
     if (searchData) {
       setData(searchData.data);
     }
   }, [searchData]);
-  console.log(data);
   return (
-    <div className="w-full text-mantineText  flex flex-col items-center justify-center">
+    <div className="w-full text-mantineText flex flex-col items-center justify-center">
       <Header />
       <div className="w-[80%] flex justify-between items-center">
         <h1 className="lg:text-[30px] text-[20px] font-[700]">Searched results:</h1>

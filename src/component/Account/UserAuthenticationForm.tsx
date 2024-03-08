@@ -2,14 +2,11 @@
 "use client";
 import {
   Anchor,
-  Box,
   Button,
   Card,
   Checkbox,
   Divider,
   Group,
-  Paper,
-  PaperProps,
   PasswordInput,
   Stack,
   Text,
@@ -19,23 +16,22 @@ import {
 import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { GoogleButton } from "./GoogleButton";
-import { FacebookButton } from "./FacebookButton";
-import { FunctionComponent, useEffect } from "react";
-import LockIcon from "@mui/icons-material/Lock";
+import { useEffect } from "react";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { SubmitHandler } from "react-hook-form";
 import { UserData } from "@/redux/auth/type";
-import { useCreateUserMutation, useReadLoginMutation } from "@/redux/auth/auth.api";
+import { useCreateUserMutation } from "@/redux/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { setAuthUser } from "@/redux/auth/auth.slice";
 import { useRouter } from "next/navigation";
-import { notifications } from "@mantine/notifications";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useTranslations } from "next-intl";
 
 const UserLoginForm = () => {
-  const [type, toggle] = useToggle(["Sign up", "Login"]);
+  const t = useTranslations();
+  const [type, toggle] = useToggle([t("Login.signUpButton"), t("Login.loginButton")]);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [createUser, { isLoading: createUserLoading, data: createUserData, error }] = useCreateUserMutation();
@@ -66,7 +62,7 @@ const UserLoginForm = () => {
   }, [createUserData, dispatch, router]);
 
   const handleFormSubmit: SubmitHandler<UserData> = values => {
-    if (type == "Sign up") {
+    if (type == t("Login.signUpButton")) {
       createUser(values);
     }
   };
@@ -76,17 +72,17 @@ const UserLoginForm = () => {
       <div className="w-[60%] h-full bg-[url('/loginnews1.jpg')] bg-cover bg-center lg:block hidden"></div>
       <Card className="lg:w-[40%] w-full" p="xl">
         <Title order={2} ta="center" mt="md" mb="md">
-          Welcome back to News Portal!
+          {t("Login.title")}
         </Title>
         <Text ta={"center"} size="xs" c="red">
           {error && ((error as FetchBaseQueryError).data as any).message}
         </Text>
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
-            {type === "Sign up" && (
+            {type === t("Login.signUpButton") && (
               <TextInput
                 required
-                label="Username"
+                label={t("Login.username")}
                 placeholder="Your username"
                 size="md"
                 value={form.values.username}
@@ -98,7 +94,7 @@ const UserLoginForm = () => {
 
             <TextInput
               required
-              label="Email"
+              label={t("Login.email")}
               size="md"
               placeholder="hello@gmail.com"
               value={form.values.email}
@@ -109,8 +105,8 @@ const UserLoginForm = () => {
 
             <PasswordInput
               required
-              label="Password"
               placeholder="Your password"
+              label={t("Login.password")}
               size="md"
               value={form.values.password}
               onChange={event => form.setFieldValue("password", event.currentTarget.value)}
@@ -118,24 +114,24 @@ const UserLoginForm = () => {
               leftSection={<LockOpenIcon />}
             />
 
-            {type === "Sign up" && (
+            {type === t("Login.signUpButton") && (
               <Checkbox
-                label="I accept terms and conditions"
+                label={t("Login.accessTerms")}
                 checked={form.values.terms}
                 onChange={event => form.setFieldValue("terms", event.currentTarget.checked)}
               />
             )}
           </Stack>
 
-          {type == "Login" && (
+          {type == t("Login.loginButton") && (
             <Group justify="space-between" mt="lg">
               <Checkbox
                 onChange={event => form.setFieldValue("keepLoggedIn", event.currentTarget.checked)}
                 checked={form.values.keepLoggedIn}
-                label="Keep me logged in"
+                label={t("Login.keepLogged")}
               />
               <Anchor component="button" size="sm">
-                Forgot password?
+                {t("Login.forgetPassword")}
               </Anchor>
             </Group>
           )}
@@ -149,7 +145,7 @@ const UserLoginForm = () => {
               onClick={() => router.push("/login")}
               size="xs"
             >
-              {type === "Sign up" ? "Already have an account? Login" : "Don't have an account? Register"}
+              {type === t("Login.signupButton") ? t("Login.loginLink") : t("Login.registerLink")}
             </Anchor>
             <Button loading={createUserLoading} fullWidth type="submit" radius="sm">
               {upperFirst(type)}
@@ -159,8 +155,8 @@ const UserLoginForm = () => {
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
         <Group grow mb={"md"} mt="md">
-          <GoogleButton radius={"xl"}> Continue with Google</GoogleButton>
-          <FacebookButton radius={"xl"}>Continue with Facebook</FacebookButton>
+          <GoogleButton label={t("Login.continueWithGoogle")} />
+          {/* <FacebookButton radius={"xl"}>Continue with Facebook</FacebookButton> */}
         </Group>
       </Card>
     </div>

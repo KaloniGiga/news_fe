@@ -9,6 +9,8 @@ import { selectAuthenticated } from "@/redux/auth/auth.selector";
 import { GetPostData } from "@/redux/post/type";
 import NotificationContainer from "./NotificationContainer";
 import Link from "next/link";
+import NotificationSkeleton from "@/component/Skeleton/NotificationSkeleton/NotificationSkeleton";
+import NotificationSkeletonContainer from "@/component/Skeleton/NotificationSkeleton/NotificationSkeletonContainer";
 
 const NotificationIcon = () => {
   const [data, setData] = useState<any[]>([]);
@@ -16,7 +18,7 @@ const NotificationIcon = () => {
   // const { isLoading, data, isError } = useGetNotificationsQuery(page, { refetchOnMountOrArgChange: true });
   const [hasMoreData, setHasMoreData] = useState(true);
   const isAuthenticated = useAppSelector(selectAuthenticated);
-  const [getNotification, { isFetching, isLoading }] = useLazyGetNotificationsQuery();
+  const [getNotification, { isFetching, isLoading, isSuccess }] = useLazyGetNotificationsQuery();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -81,17 +83,13 @@ const NotificationIcon = () => {
 
                 <div className="w-[400px] h-[500px] flex flex-col">
                   {/* <ScrollArea.Autosize mah={500} scrollbars="y"> */}
-                  {isLoading && <div>Loading...</div>}
-                  {data ? (
+                  {isLoading && <NotificationSkeletonContainer />}
+                  {isSuccess && (
                     <NotificationContainer
                       notificationData={data}
                       hasMoreData={hasMoreData}
                       loadMoreData={loadMoreData}
                     />
-                  ) : (
-                    <div className="w-full flex justify-center items-center text-[var(--mantine-color-text)] py-2">
-                      No notification
-                    </div>
                   )}
                   {/* </ScrollArea.Autosize> */}
                 </div>

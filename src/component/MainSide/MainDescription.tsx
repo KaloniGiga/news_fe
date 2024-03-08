@@ -1,32 +1,37 @@
 "use client";
-import { Avatar, Button, Card, Flex, Group, Stack, Text } from "@mantine/core";
+import { Button, Card, Flex, Group, Stack, Text } from "@mantine/core";
 import { IoCreateOutline } from "react-icons/io5";
-import { FaBullseye, FaRegShareSquare } from "react-icons/fa";
+import { FaRegShareSquare } from "react-icons/fa";
 import NavTabs from "../NavTabs/NavTabs";
 import { FunctionComponent, useState } from "react";
-import { IUser } from "@/redux/auth/type";
 import PostNewsModel from "./PostNews/PostNewsModel";
 import { useDisclosure } from "@mantine/hooks";
-import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
+import { selectAuthenticated } from "@/redux/auth/auth.selector";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
 import MuiAvatar from "../Avatar/MuiAvatar";
+import MainDescriptionSkeleton from "../Skeleton/MainDescriptionSkeletion/MainDescriptionSkeleton";
+import { useTranslations } from "next-intl";
 
-const MainDescription = () => {
+const MainDescription: FunctionComponent = () => {
+  const t = useTranslations();
   const [createPost, setCreatePost] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const { data: user } = useGetUserQuery();
-  const isAuthenticatedUser = useAppSelector(selectAuthenticated);
+  const { data: user, isLoading } = useGetUserQuery();
+  const isAuthenticated = useAppSelector(selectAuthenticated);
 
   const setOpen = (createPost: boolean) => {
     setCreatePost(createPost);
     open();
   };
 
+  if (isLoading) {
+    return <MainDescriptionSkeleton />;
+  }
   return (
     <Card withBorder radius={"md"} className="lg:w-[80%] w-[90%] ml-[5%] my-8">
-      {isAuthenticatedUser && (
+      {isAuthenticated && user && (
         <Flex className="flex lg:flex-row flex-col gap-5 justify-between">
           <Group>
             <MuiAvatar
@@ -47,10 +52,10 @@ const MainDescription = () => {
 
           <Group>
             <Button variant="default" leftSection={<FaRegShareSquare />} onClick={() => setOpen(false)}>
-              Share News
+              {t("Home.mainDesc.shareNews")}
             </Button>
             <Button leftSection={<IoCreateOutline />} onClick={() => setOpen(true)}>
-              Create Post
+              {t("Home.mainDesc.createPost")}
             </Button>
             <PostNewsModel
               setCreatePost={setCreatePost}

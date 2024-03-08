@@ -1,9 +1,4 @@
-import CommentEditor from "@/component/MyEditor/CommentEditor";
-import {
-  useCreateCommentReplyMutation,
-  useGetCommentReplyByCommentIdQuery,
-  useUpdateCommentReplyMutation,
-} from "@/redux/comment-reply/comment-reply.api";
+import { useCreateCommentReplyMutation, useUpdateCommentReplyMutation } from "@/redux/comment-reply/comment-reply.api";
 import { useCreateCommentMutation, useUpdateCommentMutation } from "@/redux/comment/comment.api";
 import { Button, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -111,7 +106,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
     }
   };
   return (
-    <Stack gap={0} px={"md"}>
+    <Stack className={`${!isCommentReply ? "toggleBodyColor" : "toggleReplyCommentColor"}`} gap={0} mx={"md"} px={"sm"}>
       {/* <CommentEditor
         placeholder={placeholder ? placeholder : "Share your thoughts"}
         onChange={val => form.setFieldValue("comment", val)}
@@ -129,7 +124,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
         value={form.values.comment}
         handleMentionAdd={(id: any, display: string) => setMentions(prev => [...prev, id])}
       />
-      <div className="w-full flex gap-x-2 justify-end p-2 bg-mantineBody">
+      <div className="w-full flex gap-x-2 justify-end p-2">
         <Button variant="outline" onClick={toggleComment}>
           {"Cancel"}
         </Button>

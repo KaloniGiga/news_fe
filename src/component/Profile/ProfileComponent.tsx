@@ -19,8 +19,7 @@ const ProfileComponent: FunctionComponent = (): ReactElement => {
   });
 
   return (
-    <div className="text-[var(--mantine-color-text)] bg-[var(--mantine-color-body)]">
-      <Header />
+    <div className="text-[var(--mantine-color-text)] pt-8">
       {isLoading && (
         <Center className="text-mantineText">
           <CircularProgress />

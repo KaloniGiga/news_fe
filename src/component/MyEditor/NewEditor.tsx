@@ -6,9 +6,6 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { FunctionComponent, useEffect } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
-import { Button } from "@mantine/core";
-// import Superscript from '@tiptap/extension-superscript';
-// import SubScript from '@tiptap/extension-subscript'
 
 interface INewEditor {
   placeholder: string;
@@ -21,8 +18,6 @@ const NewEditor: FunctionComponent<INewEditor> = ({ placeholder, onChange, value
       StarterKit,
       Underline,
       Link,
-      //   Superscript,
-      //   SubScript,
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Placeholder.configure({
