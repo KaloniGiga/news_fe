@@ -25,9 +25,6 @@ const LanguageSwitcher = () => {
   };
   return (
     <div className="flex">
-      <label htmlFor="language" className="text-lg text-mantineText mt-2">
-        <GrLanguage color={theme.colors.yellow[6]} />
-      </label>
       <select
         name="language"
         id="language"

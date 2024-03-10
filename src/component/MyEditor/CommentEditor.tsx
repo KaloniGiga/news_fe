@@ -19,17 +19,21 @@ const CommentEditor: FunctionComponent<ICommentEditor> = ({ placeholder, onChang
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Underline,
-      Link,
-      Highlight,
+      // Underline,
+      // Link,
+      // Highlight,
       Placeholder.configure({
         placeholder,
       }),
       Mention.configure({
-        HTMLAttributes: {
-          class: "mention",
+        renderHTML({ options, node }) {
+          return [
+            "a",
+            { href: `/${node.attrs.label}`, target: "_blank", class: "mention", "data-id": node.attrs.id },
+            `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+          ];
         },
-        // suggestion,
+        suggestion,
       }),
     ],
     content: value,
@@ -46,7 +50,7 @@ const CommentEditor: FunctionComponent<ICommentEditor> = ({ placeholder, onChang
 
   return (
     <RichTextEditor editor={editor}>
-      <RichTextEditor.Toolbar>
+      {/* <RichTextEditor.Toolbar>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />
@@ -69,8 +73,8 @@ const CommentEditor: FunctionComponent<ICommentEditor> = ({ placeholder, onChang
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Link />
           <RichTextEditor.Unlink />
-        </RichTextEditor.ControlsGroup>
-      </RichTextEditor.Toolbar>
+        </RichTextEditor.ControlsGroup> */}
+      {/* </RichTextEditor.Toolbar> */}
 
       <RichTextEditor.Content />
     </RichTextEditor>
