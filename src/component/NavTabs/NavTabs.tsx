@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { Tabs, useMantineTheme } from "@mantine/core";
 import { SlFeed } from "react-icons/sl";
 import { FaRegNewspaper } from "react-icons/fa";
@@ -12,6 +13,8 @@ const NavTabs = () => {
   const router = useRouter();
   const pathname = usePathname();
   const theme = useMantineTheme();
+  const t = useTranslations();
+
   return (
     <Tabs
       defaultValue={pathname}
@@ -21,16 +24,16 @@ const NavTabs = () => {
     >
       <Tabs.List className="before:hidden">
         <Tabs.Tab value="/" leftSection={<SlFeed size={20} color={theme.colors.orange[6]} />}>
-          My Feed
+          {t("Home.mainDesc.firstTab")}
         </Tabs.Tab>
         <Tabs.Tab value="/post" leftSection={<FaRegNewspaper size={22} color={theme.colors.yellow[6]} />}>
-          Post
+          {t("Home.mainDesc.secondTab")}
         </Tabs.Tab>
         <Tabs.Tab value="/upvote" leftSection={<FaFireAlt color={theme.colors.red[6]} size={25} />}>
-          Most upvoted
+          {t("Home.mainDesc.mostUpvoted")}
         </Tabs.Tab>
         <Tabs.Tab value="/discussed" leftSection={<GoCommentDiscussion size={25} color={theme.colors.blue[6]} />}>
-          Most discussed
+          {t("Home.mainDesc.mostDiscussed")}
         </Tabs.Tab>
       </Tabs.List>
     </Tabs>

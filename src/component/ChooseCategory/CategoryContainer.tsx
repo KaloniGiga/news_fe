@@ -12,7 +12,6 @@ import { useGetUserQuery } from "@/redux/auth/auth.api";
 const CategoryContainer = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // const user = useAppSelector(selectUser);
   const { data: user, refetch } = useGetUserQuery();
   const [addUserCategoryPreference, { isLoading: categoryPreferenceIsLoading, data: categoryPreferenceData }] =
     useAddUserCategoryPreferenceMutation();

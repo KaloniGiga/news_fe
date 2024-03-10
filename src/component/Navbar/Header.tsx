@@ -9,6 +9,7 @@ import NotificationIcon from "./Notification/NotificationIcon";
 import DarkLightMode from "../DarkLightMode/DarkLightMode";
 import Bookmark from "./Bookmark/Bookmark";
 import MenuIcon from "@mui/icons-material/Menu";
+import LanguageSwitcher from "./LanguageSwitch/LanguageSwitch";
 
 interface HeaderProps {
   toggle?: () => void;
@@ -28,6 +29,7 @@ const Header = ({ toggle }: HeaderProps) => {
         <AuthButtonContainer />
         <DarkLightMode />
         <Bookmark />
+        <LanguageSwitcher />
       </Group>
 
       {(path === "/" || path === "/post") && (

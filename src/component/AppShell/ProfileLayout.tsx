@@ -6,13 +6,13 @@ import { ReactNode } from "react";
 
 export default function ProfileLayout({ children }: { children: ReactNode }) {
   return (
-    <AppShell header={{ height: 60 }} styles={{ main: { backgroundColor: "var(--mantine-color-body)" } }}>
+    <AppShell header={{ height: 60 }}>
       <AppShell.Header>
         <Header />
       </AppShell.Header>
       <AppShell.Main>
         <ProfileContainer />
-        {children}
+        <div className="w-full h-full toggleBodyColor">{children}</div>
       </AppShell.Main>
     </AppShell>
   );

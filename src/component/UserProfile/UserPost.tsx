@@ -2,13 +2,14 @@
 import { useLazyGetUserCreatePostQuery } from "@/redux/post/post.api";
 import { useEffect, useState } from "react";
 import { GetPostData } from "@/redux/post/type";
-import NewsCardList from "../MainSide/NewsCard/NewsCardList";
+import CreatePostList from "../MainSide/NewsCard/CreatePostList";
+import CreatePostSkeletonContainer from "../Skeleton/CreatePostSkeleton/CreatePostSkeletonContainer";
 
 const UserPost = () => {
   const [data, setData] = useState<GetPostData[]>([]);
   const [page, setPage] = useState(1);
   const [hasMoreData, setHasMoreData] = useState(true);
-  const [getUserCreatePost, { isFetching }] = useLazyGetUserCreatePostQuery();
+  const [getUserCreatePost, { isFetching, isLoading, isSuccess }] = useLazyGetUserCreatePostQuery();
 
   useEffect(() => {
     getUserCreatePost(page)
@@ -40,7 +41,14 @@ const UserPost = () => {
         });
     }
   };
-  return data && <NewsCardList loadMoreData={loadMoreData} hasMoreData={hasMoreData} newsPostData={data} />;
+
+  if (isLoading) {
+    return <CreatePostSkeletonContainer />;
+  }
+
+  if (isSuccess) {
+    return data && <CreatePostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} newsPostData={data} />;
+  }
 };
 
 export default UserPost;

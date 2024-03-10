@@ -6,13 +6,14 @@ import React, { FunctionComponent, ReactElement, useEffect, useState } from "rea
 import FeedPostWrapper from "../MainSide/FeedPost/FeedPostWrapper";
 import { GetPostData } from "@/redux/post/type";
 import FeedPostList from "../MainSide/FeedPost/FeedPostLIst";
+import ShareLinkSkeletonContainer from "../Skeleton/ShareLinkSkeleton/ShareLinkSkeletonContainer";
 
-const UpvoteContainer: FunctionComponent = (): ReactElement => {
+const UpvoteContainer: FunctionComponent = () => {
   const [data, setData] = useState<GetPostData[]>([]);
   const [page, setPage] = useState(1);
   const [hasMoreData, setHasMoreData] = useState(true);
 
-  const [getMostUpvotedPosts, { isFetching }] = useLazyGetMostUpvotedPostsQuery();
+  const [getMostUpvotedPosts, { isLoading, isFetching, isSuccess }] = useLazyGetMostUpvotedPostsQuery();
 
   useEffect(() => {
     getMostUpvotedPosts(page)
@@ -45,20 +46,26 @@ const UpvoteContainer: FunctionComponent = (): ReactElement => {
     }
   };
 
-  return (
-    data && (
-      <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />
-      // <Grid p={"md"} pl={"5%"} gutter={"md"}>
-      //   {data.map((item: any, index: number) => {
-      //     return (
-      //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-      //         <FeedPostWrapper feedData={item} />
-      //       </Grid.Col>
-      //     );
-      //   })}
-      // </Grid>
-    )
-  );
+  if (isLoading) {
+    return <ShareLinkSkeletonContainer />;
+  }
+
+  if (isSuccess) {
+    return (
+      data && (
+        <FeedPostList loadMoreData={loadMoreData} hasMoreData={hasMoreData} feedPostData={data} />
+        // <Grid p={"md"} pl={"5%"} gutter={"md"}>
+        //   {data.map((item: any, index: number) => {
+        //     return (
+        //       <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
+        //         <FeedPostWrapper feedData={item} />
+        //       </Grid.Col>
+        //     );
+        //   })}
+        // </Grid>
+      )
+    );
+  }
 };
 
 export default UpvoteContainer;

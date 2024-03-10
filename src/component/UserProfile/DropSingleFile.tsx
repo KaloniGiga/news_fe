@@ -7,8 +7,10 @@ import React, { FunctionComponent, useRef, useState } from "react";
 interface IDropzone {
   onChange: (value: any) => void;
   value: string;
+  title?: string;
+  description?: string;
 }
-const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
+const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value, title, description }) => {
   const [file, setFile] = useState<FileWithPath | null>(null);
   const [image, setImage] = useState("");
   const theme = useMantineTheme();
@@ -47,12 +49,13 @@ const DropSingleFile: FunctionComponent<IDropzone> = ({ onChange, value }) => {
         <Text ta="center" fw={700} fz="lg" mt="md">
           <Dropzone.Accept>Drop files here</Dropzone.Accept>
           <Dropzone.Reject>Image file less than 10mb</Dropzone.Reject>
-          <Dropzone.Idle>Upload Avatar</Dropzone.Idle>
+          <Dropzone.Idle>{title ? title : "Upload Avatar"}</Dropzone.Idle>
         </Text>
 
         <Text ta="center" fz="sm" mt="xs" mb="lg" c="dimmed">
-          Drag&apos;n&apos;drop files here to upload. We can accept only <i>.png, .jpg, .webp, .avif</i> files that are
-          less than 10mb in size.
+          {description
+            ? description
+            : "Drag&apos;n&apos;drop files here to upload. We can accept only <i>.png, .jpg, .webp, .avif</i> files that are less than 10mb in size."}
         </Text>
       </Dropzone>
 

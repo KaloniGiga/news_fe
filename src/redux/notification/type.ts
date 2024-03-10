@@ -13,6 +13,7 @@ export interface INotification {
   senderId: number;
   senderUsername: string;
   senderPicture: string | null;
+  targetResourceId: number | null;
   commment: IComment | null;
   commentLike: ICommentLike | null;
   commentReply: ICommentReply | null;
@@ -35,4 +36,5 @@ export enum NotificationTypeEnum {
   UPVOTE = "upvote",
   BOOKMARK = "bookmark",
   COMMENTLIKE = "commentLike",
+  MENTION = "mention",
 }

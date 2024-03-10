@@ -1,18 +1,15 @@
 "use client";
-import { IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HideSourceIcon from "@mui/icons-material/HideSource";
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { EditPostData, GetPostData, PostData } from "@/redux/post/type";
+import React, { FunctionComponent, useState } from "react";
+import { GetPostData } from "@/redux/post/type";
 import { ActionIcon, Menu } from "@mantine/core";
 import { Edit } from "@mui/icons-material";
 import { useDisclosure } from "@mantine/hooks";
-import { useGetUserQuery, useLogoutMutation } from "@/redux/auth/auth.api";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { resetAuthUser } from "@/redux/auth/auth.slice";
-import { selectAuthenticated, selectUser } from "@/redux/auth/auth.selector";
+import { useGetUserQuery } from "@/redux/auth/auth.api";
+import { useAppSelector } from "@/redux/hooks";
+import { selectAuthenticated } from "@/redux/auth/auth.selector";
 import EditNews from "../MainSide/EditNews/EditNews";
 import PostNewsModel from "../MainSide/PostNews/PostNewsModel";
 

@@ -10,9 +10,8 @@ const UserProfilePosts: FunctionComponent<IProfile> = ({ id }): ReactElement => 
   const { data, isLoading } = useGetPostByUserQuery(id, {
     refetchOnMountOrArgChange: true,
   });
-  console.log(data);
   return (
-    <div>
+    <div className="mt-8">
       <Box component="div" className="w-[80%] mx-auto h-full text-mantineText">
         {isLoading ? (
           <Center className="text-mantineText">

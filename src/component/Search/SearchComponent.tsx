@@ -17,9 +17,8 @@ const SearchComponent: FunctionComponent = (): ReactElement => {
       setData(searchData.data);
     }
   }, [searchData]);
-  console.log(data);
   return (
-    <div className="w-full text-mantineText  flex flex-col items-center justify-center">
+    <div className="w-full text-mantineText flex flex-col items-center justify-center">
       <Header />
       <div className="w-[80%] flex justify-between items-center">
         <h1 className="lg:text-[30px] text-[20px] font-[700]">Searched results:</h1>

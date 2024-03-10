@@ -1,5 +1,5 @@
-import { useGetUserForMentionQuery, useLazyGetUserForMentionQuery } from "@/redux/user/user.api";
-import React, { FunctionComponent, useState } from "react";
+import { useLazyGetUserForMentionQuery } from "@/redux/user/user.api";
+import React, { FunctionComponent } from "react";
 import { Mention, MentionsInput } from "react-mentions";
 import { mentionStyles } from "./mentionStyles";
 import { mentionStylesInput } from "./mentionStylesInput";

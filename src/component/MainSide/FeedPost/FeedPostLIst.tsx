@@ -1,8 +1,8 @@
 import { GetPostData } from "@/redux/post/type";
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useRef } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import FeedPost from "./FeedPost";
-import { Grid, SimpleGrid, Text, useMantineTheme } from "@mantine/core";
+import { Text, useMantineTheme } from "@mantine/core";
 import { InfiniteLoader, List, WindowScroller } from "react-virtualized";
 
 export interface IFeedPostList {

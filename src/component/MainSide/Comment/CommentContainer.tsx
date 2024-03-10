@@ -64,7 +64,7 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
             }
           />
         </div>
-        <div className="w-full flex flex-col gap-y-4 px-4 py-4 rounded-xl bg-mantineBody">
+        <div className="w-full flex flex-col gap-y-4 px-4 py-4 rounded-xl toggleBodyColor">
           <div className="w-full flex justify-between">
             <div className="flex gap-x-4 items-center">
               <span className="font-semibold">{comment?.user?.username}</span>
@@ -79,7 +79,7 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
             <WriteComment
               toggleComment={handleEditToggle}
               isEdit={true}
-              editData={comment.rawMessage}
+              editData={comment.message}
               buttonLabel="Edit"
               commentId={comment.id}
               postId={postId}

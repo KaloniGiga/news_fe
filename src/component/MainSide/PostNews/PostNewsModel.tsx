@@ -1,8 +1,9 @@
-import { Modal, Button } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import { FunctionComponent, SetStateAction } from "react";
 import PostNewsFormContainer from "./PostNewsFormContainer";
 import { GetPostData } from "@/redux/post/type";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 interface IPostNewsModel {
   opened: boolean;
@@ -22,12 +23,13 @@ const PostNewsModel: FunctionComponent<IPostNewsModel> = ({
   isEdit,
   editData,
 }) => {
+  const t = useTranslations("PostNewsModel");
   return (
     <Modal
       opened={opened}
       onClose={close}
       size={"lg"}
-      title={`${createPost ? "Create Post" : "Share News"}`}
+      title={`${createPost ? t("title.createPost") : t("title.shareLink")}`}
       overlayProps={{
         backgroundOpacity: 0.55,
       }}

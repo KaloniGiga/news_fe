@@ -11,11 +11,13 @@ import UploadAvatar from "./UploadAvatar";
 import { useUpdateUserMutation } from "@/redux/user/user.api";
 import { setAuthUser } from "@/redux/auth/auth.slice";
 import { useGetUserQuery } from "@/redux/auth/auth.api";
+import { useTranslations } from "next-intl";
 
 const FillUserInfo = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   // const user = useAppSelector(selectUser);
+  const t = useTranslations("UserInfo.profileInfo");
   const { data: userData, refetch } = useGetUserQuery();
   const [updateUser, { isLoading, data: updateData, error }] = useUpdateUserMutation();
 
@@ -62,12 +64,12 @@ const FillUserInfo = () => {
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Stack>
             <Text my={"sm"} size="xl" fw={700}>
-              Profile Info
+              {t("title")}
             </Text>
             <TextInput
               // styles={{ input: { border: "none" } }}
               // required
-              label="Full name"
+              label={t("fullname")}
               placeholder="Your full name"
               size="md"
               value={form.values.fullname}
@@ -78,7 +80,7 @@ const FillUserInfo = () => {
             <TextInput
               // styles={{ input: { border: "none" } }}
               required
-              label="Username"
+              label={t("username")}
               placeholder="Your username"
               size="md"
               value={form.values.username}
@@ -89,7 +91,7 @@ const FillUserInfo = () => {
             <TextInput
               // styles={{ input: { border: "none" } }}
               // required
-              label="Email"
+              label={t("email")}
               placeholder="Your email"
               size="md"
               disabled
@@ -98,12 +100,17 @@ const FillUserInfo = () => {
               error={form.errors.email && "Invalid email"}
             />
 
-            <DropSingleFile value={form.values.file} onChange={value => form.setFieldValue("file", value)} />
+            <DropSingleFile
+              title={t("avatar.title")}
+              description={t("avatar.description")}
+              value={form.values.file}
+              onChange={value => form.setFieldValue("file", value)}
+            />
             {/* <UploadAvatar /> */}
 
             {/* <Group> */}
             <Button loading={isLoading} type="submit">
-              Save
+              {t("profileButton")}
             </Button>
             {/* </Group> */}
           </Stack>

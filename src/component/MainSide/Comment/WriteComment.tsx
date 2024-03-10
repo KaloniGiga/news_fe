@@ -1,14 +1,10 @@
-import CommentEditor from "@/component/MyEditor/CommentEditor";
-import {
-  useCreateCommentReplyMutation,
-  useGetCommentReplyByCommentIdQuery,
-  useUpdateCommentReplyMutation,
-} from "@/redux/comment-reply/comment-reply.api";
+import { useCreateCommentReplyMutation, useUpdateCommentReplyMutation } from "@/redux/comment-reply/comment-reply.api";
 import { useCreateCommentMutation, useUpdateCommentMutation } from "@/redux/comment/comment.api";
 import { Button, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FunctionComponent, useEffect, useState } from "react";
 import CommentWithMention from "./CommentWithMention/CommentWithMention";
+import CommentEditor from "@/component/MyEditor/CommentEditor";
 
 interface IWriteComment {
   toggleComment?: () => void;
@@ -32,8 +28,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   isEdit,
   editData,
 }) => {
-  const [mentions, setMentions] = useState<string[]>([]);
-  const [rawComment, setRawComment] = useState<string>("");
+  // const [mentions, setMentions] = useState<string[]>([]);
   const form = useForm({
     initialValues: {
       comment: "",
@@ -76,35 +71,54 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
     }
   }, [commentData, commentReplyData, updateCommentData, updateCommentReplyData]);
 
+  const parse = Range.prototype.createContextualFragment.bind(document.createRange());
+  const extractMentions = () => {
+    let mentions: string[] = [];
+    const elements = parse(form.values.comment).querySelectorAll(".mention");
+    if (elements) {
+      elements.forEach(element => {
+        const id = element.getAttribute("data-id");
+        if (id) {
+          mentions.push(id);
+        }
+      });
+      mentions = Array.from(new Set(mentions));
+    }
+    return mentions;
+  };
+
   const handleCommentSubmit = () => {
-    console.log(form.values.comment, mentions);
     if (isEdit) {
       if (isCommentReply && commentId) {
+        const mentions = extractMentions();
         updateCommentReply({
           id: commentReplyId,
           message: form.values.comment,
           commentId: commentId,
+          mentions: mentions,
         });
       } else if (postId && commentId) {
-        // updateComment({
-        //   message: form.values.comment,
-        //   postId: postId,
-        //   id: commentId,
-        //   rawMessage: rawComment,
-        //   mentions: mentions,
-        // });
+        const mentions = extractMentions();
+        updateComment({
+          message: form.values.comment,
+          postId: postId,
+          id: commentId,
+          mentions: mentions,
+        });
       }
     } else {
       if (isCommentReply && commentId) {
+        const mentions = extractMentions();
         createCommentReply({
           message: form.values.comment,
           commentId: commentId,
+          mentions: mentions,
         });
       } else if (postId) {
+        const mentions = extractMentions();
         createComment({
           message: form.values.comment,
           postId: postId,
-          rawMessage: rawComment,
           mentions: mentions,
         });
       }
@@ -112,12 +126,12 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
   };
   return (
     <Stack gap={0} px={"md"}>
-      {/* <CommentEditor
+      <CommentEditor
         placeholder={placeholder ? placeholder : "Share your thoughts"}
         onChange={val => form.setFieldValue("comment", val)}
         value={form.values.comment}
-      /> */}
-      <CommentWithMention
+      />
+      {/* <CommentWithMention
         placeholder={placeholder ? placeholder : "Share your thoughts"}
         handleCommentChange={(_: any, newValue: any, newPlainTextValue: any) => {
           setRawComment(newValue);
@@ -128,7 +142,7 @@ const WriteComment: FunctionComponent<IWriteComment> = ({
         }}
         value={form.values.comment}
         handleMentionAdd={(id: any, display: string) => setMentions(prev => [...prev, id])}
-      />
+      /> */}
       <div className="w-full flex gap-x-2 justify-end p-2 bg-mantineBody">
         <Button variant="outline" onClick={toggleComment}>
           {"Cancel"}

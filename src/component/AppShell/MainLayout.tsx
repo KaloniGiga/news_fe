@@ -4,7 +4,6 @@ import { useDisclosure } from "@mantine/hooks";
 import { FunctionComponent, ReactNode } from "react";
 import Header from "../Navbar/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import NavTabs from "../NavTabs/NavTabs";
 import MainDescription from "../MainSide/MainDescription";
 
 interface IMainLayout {
@@ -17,7 +16,11 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 220, breakpoint: "sm", collapsed: { mobile: !opened } }}
-      styles={{ main: { backgroundColor: "var(--mantine-color-body)", minHeight: "100vh" } }}
+      styles={{
+        main: {
+          minHeight: "100vh",
+        },
+      }}
     >
       <AppShell.Header>
         <Header toggle={toggle} />
@@ -28,9 +31,10 @@ const MainLayout: FunctionComponent<IMainLayout> = ({ children }) => {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <MainDescription />
-        {/* <NavTabs /> */}
-        {children}
+        <div className="w-full min-h-screen p-1 toggleBodyColor">
+          <MainDescription />
+          {children}
+        </div>
       </AppShell.Main>
     </AppShell>
   );
