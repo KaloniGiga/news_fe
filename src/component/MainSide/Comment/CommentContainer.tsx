@@ -79,7 +79,7 @@ const CommentContainer: FunctionComponent<ICommentContainer> = ({ comment, postI
             <WriteComment
               toggleComment={handleEditToggle}
               isEdit={true}
-              editData={comment.rawMessage}
+              editData={comment.message}
               buttonLabel="Edit"
               commentId={comment.id}
               postId={postId}
